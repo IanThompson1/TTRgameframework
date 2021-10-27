@@ -24,6 +24,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         //this is where we will send actions to the game
     @Override
     public View getTopView() {
+        //give id of our xml layout for G
         return null;
     }
 //impolement as TTT
