@@ -50,7 +50,7 @@ public class TTRState extends GameState implements Serializable {
     private int numPlayers;
 
 
-    public TTRGameState(int inNumPlayers){
+    public TTRState(int inNumPlayers){
 
         //set number of players
         numPlayers = inNumPlayers;
@@ -221,7 +221,7 @@ public class TTRState extends GameState implements Serializable {
      *
      * @param other TTRGameState being copied
      */
-    public TTRGameState(TTRGameState other){
+    public TTRState(TTRState other){
         //copies everything
         // same number of :new's
         this.whosTurn = other.whosTurn;
