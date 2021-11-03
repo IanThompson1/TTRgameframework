@@ -28,7 +28,7 @@ public class TTRMainActivity extends GameMainActivity {
     public GameConfig createDefaultConfig() {
 
         //Define allowed player types
-        ArrayList<GamePlayerType> playerTypes = new ArrayList<>();
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
         playerTypes.add(new GamePlayerType("Local Human Player") {
         public GamePlayer createPlayer(String name){return new TTRHumanPlayer(name); }
@@ -42,19 +42,16 @@ public class TTRMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name){return new TTRComputerPlayer1(name); }
         });
 
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2, "Ticket To Ride", PORT_NUMBER);
+        defaultConfig.addPlayer("Human", 0);
+        defaultConfig.addPlayer("Computer", 1);
+        defaultConfig.setRemoteData("Remote Human player", "", 0); //not used
 
-
-        return null;
+        return defaultConfig;
     }
 
     @Override
-    public LocalGame createLocalGame(GameState gameState) {
-        if (gameState == null){
-            return new TTRLocalGame();
-        }
-        return null;
-        //return new TTRLocalGame((TTRState) gameState); //excpeted error
-    }
+    public LocalGame createLocalGame(GameState gameState) { return new TTRLocalGame(); }
 
 
 }
