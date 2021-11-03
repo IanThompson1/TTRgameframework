@@ -4,7 +4,7 @@ public class Ticket {
     private int PointValue;
     private TTRState.CITY node0;
     private TTRState.CITY node1;
-    public boolean isComplete;
+    private boolean isComplete;
 
     //constructor for Ticket object
     public Ticket(int value, TTRState.CITY n0, TTRState.CITY n1){

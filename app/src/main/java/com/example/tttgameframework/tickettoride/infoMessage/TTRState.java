@@ -10,7 +10,7 @@ public class TTRState extends GameState implements Serializable {
     //Tag for logging
     private static final String TAG = "TTTState";
     private static final long serialVersionUID = 7552321013488624386L;
-
+    private ArrayList<Ticket> shownTickets = null;
     public enum CARD{
         WHITECARD,
         BLACKCARD,
@@ -349,5 +349,17 @@ public class TTRState extends GameState implements Serializable {
     public Path getPath(){
         Path path= allPaths.get(1);
         return path;
+    }
+
+    public ArrayList<Ticket> getShownTickets() {
+        return shownTickets;
+    }
+
+    public void addShownTickets(Ticket tik) {
+        shownTickets.add(tik);
+    }
+
+    public void removeTicket(Ticket tik){
+        shownTickets.remove(tik);
     }
 }
