@@ -3,6 +3,7 @@ package com.example.tttgameframework.tickettoride;
 import com.example.tttgameframework.GameFramework.LocalGame;
 import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.players.GamePlayer;
+import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 
 public class TTRLocalGame extends LocalGame {
     @Override
@@ -12,7 +13,8 @@ public class TTRLocalGame extends LocalGame {
 
     @Override
     protected boolean canMove(int playerIdx) {
-        return false;
+
+        return playerIdx == ((TTRState)state).getTurn();
     }
 
     @Override
