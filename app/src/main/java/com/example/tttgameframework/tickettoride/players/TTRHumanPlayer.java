@@ -1,5 +1,6 @@
 package com.example.tttgameframework.tickettoride.players;
 
+import android.graphics.Color;
 import android.media.Image;
 import android.view.MotionEvent;
 import android.view.View;
@@ -7,10 +8,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.tttgameframework.GameFramework.GameMainActivity;
+import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
 import com.example.tttgameframework.GameFramework.players.GameHumanPlayer;
 import com.example.tttgameframework.R;
 import com.example.tttgameframework.tickettoride.TTRMainActivity;
+import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
+import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTickets;
+import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
+
+import java.util.ArrayList;
 
 public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
     /* instance variables */
@@ -29,6 +36,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ImageButton faceup4Button = null;
     private ImageButton faceup5Button = null;
     private ImageButton drawTrainButton = null;
+
+    //this variable will hold the actions wishes to be taken the turn off.
+    private ArrayList<GameAction> turnActions;
 
     private GameMainActivity myActivity; //android activity that we are running.
 
@@ -55,7 +65,15 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     @Override
     public void receiveInfo(GameInfo info) {
     //if game info is gamestate then use gamestate to update what is being drawn
+    if(!(info instanceof TTRState)){
+        flash(Color.RED, 20);
+        return;
     }
+
+    TTRState state = new TTRState((TTRState) info);
+
+    }
+
 
     @Override
     public void setAsGui(GameMainActivity activity) {
@@ -101,7 +119,30 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View button) {
+        //if the player clicks draw train then send the action draw train
+        if(button.getId() == R.id.DrawTrainButton){
+            //asks if the user already has chosen 2 actions already
+            if(turnActions.size() < 2){
+                //if hasn't chosen 2 actions then add another action
+                turnActions.add(new DrawTrains(this));
+            } else {
+                flash(Color.RED, 20);
+            }
+
+        //else if the player clicks on draw ticket then send the action draw ticket
+        } else if(button.getId() == R.id.DrawTicketButton){
+            game.sendAction(new DrawTickets(this));
+
+        //else if the player clicks on a face up card
+        } else if(button.getId() == R.id.FaceUp1Button) {
+            if()
+            if (turnActions.size() < 2) {
+                turnActions.add(new DrawTrains(this));
+            } else {
+                flash(Color.RED, 20);
+            }
+        }
 
     }
 }

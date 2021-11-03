@@ -3,6 +3,7 @@ package com.example.tttgameframework.tickettoride;
 import com.example.tttgameframework.GameFramework.LocalGame;
 import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.players.GamePlayer;
+import com.example.tttgameframework.tickettoride.infoMessage.Path;
 import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.infoMessage.Ticket;
@@ -83,7 +84,7 @@ public class TTRLocalGame extends LocalGame {
         for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
-            theseTickets = ((TTRState)state).getTickets();
+            theseTickets = state.getTickets();
 
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
@@ -97,15 +98,46 @@ public class TTRLocalGame extends LocalGame {
         }
 
         //2b. compute scores from building paths
+        ArrayList<Path> thesePaths = state.getAllPaths();
+        for(Path p: thesePaths){ //loop through all the paths
+            if(p.getPathOwner() != -1){
+                switch(p.getLength()){
+                    case 1: //path L = 1 --> 1 pt
+                        scores[p.getPathOwner()] += 1;
+                        break;
+                    case 2: //path L = 2 --> 2 pt2
+                        scores[p.getPathOwner()] += 2;
+                        break;
+                    case 3: //path L = 3 --> 4 pt2
+                        scores[p.getPathOwner()] += 4;
+                        break;
+                    case 4: //path L = 4 --> 7 pt2
+                        scores[p.getPathOwner()] += 7;
+                        break;
+                }
+            }
+        }
+
         //2c. find the longest continuous path made ***BETA***
 
 
-
         //3. Compare scores to determine winner.
-        //4. Generate and return message of who the winner is.
+        int winnerID = 0;
+        int maxScore = scores[0];
+        for(int i = 1; i < scores.length; i++){
+            if(scores[i] > maxScore){
+                maxScore = scores[i];
+                winnerID = i;
+            }
+        }
 
-        return null; //dummy
-    }
+        //Player winner = players.get(winnerID);
+
+        //4. Generate and return message of who the winner is.
+        return winnerID + " is the winner.";
+
+        //return null; //dummy
+    } //checkIfGameOver()
 
 
     @Override
@@ -206,16 +238,16 @@ public class TTRLocalGame extends LocalGame {
         }
 
         //check which player won and return the int of that player
-        if(gameOver.equals(playerNames[0]+" is the winner.")){
+        if(gameOver.equals(0+" is the winner.")){
             return 0;
         }
-        else if(gameOver.equals(playerNames[1]+" is the winner.")){
+        else if(gameOver.equals(1+" is the winner.")){
             return 1;
         }
-        else if(gameOver.equals(playerNames[2]+" is the winner.")){
+        else if(gameOver.equals(2+" is the winner.")){
             return 2;
         }
-        else if(gameOver.equals(playerNames[3]+" is the winner.")){
+        else if(gameOver.equals(3+" is the winner.")){
             return 3;
         }
 
