@@ -67,6 +67,19 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
         //init the widget reference member variables
         this.blackTrainHandButton = (ImageButton)activity.findViewById(R.id.blackTrainHand);
+        this.orangeTrainHandButton = (ImageButton)activity.findViewById(R.id.orangeTrainHand);
+        this.pinkTrainHandButton = (ImageButton)activity.findViewById(R.id.pinkTrainHand);
+        this.whiteTrainHandButton = (ImageButton)activity.findViewById(R.id.whiteTrainHand);
+        this.wildTrainHandButton = (ImageButton)activity.findViewById(R.id.wildTrainHand);
+        this.confirmButton = (Button)activity.findViewById(R.id.ConfirmButton);
+        this.cancelButton = (Button)activity.findViewById(R.id.CancelButton);
+        this.drawTicketsButton = (ImageButton)activity.findViewById(R.id.DrawTicketButton);
+        this.faceup1Button = (ImageButton)activity.findViewById(R.id.FaceUp1Button);
+        this.faceup2Button = (ImageButton)activity.findViewById(R.id.FaceUp2Button);
+        this.faceup3Button = (ImageButton)activity.findViewById(R.id.FaceUp3Button);
+        this.faceup4Button = (ImageButton)activity.findViewById(R.id.FaceUp4Button);
+        this.faceup5Button = (ImageButton)activity.findViewById(R.id.FaceUp5Button);
+        this.drawTrainButton = (ImageButton)activity.findViewById(R.id.DrawTrainButton);
 
     }
 }
