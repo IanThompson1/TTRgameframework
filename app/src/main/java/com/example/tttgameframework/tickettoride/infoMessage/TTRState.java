@@ -350,4 +350,9 @@ public class TTRState extends GameState implements Serializable {
         Path path= allPaths.get(1);
         return path;
     }
+
+    //get the number of the player whose turn it is
+    public int getTurn(){
+        return whosTurn;
+    }
 }
