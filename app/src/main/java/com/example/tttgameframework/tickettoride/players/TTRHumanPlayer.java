@@ -6,6 +6,7 @@ import android.view.View;
 import com.example.tttgameframework.GameFramework.GameMainActivity;
 import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
 import com.example.tttgameframework.GameFramework.players.GameHumanPlayer;
+import com.example.tttgameframework.R;
 
 public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListener{
     private GameMainActivity myActivtiy;
@@ -26,7 +27,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     @Override
     public View getTopView() {
         //give id of our xml layout for G
-        return null;
+        return myActivity.findViewById(R.id.mainView2);
     }
 //impolement as TTT
     @Override
