@@ -5,6 +5,7 @@ import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.players.GamePlayer;
 import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
+import com.example.tttgameframework.tickettoride.infoMessage.Ticket;
 
 import java.util.ArrayList;
 
@@ -60,9 +61,36 @@ public class TTRLocalGame extends LocalGame {
         //2. Compute the scores of all players
         //      Compute by adding the value of all the tickets completed by a player and
         //      subtracting the value of all the tickets a player holds but did not complete.
+        //      longest continuous path gets 10 points ***BETA***
+        //      path lengths gives you points. path L = 1 --> 1 pt
+        //      path L = 2 --> 2 pts
+        //      path L = 3 --> 4
+        //      path L = 4 --> 7
 
         //create array for the scores of the players
         int scores[] = new int[((TTRState)state).getNumPlayers()];
+
+        //2a. compute scores from tickets
+        for(Player p: players){
+            //get list of tickets they have
+            ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
+            theseTickets = ((TTRState)state).getTickets();
+
+            //loop through tickets and add to the players score.
+            for(Ticket t: theseTickets){
+                if(t.getIsComplete()){
+                    scores[p.getName()] += t.getPointValue(); //add if completed
+                }
+                else{
+                    scores[p.getName()] -= t.getPointValue(); //subtract if not completed
+                }
+            }
+        }
+
+        //2b. compute scores from building paths
+        //2c. find the longest continuous path made ***BETA***
+
+
 
         //3. Compare scores to determine winner.
         //4. Generate and return message of who the winner is.

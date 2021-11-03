@@ -275,10 +275,10 @@ public class TTRState extends GameState implements Serializable {
     }
 
     //method that allows players to get tickets.
-    public Ticket[] getTickets(){
-        Ticket[] tickets = new Ticket[3];
+    public ArrayList<Ticket> getTickets(){
+        ArrayList<Ticket> tickets = new ArrayList<Ticket>();
         for(int i = 0; i < 3; i++){
-            tickets[i] = ticketDeck.get(i);
+            tickets.add(ticketDeck.get(i));
             ticketDeck.remove(i);
         }
         return tickets;
@@ -352,8 +352,12 @@ public class TTRState extends GameState implements Serializable {
 
     //for the place train action
     public Path getPath(){
-        Path path= allPaths.get(1);
+        Path path = allPaths.get(1);
         return path;
+    }
+
+    public ArrayList<Path> getAllPaths(){
+        return allPaths;
     }
 
     //get the number of the player whose turn it is
