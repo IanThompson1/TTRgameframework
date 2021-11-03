@@ -28,7 +28,7 @@ public class TTRMainActivity extends GameMainActivity {
     public GameConfig createDefaultConfig() {
 
         //Define allowed player types
-        ArrayList<GamePlayerType> playerTypes = new ArrayList<~>();
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<>();
 
         playerTypes.add(new GamePlayerType("Local Human Player") {
         public GamePlayer createPlayer(String name){return new TTRHumanPlayer(name); }
@@ -52,7 +52,8 @@ public class TTRMainActivity extends GameMainActivity {
         if (gameState == null){
             return new TTRLocalGame();
         }
-        return new TTRLocalGame((TTRState) gameState); //excpeted error
+        return null;
+        //return new TTRLocalGame((TTRState) gameState); //excpeted error
     }
 
 
