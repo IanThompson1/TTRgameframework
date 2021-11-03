@@ -345,6 +345,11 @@ public class TTRState extends GameState implements Serializable {
         return allPlayers.get(0);
     }
 
+    //get ArrayList of Players
+    public ArrayList<Player> getPlayers(){
+        return allPlayers;
+    }
+
     //for the place train action
     public Path getPath(){
         Path path= allPaths.get(1);
@@ -354,5 +359,10 @@ public class TTRState extends GameState implements Serializable {
     //get the number of the player whose turn it is
     public int getTurn(){
         return whosTurn;
+    }
+
+    //get the number of players there are in the game
+    public int getNumPlayers(){
+        return numPlayers;
     }
 }

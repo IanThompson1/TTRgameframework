@@ -20,6 +20,9 @@ import com.example.tttgameframework.GameFramework.players.GamePlayer;
 import com.example.tttgameframework.GameFramework.utilities.GameTimer;
 import com.example.tttgameframework.GameFramework.utilities.Logger;
 import com.example.tttgameframework.GameFramework.utilities.Tickable;
+import com.example.tttgameframework.tickettoride.infoMessage.Player;
+
+import java.util.ArrayList;
 
 /**
  * A class that knows how to play the game. The data in this class represent the
@@ -454,7 +457,7 @@ public abstract class LocalGame implements Game, Tickable {
 
     //TESTING
 
-    public GamePlayer[] getPlayers(){
+    public ArrayList<Player> getPlayers(){
         return players;
     }
 
