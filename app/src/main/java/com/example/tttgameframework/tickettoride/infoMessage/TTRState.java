@@ -351,7 +351,7 @@ public class TTRState extends GameState implements Serializable {
         return path;
     }
 
-    //get the number of the player whos turn it is
+    //get the number of the player whose turn it is
     public int getTurn(){
         return whosTurn;
     }

@@ -11,9 +11,16 @@ public class TTRLocalGame extends LocalGame {
 
     }
 
+    /** canMove()
+     *
+     * Description: determine if the player can make a move
+     *
+     * @param playerIdx
+     * 		the player's player-number (ID)
+     * @return boolean representing if the player ID passed is the current player
+     */
     @Override
     protected boolean canMove(int playerIdx) {
-
         return playerIdx == ((TTRState)state).getTurn();
     }
 
