@@ -134,7 +134,7 @@ public class TTRLocalGame extends LocalGame {
         //Player winner = players.get(winnerID);
 
         //4. Generate and return message of who the winner is.
-        return winnerID + " wins with a score of: " + maxScore;
+        return winnerID + " is the winner.";
 
         //return null; //dummy
     } //checkIfGameOver()
