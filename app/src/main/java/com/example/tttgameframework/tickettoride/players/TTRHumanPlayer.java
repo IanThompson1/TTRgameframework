@@ -81,5 +81,6 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         this.faceup5Button = (ImageButton)activity.findViewById(R.id.FaceUp5Button);
         this.drawTrainButton = (ImageButton)activity.findViewById(R.id.DrawTrainButton);
 
+        //set listeners for button presses
     }
 }
