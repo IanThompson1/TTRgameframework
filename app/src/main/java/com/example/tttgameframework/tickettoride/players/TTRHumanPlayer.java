@@ -12,7 +12,7 @@ import com.example.tttgameframework.GameFramework.players.GameHumanPlayer;
 import com.example.tttgameframework.R;
 import com.example.tttgameframework.tickettoride.TTRMainActivity;
 
-public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListener{
+public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
     /* instance variables */
     //these variables will reference widgets that will be modified during play
     private ImageButton blackTrainHandButton = null;
@@ -82,5 +82,26 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         this.drawTrainButton = (ImageButton)activity.findViewById(R.id.DrawTrainButton);
 
         //set listeners for button presses
+        blackTrainHandButton.setOnClickListener(this);
+        orangeTrainHandButton.setOnClickListener(this);
+        pinkTrainHandButton.setOnClickListener(this);
+        whiteTrainHandButton.setOnClickListener(this);
+        wildTrainHandButton.setOnClickListener(this);
+        confirmButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
+        drawTicketsButton.setOnClickListener(this);
+        faceup1Button.setOnClickListener(this);
+        faceup2Button.setOnClickListener(this);
+        faceup3Button.setOnClickListener(this);
+        faceup4Button.setOnClickListener(this);
+        faceup5Button.setOnClickListener(this);
+        drawTrainButton.setOnClickListener(this);
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
