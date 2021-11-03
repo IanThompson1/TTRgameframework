@@ -113,11 +113,39 @@ public class TTRLocalGame extends LocalGame {
         if(action instanceof DrawTickets){
             if(((DrawTickets) action).getSelected().isEmpty()){
                 //show tickets
-
+                ArrayList<Ticket> temp = state.getTickets();
+                state.addShownTicket(temp.get(0));
+                state.addShownTicket(temp.get(1));
+                return true;
             }else{
-                //
+                //move tickets to hand
+                ArrayList<Ticket> temp = state.getShownTickets();
+                ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
+                //loops through the 2 possible selected tickets
+                for(int i=0; i<2; i++) {
+                    //checks if the card is selected
+                    if (selected.get(i) == 1) {
+                        if(state.whosTurn == 0){
+                            //gets the first shown ticket
+                            Player user = state.getPlayers().get(0);
+                            user.addTicket(state.getShownTickets().get(i));
+                        }else if(state.whosTurn == 1){
+                            Player user = state.getPlayers().get(1);
+                            user.addTicket(state.getShownTickets().get(i));
+                        }else if(state.whosTurn == 2){
+                            Player user = state.getPlayers().get(2);
+                            user.addTicket(state.getShownTickets().get(i));
+                        }else if(state.whosTurn == 3){
+                            Player user = state.getPlayers().get(3);
+                            user.addTicket(state.getShownTickets().get(i));
+                        }
+                    }
+                }
+                state.removeShownTicket(temp.get(0));
+                state.removeShownTicket(temp.get(1));
+                //increment who's turn
+                changeTurn(state);
             }
-
             return true;
         }else if(action instanceof DrawTrains){
 
@@ -135,7 +163,33 @@ public class TTRLocalGame extends LocalGame {
         }
     }
 
-
+    public void changeTurn(TTRState state){
+        if(state.getNumPlayers() == 2){
+            if(state.whosTurn == 0){
+                state.whosTurn = 1;
+            }else{
+                state.whosTurn = 0;
+            }
+        }else if(state.getNumPlayers() == 3){
+            if(state.whosTurn == 0){
+                state.whosTurn = 1;
+            }else if(state.whosTurn == 1){
+                state.whosTurn = 2;
+            }else{
+                state.whosTurn = 0;
+            }
+        }else{
+            if(state.whosTurn == 0){
+                state.whosTurn = 1;
+            }else if(state.whosTurn == 1){
+                state.whosTurn = 2;
+            }else if(state.whosTurn == 2){
+                state.whosTurn = 3;
+            }else{
+                state.whosTurn = 0;
+            }
+        }
+    }
     /** whoWon()
      *
      * Description: computes the scores of all players and then returns who won.
