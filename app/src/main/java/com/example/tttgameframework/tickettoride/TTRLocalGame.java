@@ -171,6 +171,8 @@ public class TTRLocalGame extends LocalGame {
                             Player user = state.getPlayers().get(3);
                             user.addTicket(state.getShownTickets().get(i));
                         }
+                    }else{
+                        //add selected.get(i) to the ticket pile and reshuffle
                     }
                 }
                 state.removeShownTicket(temp.get(0));
@@ -180,9 +182,36 @@ public class TTRLocalGame extends LocalGame {
             }
             return true;
         }else if(action instanceof DrawTrains){
-
-
-
+            ArrayList<Integer> selected = ((DrawTrains) action).getSelectedTrains();
+            ArrayList<TTRState.CARD> random = state.getCardDeck();
+            ArrayList<TTRState.CARD> faceUp = state.getFaceUp();
+            for(int i=0; i<8; i++) {
+                if (selected.get(i) == 1){
+                    if(i < 2) {
+                        if (state.whosTurn == 0) {
+                            Player user = state.getPlayers().get(0);
+                            user.addCardHand(random.get(i));
+                            random.remove(random.get(i));
+                        } else if (state.whosTurn == 1) {
+                            Player user = state.getPlayers().get(0);
+                            user.addCardHand(random.get(i));
+                            random.remove(random.get(i));
+                        } else if (state.whosTurn == 2) {
+                            Player user = state.getPlayers().get(0);
+                            user.addCardHand(random.get(i));
+                            random.remove(random.get(i));
+                        } else if (state.whosTurn == 3) {
+                            Player user = state.getPlayers().get(0);
+                            user.addCardHand(random.get(i));
+                            random.remove(random.get(i));
+                        }
+                    }else{
+                        //face up cards
+                    }
+                    state.setCardDeck(random);
+                }
+            }
+            changeTurn(state);
             return true;
         }else if(action instanceof PlaceTrains){
 

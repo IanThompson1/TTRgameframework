@@ -6,7 +6,7 @@ import com.example.tttgameframework.GameFramework.players.GamePlayer;
 import java.util.ArrayList;
 
 public class DrawTickets extends GameAction {
-    private ArrayList<Integer> selected;
+    private ArrayList<Integer> selectedTickets;
     /**
      * constructor for GameAction
      *
@@ -17,10 +17,10 @@ public class DrawTickets extends GameAction {
     }
 
     public ArrayList<Integer> getSelected() {
-        return selected;
+        return selectedTickets;
     }
 
     public void setSelected(ArrayList<Integer> selected) {
-        this.selected = selected;
+        this.selectedTickets = selected;
     }
 }

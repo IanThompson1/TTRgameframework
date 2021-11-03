@@ -136,7 +136,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
         //else if the player clicks on a face up card
         } else if(button.getId() == R.id.FaceUp1Button) {
-            if()
+            //if()
             if (turnActions.size() < 2) {
                 turnActions.add(new DrawTrains(this));
             } else {

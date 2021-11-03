@@ -385,4 +385,8 @@ public class TTRState extends GameState implements Serializable {
     public ArrayList<CARD> getFaceUp() {
         return faceUp;
     }
+
+    public void setFaceUp(ArrayList<CARD> faceUp) {
+        this.faceUp = faceUp;
+    }
 }
