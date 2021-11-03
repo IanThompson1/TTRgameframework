@@ -184,16 +184,16 @@ public class TTRLocalGame extends LocalGame {
         }
 
         //check which player won and return the int of that player
-        if(gameOver.equals(playerNames[0]+" is the winner.")){
+        if(gameOver.equals(0+" is the winner.")){
             return 0;
         }
-        else if(gameOver.equals(playerNames[1]+" is the winner.")){
+        else if(gameOver.equals(1+" is the winner.")){
             return 1;
         }
-        else if(gameOver.equals(playerNames[2]+" is the winner.")){
+        else if(gameOver.equals(2+" is the winner.")){
             return 2;
         }
-        else if(gameOver.equals(playerNames[3]+" is the winner.")){
+        else if(gameOver.equals(3+" is the winner.")){
             return 3;
         }
 
