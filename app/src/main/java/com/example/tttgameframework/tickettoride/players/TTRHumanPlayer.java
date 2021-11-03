@@ -8,6 +8,7 @@ import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
 import com.example.tttgameframework.GameFramework.players.GameHumanPlayer;
 
 public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListener{
+    private GameMainActivity myActivtiy;
     /**
      * constructor
      *
