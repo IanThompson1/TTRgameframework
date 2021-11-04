@@ -142,11 +142,11 @@ public class TTRLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+        //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.whosTurn){
             return false;
         }
         if(action instanceof DrawTickets){
-            //check if it is the players turn
             if(((DrawTickets) action).getSelected() == null){
                 //show tickets
                 ArrayList<Ticket> temp = state.getTickets();
@@ -178,16 +178,16 @@ public class TTRLocalGame extends LocalGame {
             ArrayList<TTRState.CARD> faceUp = state.getFaceUp();
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
+                    Player user = state.getPlayers().get(state.whosTurn);
                     if(i < 2) {
-                        Player user = state.getPlayers().get(state.whosTurn);//optimize
                         user.addCardHand(random.get(i));
-                    }else{ //i >= 2
+                    }else{
                         //face up cards
-                            Player user = state.getPlayers().get(state.whosTurn);
-                            user.addCardHand(faceUp.get(i));
+                        user.addCardHand(faceUp.get(i));
                     }
                 }
             }
+            //reseting the card decks
             for(int i=selected.size()-1; i>=0; i--) {
                 if (selected.get(i)){
                     if(i < 2) {
@@ -200,12 +200,11 @@ public class TTRLocalGame extends LocalGame {
             }
             state.setCardDeck(random);
             state.setFaceUp(faceUp);//need better logic here for face up cards
-            //reset selected in draw trains.
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             return true;
         }else if(action instanceof PlaceTrains){
-            //assuming just pressed confirm action button and already has the details
+            //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
             ArrayList<Path> paths = state.getAllPaths();
             ArrayList<Integer> selected = ((PlaceTrains) action).getSelectedPath();
             for(int i=0; i<paths.size(); i++){
