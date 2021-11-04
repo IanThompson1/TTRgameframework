@@ -6,7 +6,7 @@ import com.example.tttgameframework.GameFramework.players.GamePlayer;
 import java.util.ArrayList;
 
 public class DrawTrains extends GameAction {
-    private ArrayList<Integer> SelectedTrains;
+    private ArrayList<Boolean> SelectedTrains;
     //selected trains is an arraylist of 7 0's, the first 2 denoting how many random cards selected,
     //and the last 5 denoting which of the other cards are selected
     /**
@@ -16,13 +16,18 @@ public class DrawTrains extends GameAction {
      */
     public DrawTrains(GamePlayer player) {
         super(player);
+        SelectedTrains = null;
     }
 
-    public void setSelectedTrains(ArrayList<Integer> selectedTrains) {
+    public void setSelectedTrains(ArrayList<Boolean> selectedTrains) {
         SelectedTrains = selectedTrains;
     }
 
-    public ArrayList<Integer> getSelectedTrains() {
+    public ArrayList<Boolean> getSelectedTrains() {
         return SelectedTrains;
+    }
+
+    public void resetSelectedTrains(){
+        SelectedTrains = null;
     }
 }

@@ -142,8 +142,12 @@ public class TTRLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+        if(getPlayerIdx(action.getPlayer()) != state.whosTurn){
+            return false;
+        }
         if(action instanceof DrawTickets){
-            if(((DrawTickets) action).getSelected().isEmpty()){
+            //check if it is the players turn
+            if(((DrawTickets) action).getSelected() == null){
                 //show tickets
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
@@ -154,70 +158,63 @@ public class TTRLocalGame extends LocalGame {
                 ArrayList<Ticket> temp = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
                 //loops through the 2 possible selected tickets
-                for(int i=0; i<2; i++) {
+                for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
-                    if (selected.get(i) == 1) {
-                        if(state.whosTurn == 0){
-                            //gets the first shown ticket
-                            Player user = state.getPlayers().get(0);
-                            user.addTicket(state.getShownTickets().get(i));
-                        }else if(state.whosTurn == 1){
-                            Player user = state.getPlayers().get(1);
-                            user.addTicket(state.getShownTickets().get(i));
-                        }else if(state.whosTurn == 2){
-                            Player user = state.getPlayers().get(2);
-                            user.addTicket(state.getShownTickets().get(i));
-                        }else if(state.whosTurn == 3){
-                            Player user = state.getPlayers().get(3);
-                            user.addTicket(state.getShownTickets().get(i));
-                        }
-                    }else{
-                        //add selected.get(i) to the ticket pile and reshuffle
-                    }
+                    Player user = state.getPlayers().get(state.whosTurn);
+                    user.addTicket(state.getShownTickets().get(selected.get(i)));
+                    //add selected.get(i) to the ticket pile and reshuffle
                 }
-                state.removeShownTicket(temp.get(0));
-                state.removeShownTicket(temp.get(1));
+                for(int i=0; i<selected.size(); i++) {
+                    state.removeShownTicket(temp.get(selected.get(i)));
+                }
+                ((DrawTickets) action).resetSelectedTickets();
                 //increment who's turn
                 changeTurn(state);
             }
             return true;
         }else if(action instanceof DrawTrains){
-            ArrayList<Integer> selected = ((DrawTrains) action).getSelectedTrains();
+            ArrayList<Boolean> selected = ((DrawTrains) action).getSelectedTrains();
             ArrayList<TTRState.CARD> random = state.getCardDeck();
             ArrayList<TTRState.CARD> faceUp = state.getFaceUp();
-            for(int i=0; i<8; i++) {
-                if (selected.get(i) == 1){
+            for(int i=0; i<selected.size(); i++) {
+                if (selected.get(i)){
                     if(i < 2) {
-                        if (state.whosTurn == 0) {
-                            Player user = state.getPlayers().get(0);
-                            user.addCardHand(random.get(i));
-                            random.remove(random.get(i));
-                        } else if (state.whosTurn == 1) {
-                            Player user = state.getPlayers().get(0);
-                            user.addCardHand(random.get(i));
-                            random.remove(random.get(i));
-                        } else if (state.whosTurn == 2) {
-                            Player user = state.getPlayers().get(0);
-                            user.addCardHand(random.get(i));
-                            random.remove(random.get(i));
-                        } else if (state.whosTurn == 3) {
-                            Player user = state.getPlayers().get(0);
-                            user.addCardHand(random.get(i));
-                            random.remove(random.get(i));
-                        }
-                    }else{
+                        Player user = state.getPlayers().get(state.whosTurn);//optimize
+                        user.addCardHand(random.get(i));
+                    }else{ //i >= 2
                         //face up cards
+                            Player user = state.getPlayers().get(state.whosTurn);
+                            user.addCardHand(faceUp.get(i));
                     }
-                    state.setCardDeck(random);
                 }
             }
+            for(int i=selected.size()-1; i>=0; i--) {
+                if (selected.get(i)){
+                    if(i < 2) {
+                        random.remove(random.get(i));
+                    }else{ //i >= 2
+                        //face up cards
+                        faceUp.remove(faceUp.get(i));
+                    }
+                }
+            }
+            state.setCardDeck(random);
+            state.setFaceUp(faceUp);//need better logic here for face up cards
+            //reset selected in draw trains.
+            ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             return true;
         }else if(action instanceof PlaceTrains){
-
-
-
-
+            //assuming just pressed confirm action button and already has the details
+            ArrayList<Path> paths = state.getAllPaths();
+            ArrayList<Integer> selected = ((PlaceTrains) action).getSelectedPath();
+            for(int i=0; i<paths.size(); i++){
+                if(selected.get(i) == 1){
+                    paths.get(i).setPathOwner(state.whosTurn);
+                }
+            }
+            ((PlaceTrains) action).resetSelectedPath();
+            changeTurn(state);
             return true;
         }else{
             return false;
@@ -225,7 +222,7 @@ public class TTRLocalGame extends LocalGame {
     }
 
     public void changeTurn(TTRState state){
-        if(state.getNumPlayers() == 2){
+        if(state.getNumPlayers() == 2){//use modulus to make it shorter
             if(state.whosTurn == 0){
                 state.whosTurn = 1;
             }else{
