@@ -92,6 +92,8 @@ public class TTRLocalGame extends LocalGame {
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
             theseTickets = p.getTickets();
 
+            //compute now if the tickets are completed or not
+
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
                 if(t.getIsComplete()){
@@ -144,6 +146,18 @@ public class TTRLocalGame extends LocalGame {
 
         //return null; //dummy
     } //checkIfGameOver()
+
+
+    /** checkTicketComplete
+     *
+     * @param t the ticket being checked
+     * @param p the player being checked
+     *
+     * @return  if the ticket is completed by the player, return true
+     */
+    public boolean checkTicketComplete(Ticket t, Player p){
+        return false; //dummy
+    }
 
 
     @Override
