@@ -90,7 +90,7 @@ public class TTRLocalGame extends LocalGame {
         for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
-            theseTickets = state.getTickets();
+            theseTickets = p.getTickets();
 
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
@@ -182,13 +182,28 @@ public class TTRLocalGame extends LocalGame {
             ArrayList<Boolean> selected = ((DrawTrains) action).getSelectedTrains();
             ArrayList<TTRState.CARD> random = state.getCardDeck();
             ArrayList<TTRState.CARD> faceUp = state.getFaceUp();
+            int counter=0;
+            //check if exactly 2 or 1 are selected
+            for(int i=0; i<selected.size(); i++){
+                if(selected.get(i)){
+                    counter++;
+                }
+            }
+            if(counter<1 || counter >2){
+                return false;
+            }
+
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
                     Player user = state.getPlayers().get(state.whosTurn);
                     if(i < 2) {
+                        if(counter ==1){
+                            return false;
+                        }
                         user.addCardHand(random.get(i));
                     }else{
                         //face up cards
+                        if(counter ==1 && faceUp.get(i) == TTRState.CARD.WILDCARD)
                         user.addCardHand(faceUp.get(i));
                     }
                 }
