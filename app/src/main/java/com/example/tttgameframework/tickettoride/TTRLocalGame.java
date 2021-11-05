@@ -170,32 +170,44 @@ public class TTRLocalGame extends LocalGame {
         }
         if(action instanceof DrawTickets){
             if(((DrawTickets) action).getSelected() == null){
-                //show tickets
+                //draw tickets to part of the screen
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
+                //invalidate(); ?
                 return true;
             }else{
                 //move tickets to hand
                 ArrayList<Ticket> shown = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
                 Player user = state.getPlayers().get(state.whosTurn);
+                //the one check is if neither card is selected
+                int count =0;
+                for(int t=0; t<selected.size(); t++){
+                    if(selected.get(t) == 0){
+                        count++;
+                    }
+                }
+                if(count == 0 || count > 2){ //count should never be above 2
+                    return false;
+                }
+
                 //loops through the 2 possible selected tickets
                 for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
                     if(selected.get(i) == 1) {
                         user.addTicket(shown.get(selected.get(i)));
                     }else{
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        state.addTicket(shown.get(selected.get(i)));//auto reshuffles
                     }
-                    //add selected.get(i) to the ticket pile and reshuffle
-
                 }
-                for(int i=0; i<selected.size(); i++) {
+
+                //stop drawing the tickets
+                for(int i=selected.size()-1; i>=0; i--) {
                     state.removeShownTicket(shown.get(selected.get(i)));
                 }
                 Collections.shuffle(shown);
-                //((DrawTickets) action).resetSelectedTickets();
+                //((DrawTickets) action).resetSelectedTickets(); this is a preference thing so might need it.
                 //increment who's turn
                 changeTurn(state);
             }
@@ -244,7 +256,7 @@ public class TTRLocalGame extends LocalGame {
                     }
                 }
             }
-            //reseting the card decks
+            //resetting the card decks
             for(int i=selected.size()-1; i>=0; i--) {
                 if (selected.get(i)){
                     if(i < 2) {
@@ -262,10 +274,91 @@ public class TTRLocalGame extends LocalGame {
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
-            ArrayList<Path> paths = state.getAllPaths();
-            Path selected = ((PlaceTrains) action).getSelectedPath();
-            selected.setPathOwner(state.whosTurn);
-            ((PlaceTrains) action).resetSelectedPath();
+            Player user = state.getPlayers().get(state.whosTurn);
+            Path thePath = ((PlaceTrains) action).getSelectedPath();
+            int wilds = ((PlaceTrains) action).getNumberOfWilds();
+            TTRState.CARD color = ((PlaceTrains) action).getColor();///////////////////////////////////////////////////////////////
+            int thePathLength = thePath.getLength();
+            int thePathOwner = thePath.getPathOwner();
+            Path.COLOR thePathColor = thePath.getPathColor();
+            //check if owned
+            if(thePathOwner != -1){
+                return false;
+            }
+            //check if correct color
+            if(thePathColor != Path.COLOR.GREYPATH){
+                if(color == TTRState.CARD.WHITECARD){
+                    if(thePathColor != Path.COLOR.WHITEPATH) {
+                        return false;
+                    }
+                }else if(color == TTRState.CARD.BLACKCARD){
+                    if(thePathColor != Path.COLOR.BLACKPATH) {
+                        return false;
+                    }
+                }else if(color == TTRState.CARD.ORANGECARD){
+                    if(thePathColor != Path.COLOR.ORANGEPATH) {
+                        return false;
+                    }
+                }else if(color == TTRState.CARD.PINKCARD){
+                    if(thePathColor != Path.COLOR.PINKPATH) {
+                        return false;
+                    }
+                }
+            }else{
+                //check enough cards
+                if(color == TTRState.CARD.WHITECARD){
+                    if (user.getWhiteCards() < thePathLength - wilds) {
+                        return false;
+                    }
+                }else if(color == TTRState.CARD.BLACKCARD){
+                    if (user.getBlackCards() < thePathLength - wilds) {
+                        return false;
+                    }
+                }else if(color == TTRState.CARD.ORANGECARD){
+                    if (user.getOrangeCards() < thePathLength - wilds) {
+                        return false;
+                    }
+                }else if(color == TTRState.CARD.PINKCARD){
+                    if (user.getPinkCards() < thePathLength - wilds) {
+                        return false;
+                    }
+                }
+            }
+            //checks enough wilds
+            if(user.getWildCards() < wilds){
+                return false;
+            }
+            //checks too many wilds
+            if(wilds > thePathLength){
+                return false;
+            }
+            //end of checks
+
+            //set path owner
+            thePath.setPathOwner(state.whosTurn);
+            //handles the cards
+            for(int i=0; i<thePathLength-wilds; i++) {
+                //can make a switch statement
+                if (color == TTRState.CARD.WHITECARD) {
+                    user.removeCardHand(TTRState.CARD.WHITECARD);
+                    state.addCard(TTRState.CARD.WHITECARD);
+                } else if (color == TTRState.CARD.BLACKCARD) {
+                    user.removeCardHand(TTRState.CARD.BLACKCARD);
+                    state.addCard(TTRState.CARD.BLACKCARD);
+                } else if (color == TTRState.CARD.ORANGECARD) {
+                    user.removeCardHand(TTRState.CARD.ORANGECARD);
+                    state.addCard(TTRState.CARD.ORANGECARD);
+                } else if (color == TTRState.CARD.PINKCARD) {
+                    user.removeCardHand(TTRState.CARD.PINKCARD);
+                    state.addCard(TTRState.CARD.PINKCARD);
+                }
+            }
+            //removes wild cards
+            for(int i=0; i<wilds; i++){
+                user.removeCardHand(TTRState.CARD.WILDCARD);
+                state.addCard(TTRState.CARD.WILDCARD);
+            }
+            //((PlaceTrains) action).resetSelectedPath();//again I think this is a preference thing so might need it.
             changeTurn(state);
             return true;
         }else{

@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class PlaceTrains extends GameAction {
     private Path selectedPath;
     private int numberOfWilds;
-    private Path.COLOR color;
+    private TTRState.CARD color;
     //this is an array list of integers containing all 0's except for one 1 depicting which path is selected
     /**
      * constructor for GameAction
      *
      * @param player the player who created the action
      */
-    public PlaceTrains(GamePlayer player,Path SelectedPath, int numWilds,Path.COLOR col) {
+    public PlaceTrains(GamePlayer player,Path SelectedPath, int numWilds,TTRState.CARD col) {
         super(player);
         this.selectedPath = SelectedPath;
         numberOfWilds = numWilds;
@@ -36,4 +36,19 @@ public class PlaceTrains extends GameAction {
         selectedPath = null;
     }
 
+    public TTRState.CARD getColor() {
+        return color;
+    }
+
+    public int getNumberOfWilds() {
+        return numberOfWilds;
+    }
+
+    public void setColor(TTRState.CARD color) {
+        this.color = color;
+    }
+
+    public void setNumberOfWilds(int numberOfWilds) {
+        this.numberOfWilds = numberOfWilds;
+    }
 }
