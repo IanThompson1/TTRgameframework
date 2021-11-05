@@ -14,9 +14,9 @@ public class DrawTrains extends GameAction {
      *
      * @param player the player who created the action
      */
-    public DrawTrains(GamePlayer player) {
+    public DrawTrains(GamePlayer player,ArrayList<Boolean> selectedTrains) {
         super(player);
-        SelectedTrains = null;
+        SelectedTrains = selectedTrains;
     }
 
     public void setSelectedTrains(ArrayList<Boolean> selectedTrains) {
