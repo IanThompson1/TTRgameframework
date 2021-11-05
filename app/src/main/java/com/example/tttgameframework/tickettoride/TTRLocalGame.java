@@ -203,7 +203,9 @@ public class TTRLocalGame extends LocalGame {
                         user.addCardHand(random.get(i));
                     }else{
                         //face up cards
-                        if(counter ==1 && faceUp.get(i) == TTRState.CARD.WILDCARD)
+                        if(counter ==1 && faceUp.get(i) != TTRState.CARD.WILDCARD){
+                            return false;
+                        }else if(faceUp.get(i) != TTRState.CARD.WILDCARD)
                         user.addCardHand(faceUp.get(i));
                     }
                 }
