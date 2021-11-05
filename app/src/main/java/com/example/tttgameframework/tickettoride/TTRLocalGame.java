@@ -92,6 +92,8 @@ public class TTRLocalGame extends LocalGame {
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
             theseTickets = p.getTickets();
 
+            //compute now if the tickets are completed or not
+
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
                 if(t.getIsComplete()){
@@ -146,6 +148,18 @@ public class TTRLocalGame extends LocalGame {
     } //checkIfGameOver()
 
 
+    /** checkTicketComplete
+     *
+     * @param t the ticket being checked
+     * @param p the player being checked
+     *
+     * @return  if the ticket is completed by the player, return true
+     */
+    public boolean checkTicketComplete(Ticket t, Player p){
+        return false; //dummy
+    }
+
+
     @Override
     protected boolean makeMove(GameAction action) {
         //check if it is the players turn
@@ -192,20 +206,32 @@ public class TTRLocalGame extends LocalGame {
             if(counter<1 || counter >2){
                 return false;
             }
+            //all checks
+            for(int i=0; i<selected.size(); i++) {
+                if (selected.get(i)){
+                    Player wilds = state.getPlayers().get(state.whosTurn);
+                    if(i < 2) {
+                        if(counter ==1){
+                            return false;
+                        }
+                    }else{
+                        //face up cards
+                        if(counter ==1 && faceUp.get(i) != TTRState.CARD.WILDCARD){
+                            return false;
+                        }else if(faceUp.get(i) == TTRState.CARD.WILDCARD){
+                            return false;
+                        }
+                    }
+                }
+            }
 
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
                     Player user = state.getPlayers().get(state.whosTurn);
                     if(i < 2) {
-                        if(counter ==1){
-                            return false;
-                        }
                         user.addCardHand(random.get(i));
                     }else{
                         //face up cards
-                        if(counter ==1 && faceUp.get(i) != TTRState.CARD.WILDCARD){
-                            return false;
-                        }else if(faceUp.get(i) != TTRState.CARD.WILDCARD)
                         user.addCardHand(faceUp.get(i));
                     }
                 }

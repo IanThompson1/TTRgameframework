@@ -37,10 +37,26 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ImageButton faceup5Button = null;
     private ImageButton drawTrainButton = null;
 
+    //variable that holds type of action (implement enum later)
+    public enum ACTION{
+        DRAW,
+        PLACE,
+        TICKET,
+        NONE,
+    }
+
+    private ACTION typeAction;
+
+    //this variable will hold the cards selected in button
+    private ArrayList<Boolean> selected;
+
     //this variable will hold the actions wishes to be taken the turn off.
     private ArrayList<GameAction> turnActions;
 
     private GameMainActivity myActivity; //android activity that we are running.
+
+    //holds the player's game state
+    private TTRState state;
 
     /**
      * constructor
@@ -49,6 +65,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
      */
     public TTRHumanPlayer(String name) {
         super(name);
+        for(int i = 0; i < 7; i++){
+            selected.add(false);
+        }
     }
 
     @Override
@@ -70,7 +89,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         return;
     }
 
-    TTRState state = new TTRState((TTRState) info);
+    state = new TTRState((TTRState) info);
 
     }
 
@@ -120,12 +139,15 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View button) {
+
         //if the player clicks draw train then send the action draw train
         if(button.getId() == R.id.DrawTrainButton){
             //asks if the user already has chosen 2 actions already
             if(turnActions.size() < 2){
                 //if hasn't chosen 2 actions then add another action
-                turnActions.add(new DrawTrains(this));
+                //sets the first or second card drawn to deck draw
+                selected.set((turnActions.size()-1), true);
+                turnActions.add(new DrawTrains(this, selected));
             } else {
                 flash(Color.RED, 20);
             }
@@ -136,12 +158,68 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
         //else if the player clicks on a face up card
         } else if(button.getId() == R.id.FaceUp1Button) {
-            //if()
             if (turnActions.size() < 2) {
-                turnActions.add(new DrawTrains(this));
+                //sets the draw train to the 1st face up card
+                selected.set(2, true );
+                turnActions.add(new DrawTrains(this, selected));
             } else {
                 flash(Color.RED, 20);
             }
+        } else if(button.getId() == R.id.FaceUp2Button) {
+            if (turnActions.size() < 2) {
+                //sets the draw train to the 1st face up card
+                selected.set(3, true);
+                turnActions.add(new DrawTrains(this, selected));
+            } else {
+                flash(Color.RED, 20);
+            }
+        } else if(button.getId() == R.id.FaceUp3Button) {
+            if (turnActions.size() < 2) {
+                //sets the draw train to the 1st face up card
+                selected.set(4, true);
+                turnActions.add(new DrawTrains(this, selected));
+            } else {
+                flash(Color.RED, 20);
+            }
+        } else if(button.getId() == R.id.FaceUp4Button) {
+            if (turnActions.size() < 2) {
+                //sets the draw train to the 1st face up card
+                selected.set(5, true);
+                turnActions.add(new DrawTrains(this, selected));
+            } else {
+                flash(Color.RED, 20);
+            }
+        } else if(button.getId() == R.id.FaceUp5Button) {
+            if (turnActions.size() < 2) {
+                //sets the draw train to the 1st face up card
+                selected.set(6, true);
+                turnActions.add(new DrawTrains(this, selected));
+            } else {
+                flash(Color.RED, 20);
+            }
+        } else if(button.getId() == R.id.ConfirmButton){
+            if(typeAction == ACTION.DRAW){
+                for(int i = 0; i < 2; i++){
+                    game.sendAction(turnActions.get(i));
+                }
+            } else if(typeAction == ACTION.PLACE){
+                game.sendAction(turnActions.get(0));
+
+            } else if(typeAction == ACTION.TICKET){
+                //if the player is taking a draw turn then
+                game.sendAction(turnActions.get(0));
+            } else {
+                //if the player did enter a action
+                flash(Color.RED, 20);
+            }
+
+        } else if(button.getId() == R.id.CancelButton){
+            //if cancel is clicked then it will send
+            turnActions.clear();
+            typeAction = ACTION.NONE;
+
+        } else if(button.getId() == R.id.whiteTrainHand){
+
         }
 
     }
