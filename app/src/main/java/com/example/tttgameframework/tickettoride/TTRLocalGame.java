@@ -20,9 +20,15 @@ public class TTRLocalGame extends LocalGame {
         state = new TTRState(this.players.length);
     }
 
+    /** sendUpdatedStateTo
+     *
+     * Description: Notify the player that their state has changed. Send a game info object.
+     *
+     * @param p the player to notify
+     */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
+        p.sendInfo(new TTRState(((TTRState) state)));
     }
 
     /** canMove()
