@@ -33,9 +33,17 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
             //if picking orignal ticket
 
             if (rand.nextInt(2) == 1){
-                game.sendAction(new PlaceTrains(this));
-                //send: state.getAllPaths().get(rand.nextInt(state.getAllPaths().size))
-                //select all wilds and what color to use
+                //create int arraylist to send and set them to 0 (not selected)
+                ArrayList<Integer> paths = new ArrayList<>(state.getAllPaths().size());
+                for (int i = 0; i < paths.size(); i++){
+                    paths.set(i, 0);
+                }
+
+
+
+                paths.set(rand.nextInt(paths.size()), 1);
+                game.sendAction(new PlaceTrains(this, paths));
+                //need to select all wilds and what color to use
             }
             else{
                 ArrayList<Boolean> selectedCards = new ArrayList<Boolean>();
