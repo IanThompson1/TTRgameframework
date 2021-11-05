@@ -13,9 +13,9 @@ public class PlaceTrains extends GameAction {
      *
      * @param player the player who created the action
      */
-    public PlaceTrains(GamePlayer player) {
+    public PlaceTrains(GamePlayer player,ArrayList<Integer> selectedPath) {
         super(player);
-        SelectedPath = null;
+        SelectedPath = selectedPath;
     }
 
     public void setSelectedPath(ArrayList<Integer> selectedPath) {
