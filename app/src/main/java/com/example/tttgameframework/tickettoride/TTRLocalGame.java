@@ -9,6 +9,8 @@ import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.infoMessage.Ticket;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTickets;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
@@ -175,19 +177,25 @@ public class TTRLocalGame extends LocalGame {
                 return true;
             }else{
                 //move tickets to hand
-                ArrayList<Ticket> temp = state.getShownTickets();
+                ArrayList<Ticket> shown = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
+                Player user = state.getPlayers().get(state.whosTurn);
                 //loops through the 2 possible selected tickets
                 for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
-                    Player user = state.getPlayers().get(state.whosTurn);
-                    user.addTicket(state.getShownTickets().get(selected.get(i)));
+                    if(selected.get(i) == 1) {
+                        user.addTicket(shown.get(selected.get(i)));
+                    }else{
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    }
                     //add selected.get(i) to the ticket pile and reshuffle
+
                 }
                 for(int i=0; i<selected.size(); i++) {
-                    state.removeShownTicket(temp.get(selected.get(i)));
+                    state.removeShownTicket(shown.get(selected.get(i)));
                 }
-                ((DrawTickets) action).resetSelectedTickets();
+                Collections.shuffle(shown);
+                //((DrawTickets) action).resetSelectedTickets();
                 //increment who's turn
                 changeTurn(state);
             }
@@ -255,12 +263,8 @@ public class TTRLocalGame extends LocalGame {
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
             ArrayList<Path> paths = state.getAllPaths();
-            ArrayList<Integer> selected = ((PlaceTrains) action).getSelectedPath();
-            for(int i=0; i<paths.size(); i++){
-                if(selected.get(i) == 1){
-                    paths.get(i).setPathOwner(state.whosTurn);
-                }
-            }
+            Path selected = ((PlaceTrains) action).getSelectedPath();
+            selected.setPathOwner(state.whosTurn);
             ((PlaceTrains) action).resetSelectedPath();
             changeTurn(state);
             return true;
