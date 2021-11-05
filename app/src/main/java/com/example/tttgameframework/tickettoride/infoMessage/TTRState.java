@@ -374,11 +374,19 @@ public class TTRState extends GameState implements Serializable {
         return shownTickets;
     }
 
-    public void addShownTickets(Ticket tik) {
+    public void addShownTicket(Ticket tik) {
         shownTickets.add(tik);
     }
 
-    public void removeTicket(Ticket tik){
+    public void removeShownTicket(Ticket tik){
         shownTickets.remove(tik);
+    }
+
+    public ArrayList<CARD> getFaceUp() {
+        return faceUp;
+    }
+
+    public void setFaceUp(ArrayList<CARD> faceUp) {
+        this.faceUp = faceUp;
     }
 }

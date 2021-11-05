@@ -142,32 +142,111 @@ public class TTRLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+        //check if it is the players turn
+        if(getPlayerIdx(action.getPlayer()) != state.whosTurn){
+            return false;
+        }
         if(action instanceof DrawTickets){
-            if(((DrawTickets) action).getSelected().isEmpty()){
+            if(((DrawTickets) action).getSelected() == null){
                 //show tickets
-
+                ArrayList<Ticket> temp = state.getTickets();
+                state.addShownTicket(temp.get(0));
+                state.addShownTicket(temp.get(1));
+                return true;
             }else{
-                //
+                //move tickets to hand
+                ArrayList<Ticket> temp = state.getShownTickets();
+                ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
+                //loops through the 2 possible selected tickets
+                for(int i=0; i<selected.size(); i++) {
+                    //checks if the card is selected
+                    Player user = state.getPlayers().get(state.whosTurn);
+                    user.addTicket(state.getShownTickets().get(selected.get(i)));
+                    //add selected.get(i) to the ticket pile and reshuffle
+                }
+                for(int i=0; i<selected.size(); i++) {
+                    state.removeShownTicket(temp.get(selected.get(i)));
+                }
+                ((DrawTickets) action).resetSelectedTickets();
+                //increment who's turn
+                changeTurn(state);
             }
-
             return true;
         }else if(action instanceof DrawTrains){
-
-
-
+            ArrayList<Boolean> selected = ((DrawTrains) action).getSelectedTrains();
+            ArrayList<TTRState.CARD> random = state.getCardDeck();
+            ArrayList<TTRState.CARD> faceUp = state.getFaceUp();
+            for(int i=0; i<selected.size(); i++) {
+                if (selected.get(i)){
+                    Player user = state.getPlayers().get(state.whosTurn);
+                    if(i < 2) {
+                        user.addCardHand(random.get(i));
+                    }else{
+                        //face up cards
+                        user.addCardHand(faceUp.get(i));
+                    }
+                }
+            }
+            //reseting the card decks
+            for(int i=selected.size()-1; i>=0; i--) {
+                if (selected.get(i)){
+                    if(i < 2) {
+                        random.remove(random.get(i));
+                    }else{ //i >= 2
+                        //face up cards
+                        faceUp.remove(faceUp.get(i));
+                    }
+                }
+            }
+            state.setCardDeck(random);
+            state.setFaceUp(faceUp);//need better logic here for face up cards
+            ((DrawTrains) action).resetSelectedTrains();
+            changeTurn(state);
             return true;
         }else if(action instanceof PlaceTrains){
-
-
-
-
+            //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
+            ArrayList<Path> paths = state.getAllPaths();
+            ArrayList<Integer> selected = ((PlaceTrains) action).getSelectedPath();
+            for(int i=0; i<paths.size(); i++){
+                if(selected.get(i) == 1){
+                    paths.get(i).setPathOwner(state.whosTurn);
+                }
+            }
+            ((PlaceTrains) action).resetSelectedPath();
+            changeTurn(state);
             return true;
         }else{
             return false;
         }
     }
 
-
+    public void changeTurn(TTRState state){
+        if(state.getNumPlayers() == 2){//use modulus to make it shorter
+            if(state.whosTurn == 0){
+                state.whosTurn = 1;
+            }else{
+                state.whosTurn = 0;
+            }
+        }else if(state.getNumPlayers() == 3){
+            if(state.whosTurn == 0){
+                state.whosTurn = 1;
+            }else if(state.whosTurn == 1){
+                state.whosTurn = 2;
+            }else{
+                state.whosTurn = 0;
+            }
+        }else{
+            if(state.whosTurn == 0){
+                state.whosTurn = 1;
+            }else if(state.whosTurn == 1){
+                state.whosTurn = 2;
+            }else if(state.whosTurn == 2){
+                state.whosTurn = 3;
+            }else{
+                state.whosTurn = 0;
+            }
+        }
+    }
     /** whoWon()
      *
      * Description: computes the scores of all players and then returns who won.
@@ -184,16 +263,16 @@ public class TTRLocalGame extends LocalGame {
         }
 
         //check which player won and return the int of that player
-        if(gameOver.equals(playerNames[0]+" is the winner.")){
+        if(gameOver.equals(0+" is the winner.")){
             return 0;
         }
-        else if(gameOver.equals(playerNames[1]+" is the winner.")){
+        else if(gameOver.equals(1+" is the winner.")){
             return 1;
         }
-        else if(gameOver.equals(playerNames[2]+" is the winner.")){
+        else if(gameOver.equals(2+" is the winner.")){
             return 2;
         }
-        else if(gameOver.equals(playerNames[3]+" is the winner.")){
+        else if(gameOver.equals(3+" is the winner.")){
             return 3;
         }
 
