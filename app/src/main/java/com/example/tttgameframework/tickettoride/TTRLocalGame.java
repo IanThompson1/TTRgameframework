@@ -20,9 +20,15 @@ public class TTRLocalGame extends LocalGame {
         state = new TTRState(this.players.length);
     }
 
+    /** sendUpdatedStateTo
+     *
+     * Description: Notify the player that their state has changed. Send a game info object.
+     *
+     * @param p the player to notify
+     */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
+        p.sendInfo(new TTRState(((TTRState) state)));
     }
 
     /** canMove()
@@ -84,7 +90,7 @@ public class TTRLocalGame extends LocalGame {
         for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
-            theseTickets = state.getTickets();
+            theseTickets = p.getTickets();
 
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
