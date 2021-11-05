@@ -90,7 +90,7 @@ public class TTRLocalGame extends LocalGame {
         for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
-            theseTickets = state.getTickets();
+            theseTickets = p.getTickets();
 
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
