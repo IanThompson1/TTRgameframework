@@ -2,6 +2,8 @@ package com.example.tttgameframework.tickettoride.players;
 
 import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
 import com.example.tttgameframework.GameFramework.players.GameComputerPlayer;
+import com.example.tttgameframework.tickettoride.infoMessage.Path;
+import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
@@ -30,21 +32,87 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
             return;
         }
         else {
-            //if picking orignal ticket
+            //if picking original ticket
 
+            //----place train----
             if (rand.nextInt(2) == 1){
                 //create int arraylist to send and set them to 0 (not selected)
                 ArrayList<Integer> paths = new ArrayList<>(state.getAllPaths().size());
-                for (int i = 0; i < paths.size(); i++){
-                    paths.set(i, 0);
+
+                //chooses a random path
+                Path path = state.getAllPaths().get((rand.nextInt(state.getAllPaths().size())));
+
+                //use all players and find this computer player
+                ArrayList<Player> players = state.getPlayers();
+                //should be reset in the for loop
+                Player self = players.get(1);
+                for (Player play: players) {
+                    if (play.getName() == playerNum){
+                        self = play;
+                        break;
+                    }
                 }
 
+                //color to be used
+                TTRState.CARD color;
+
+                //find number of each type of card
+                int numWhite = self.getWhiteCards();
+                int numBlack = self.getBlackCards();
+                int numPink = self.getPinkCards();
+                int numOrange = self.getOrangeCards();
+                int numWild = self.getWildCards();
 
 
-                paths.set(rand.nextInt(paths.size()), 1);
-                game.sendAction(new PlaceTrains(this, paths));
+                //check color of path
+                if (path.getPathColor() == Path.COLOR.GREYPATH){
+                    //check which color it has the most of (simple max finder)
+                    int max = numWhite;
+                    if (numBlack > max){
+                        max = numBlack;
+                    }
+                    if (numPink > max){
+                        max = numPink;
+                    }
+                    if (numOrange > max){
+                        max = numOrange;
+                    }
+
+                    //assign color to be used as max
+                    if (max == numWhite){
+                        color = TTRState.CARD.WHITECARD;
+                    }
+                    else if (max == numBlack){
+                        color = TTRState.CARD.BLACKCARD;
+                    }
+                    else if (max == numPink){
+                        color = TTRState.CARD.PINKCARD;
+                    }
+                    else {
+                        color = TTRState.CARD.ORANGECARD;
+                    }
+                }
+
+                //if the path is a set color
+                else if (path.getPathColor() == Path.COLOR.WHITEPATH){
+                    color = TTRState.CARD.WHITECARD;
+                }
+                else if (path.getPathColor() == Path.COLOR.BLACKPATH){
+                    color = TTRState.CARD.BLACKCARD;
+                }
+                else if (path.getPathColor() == Path.COLOR.PINKPATH){
+                    color = TTRState.CARD.PINKCARD;
+                }
+                //must be orange
+                else{
+                    color = TTRState.CARD.ORANGECARD;
+                }
+
+                game.sendAction(new PlaceTrains(this, path, numWild, color));
                 //need to select all wilds and what color to use
             }
+
+            //-----draw cards---
             else{
                 ArrayList<Boolean> selectedCards = new ArrayList<Boolean>();
                 for (int i = 0; i < 7; i++){
