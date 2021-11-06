@@ -284,6 +284,11 @@ public class TTRState extends GameState implements Serializable {
         return tickets;
     }
 
+    public void addTicket(Ticket tik){
+        ticketDeck.add(tik);
+        Collections.shuffle(ticketDeck);
+    }
+
 
     //check if the ticket desk is empty
     public boolean ticketDeckEmpty(){
@@ -388,5 +393,10 @@ public class TTRState extends GameState implements Serializable {
 
     public void setFaceUp(ArrayList<CARD> faceUp) {
         this.faceUp = faceUp;
+    }
+
+    public void addCard(CARD card){
+        cardDeck.add(card);
+        Collections.shuffle(cardDeck);
     }
 }

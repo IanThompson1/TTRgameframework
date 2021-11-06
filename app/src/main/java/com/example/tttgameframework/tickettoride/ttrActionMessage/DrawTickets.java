@@ -12,9 +12,9 @@ public class DrawTickets extends GameAction {
      *
      * @param player the player who created the action
      */
-    public DrawTickets(GamePlayer player) {
+    public DrawTickets(GamePlayer player, ArrayList<Integer> tickets) {
         super(player);
-        selectedTickets = null;
+        selectedTickets = tickets;
     }
 
     public ArrayList<Integer> getSelected() {
