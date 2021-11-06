@@ -5,6 +5,7 @@ import com.example.tttgameframework.GameFramework.players.GameComputerPlayer;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
 import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
+import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTickets;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
 
@@ -31,6 +32,25 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
         if (state.getTurn() != playerNum){  //not sure
             return;
         }
+        //check if it is start of game and player has no tickets
+        //use all players and find this computer player
+        ArrayList<Player> players = state.getPlayers();
+        //should be reset in the for loop
+        Player self = players.get(1);
+        for (Player play: players) {
+            if (play.getName() == playerNum){
+                self = play;
+                break;
+            }
+        }
+        if (self.getTickets().size() == 0){
+            ArrayList<Integer> tickets = new ArrayList<Integer>(2);
+            //pick the first ticket
+            tickets.set(0,1);
+            tickets.set(1,0);
+            game.sendAction(new DrawTickets(this, tickets));
+        }
+
         else {
             //if picking original ticket
 
@@ -42,6 +62,7 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
                 //chooses a random path
                 Path path = state.getAllPaths().get((rand.nextInt(state.getAllPaths().size())));
 
+                /* placed this code above
                 //use all players and find this computer player
                 ArrayList<Player> players = state.getPlayers();
                 //should be reset in the for loop
@@ -51,7 +72,7 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
                         self = play;
                         break;
                     }
-                }
+                }*/
 
                 //color to be used
                 TTRState.CARD color;
