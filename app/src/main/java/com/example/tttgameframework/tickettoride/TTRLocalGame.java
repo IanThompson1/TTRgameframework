@@ -158,7 +158,7 @@ public class TTRLocalGame extends LocalGame {
      * @return  if the ticket is completed by the player, return true
      */
     public boolean checkTicketComplete(Ticket t, Player p){
-        return false; //dummy
+        return state.ticket_completed(t.getNode0(), t.getNode1(), p.getName());
     }
 
 

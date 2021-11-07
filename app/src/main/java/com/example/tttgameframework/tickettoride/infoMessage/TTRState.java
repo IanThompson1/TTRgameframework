@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class TTRState extends GameState implements Serializable {
     //Tag for logging
@@ -421,5 +422,33 @@ public class TTRState extends GameState implements Serializable {
     public void addCard(CARD card){
         cardDeck.add(card);
         Collections.shuffle(cardDeck);
+    }
+
+    //comment
+    public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
+        HashMap<TTRState.CITY, CityNode> marked = new HashMap<>(); //hashmap to store the marked off nodes
+
+
+        return dfs(marked, c0, c1, owner);
+    }
+
+    //comment
+    public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
+        marked.put(c0, cityAdjList.get(c0));
+
+        HashMap<TTRState.CITY, Path> neighbors = Objects.requireNonNull(cityAdjList.get(c0)).getNeighbors();
+
+        HashMap<TTRState.CITY, Boolean> visited = new HashMap<>();
+
+        boolean reached = false;
+
+        for(TTRState.CITY c: neighbors.keySet()){
+            if(Objects.requireNonNull(neighbors.get(c)).getPathOwner() == owner){
+                reached = dfs(marked, c, c1, owner);
+            }
+        }
+
+
+        return reached;
     }
 }
