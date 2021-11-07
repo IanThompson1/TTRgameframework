@@ -42,4 +42,10 @@ public class Ticket {
         return node1;
     }
 
+    //to string method for showing tickets
+
+    @Override
+    public String toString() {
+        return node0.name() + " - " + node1.name() + " " + PointValue;
+    }
 }

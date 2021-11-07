@@ -74,6 +74,7 @@ public class TTRState extends GameState implements Serializable {
          * create all paths
          * Path(length, node0, node1, color, owner)
          */
+        //paths 0-5
         //orange paths
         allPaths = new ArrayList<Path>();
         allPaths.add(new Path(1, CITY.ASTORIA, CITY.TILLAMOOK,
@@ -89,7 +90,7 @@ public class TTRState extends GameState implements Serializable {
         allPaths.add(new Path(2, CITY.GPASS, CITY.KFALLS,
                 Path.COLOR.ORANGEPATH, -1));
 
-
+        //paths 6-11
         //Pink Paths
         allPaths.add(new Path(1, CITY.TILLAMOOK, CITY.PORTLAND,
                 Path.COLOR.PINKPATH, -1));
@@ -104,7 +105,7 @@ public class TTRState extends GameState implements Serializable {
         allPaths.add(new Path(3, CITY.LAKEVIEW, CITY.BURNS,
                 Path.COLOR.PINKPATH, -1));
 
-
+        //paths 12-17
         //Black Paths
         allPaths.add(new Path(1, CITY.TILLAMOOK, CITY.PORTLAND,
                 Path.COLOR.BLACKPATH, -1));
@@ -119,7 +120,7 @@ public class TTRState extends GameState implements Serializable {
         allPaths.add(new Path(2, CITY.COOSBAY, CITY.GPASS,
                 Path.COLOR.BLACKPATH, -1));
 
-
+        //paths 18-23
         //White Paths
         allPaths.add(new Path(1, CITY.ASTORIA, CITY.TILLAMOOK,
                 Path.COLOR.WHITEPATH, -1));
@@ -134,7 +135,7 @@ public class TTRState extends GameState implements Serializable {
         allPaths.add(new Path(2, CITY.KFALLS, CITY.LAKEVIEW,
                 Path.COLOR.WHITEPATH, -1));
 
-
+        //paths 24-38
         //Gray Paths
         allPaths.add(new Path(2, CITY.ASTORIA, CITY.PORTLAND,
                 Path.COLOR.GREYPATH, -1));
@@ -164,6 +165,9 @@ public class TTRState extends GameState implements Serializable {
         allPaths.add(new Path(3, CITY.BEND, CITY.BURNS,
                 Path.COLOR.GREYPATH, -1));
 
+        //PATHS NEED FIXIN
+        allPaths.add(new Path(2, CITY.SALEM, CITY.NEWPORT, Path.COLOR.GREYPATH, -1));
+        allPaths.add(new Path(4, CITY.BEND, CITY.KFALLS, Path.COLOR.ORANGEPATH, -1));
 
         //adding the paths as neighbors in the adjacency list
         for(Path p: allPaths){

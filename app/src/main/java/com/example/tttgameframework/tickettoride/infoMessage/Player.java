@@ -1,8 +1,10 @@
 package com.example.tttgameframework.tickettoride.infoMessage;
 
+import com.example.tttgameframework.GameFramework.players.GamePlayer;
+
 import java.util.ArrayList;
 
-public class Player {
+public class Player{
 
     private int numTrains;
     private ArrayList<TTRState.CARD> cardHand;
