@@ -58,8 +58,12 @@ public class TTRLocalGame extends LocalGame {
     protected String checkIfGameOver() {
         boolean gameOver = false;
 
-        //get ArrayList of players
-        ArrayList<Player> players = getPlayers();
+        //get players of players
+        Player[] playersArr = (Player[]) getPlayers();
+        ArrayList<Player> players = new ArrayList<>();
+        for(Player p: playersArr){
+            players.add(p);
+        }
 
         //1. Check if game is over.
         //      Game is over if any 1 player runs out of trains.

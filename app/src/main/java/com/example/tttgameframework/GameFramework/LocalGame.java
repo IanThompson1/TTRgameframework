@@ -457,7 +457,7 @@ public abstract class LocalGame implements Game, Tickable {
 
     //TESTING
 
-    public ArrayList<Player> getPlayers(){
+    public GamePlayer[] getPlayers(){
         return players;
     }
 
