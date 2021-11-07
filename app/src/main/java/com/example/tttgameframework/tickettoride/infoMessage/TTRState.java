@@ -5,6 +5,7 @@ import com.example.tttgameframework.GameFramework.infoMessage.GameState;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class TTRState extends GameState implements Serializable {
     //Tag for logging
@@ -36,7 +37,7 @@ public class TTRState extends GameState implements Serializable {
         LAGRANDE,
         BURNS,
         LAKEVIEW
-    }
+    } //16 cities in total
 
     public int whosTurn;
 
@@ -49,12 +50,24 @@ public class TTRState extends GameState implements Serializable {
 
     private int numPlayers;
 
+    private HashMap<TTRState.CITY, CityNode> cityAdjList;
+
 
     public TTRState(int inNumPlayers){
 
         //set number of players
         numPlayers = inNumPlayers;
         whosTurn = 0;
+
+
+        //create HashMap for adjacency list
+        cityAdjList = new HashMap<>();
+
+        //create CityNodes, add to adj list
+        for(CITY c: CITY.values()){
+            cityAdjList.put(c, new CityNode(c));
+        }
+
 
         /**
          * create all paths
@@ -149,6 +162,16 @@ public class TTRState extends GameState implements Serializable {
                 Path.COLOR.GREYPATH, -1));
         allPaths.add(new Path(3, CITY.BEND, CITY.BURNS,
                 Path.COLOR.GREYPATH, -1));
+
+
+        //adding the paths as neighbors in the adjacency list
+        for(Path p: allPaths){
+            //add node0
+            cityAdjList.get(p.getNode0()).addNeighbor(p);
+
+            //add node 1
+            cityAdjList.get(p.getNode1()).addNeighbor(p);
+        }
 
 
         /**
