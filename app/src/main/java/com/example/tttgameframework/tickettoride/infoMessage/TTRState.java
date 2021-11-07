@@ -436,6 +436,10 @@ public class TTRState extends GameState implements Serializable {
     public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
         marked.put(c0, cityAdjList.get(c0));
 
+        if(c0 == c1){
+            return true;
+        }
+
         HashMap<TTRState.CITY, Path> neighbors = Objects.requireNonNull(cityAdjList.get(c0)).getNeighbors();
 
         HashMap<TTRState.CITY, Boolean> visited = new HashMap<>();
@@ -445,6 +449,10 @@ public class TTRState extends GameState implements Serializable {
         for(TTRState.CITY c: neighbors.keySet()){
             if(Objects.requireNonNull(neighbors.get(c)).getPathOwner() == owner){
                 reached = dfs(marked, c, c1, owner);
+            }
+
+            if(reached){
+                return true;
             }
         }
 
