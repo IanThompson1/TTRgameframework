@@ -321,6 +321,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     @Override
     public void receiveInfo(GameInfo info) {
         //if game info is gamestate then use gamestate to update what is being drawn
+
         if (surfaceView == null) {
             return;
         } else if (!(info instanceof TTRState)) {
@@ -328,7 +329,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             return;
         } else {
             state = new TTRState((TTRState) info);
-            surfaceView.setState((TTRState)info, selected, selectedTickets, path);
+            surfaceView.setState(state, selected, selectedTickets, path);
+            System.out.println("Updating info");
             surfaceView.invalidate();
             ArrayList<TTRState.CARD> faceUps = state.getFaceUp();
             for(int i = 0; i < faceUps.size(); i++) {
@@ -534,7 +536,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             }
         } else if (button.getId() == R.id.ConfirmButton) {
             if (typeAction == ACTION.DRAW) {
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < turnActions.size(); i++) {
                     game.sendAction(turnActions.get(i));
                 }
             } else if (typeAction == ACTION.PLACE) {
@@ -572,28 +574,28 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         } else if (button.getId() == R.id.whiteTrainHand) {
             if (typeAction == ACTION.NONE) {
                 typeAction = ACTION.PLACE;
-                turnActions.set(0, new PlaceTrains(this, path, wilds, TTRState.CARD.WHITECARD));
+                turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.WHITECARD));
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.blackTrainHand) {
             if (typeAction == ACTION.NONE) {
                 typeAction = ACTION.PLACE;
-                turnActions.set(0, new PlaceTrains(this, path, wilds, TTRState.CARD.BLACKCARD));
+                turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.BLACKCARD));
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.pinkTrainHand) {
             if (typeAction == ACTION.NONE) {
                 typeAction = ACTION.PLACE;
-                turnActions.set(0, new PlaceTrains(this, path, wilds, TTRState.CARD.PINKCARD));
+                turnActions.add(new PlaceTrains(this, path, wilds, TTRState.CARD.PINKCARD));
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.orangeTrainHand) {
             if (typeAction == ACTION.NONE) {
                 typeAction = ACTION.PLACE;
-                turnActions.set(0, new PlaceTrains(this, path, wilds, TTRState.CARD.ORANGECARD));
+                turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.ORANGECARD));
             } else {
                 flash(Color.RED, 20);
             }

@@ -637,6 +637,7 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawRect(1700*Xratio, 900*Yratio , 2100*Xratio, 1045*Yratio, ticketPaint);
         canvas.drawRect(1700*Xratio, 1055*Yratio , 2100*Xratio, 1200*Yratio, ticketPaint);
 
+
         //shows ticket if there is tickets in shown ticket
         if(shownTickets == null){
             canvas.drawText("????????", 1710.f *Xratio, 980.f*Yratio, ticketTextPaint);
@@ -668,6 +669,7 @@ public class TTRSurfaceView extends SurfaceView {
     //function to change the gui given the information given
     public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p){
         //sets the values of the players hand size, ticket size, train count
+
         this.state = state;
         ArrayList<Player> players = state.getPlayers();
         int numPlayers = state.getNumPlayers();
@@ -699,6 +701,11 @@ public class TTRSurfaceView extends SurfaceView {
         shownTickets = state.getShownTickets();
         curTickets = player0.getTickets();
         curPath = p;
+        if(shownTickets == null){
+            System.out.println("Still empty");
+        } else {
+            System.out.println(shownTickets.get(0).toString());
+        }
 
 
     }

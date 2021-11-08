@@ -61,11 +61,8 @@ public class TTRLocalGame extends LocalGame {
         boolean gameOver = false;
 
         //get players of players
-        Player[] playersArr = (Player[]) getPlayers();
-        ArrayList<Player> players = new ArrayList<>();
-        for(Player p: playersArr){
-            players.add(p);
-        }
+        ArrayList<Player> players = state.getPlayers();
+
 
         //1. Check if game is over.
         //      Game is over if any 1 player runs out of trains.
@@ -180,7 +177,7 @@ public class TTRLocalGame extends LocalGame {
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
-                //invalidate(); ?
+                System.out.println("True draw Tickets");
                 return true;
             }else{
                 //move tickets to hand
@@ -195,6 +192,7 @@ public class TTRLocalGame extends LocalGame {
                     }
                 }
                 if(count == 0 || count > 2){ //count should never be above 2
+                    System.out.println("Fail draw Tickets");
                     return false;
                 }
 
@@ -217,6 +215,7 @@ public class TTRLocalGame extends LocalGame {
                 //increment who's turn
                 changeTurn(state);
             }
+            System.out.println("True draw Tickets1");
             return true;
         }else if(action instanceof DrawTrains){
             ArrayList<Boolean> selected = ((DrawTrains) action).getSelectedTrains();
@@ -230,6 +229,7 @@ public class TTRLocalGame extends LocalGame {
                 }
             }
             if(counter<1 || counter >2){
+                System.out.println("fail draw train");
                 return false;
             }
             //all checks
@@ -238,13 +238,19 @@ public class TTRLocalGame extends LocalGame {
                     Player wilds = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
                         if(counter ==1){
+                            System.out.println("fail draw train");
+
                             return false;
                         }
                     }else{
                         //face up cards
                         if(counter ==1 && faceUp.get(i) != TTRState.CARD.WILDCARD){
+                            System.out.println("fail draw train");
+
                             return false;
                         }else if(faceUp.get(i) == TTRState.CARD.WILDCARD){
+                            System.out.println("fail draw train");
+
                             return false;
                         }
                     }
@@ -277,6 +283,8 @@ public class TTRLocalGame extends LocalGame {
             state.setFaceUp(faceUp);//need better logic here for face up cards
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
+            System.out.println("True draw train");
+
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
@@ -289,24 +297,34 @@ public class TTRLocalGame extends LocalGame {
             Path.COLOR thePathColor = thePath.getPathColor();
             //check if owned
             if(thePathOwner != -1){
+                System.out.println("fail place train");
+
                 return false;
             }
             //check if correct color
             if(thePathColor != Path.COLOR.GREYPATH){
                 if(color == TTRState.CARD.WHITECARD){
                     if(thePathColor != Path.COLOR.WHITEPATH) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }else if(color == TTRState.CARD.BLACKCARD){
                     if(thePathColor != Path.COLOR.BLACKPATH) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }else if(color == TTRState.CARD.ORANGECARD){
                     if(thePathColor != Path.COLOR.ORANGEPATH) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }else if(color == TTRState.CARD.PINKCARD){
                     if(thePathColor != Path.COLOR.PINKPATH) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }
@@ -314,28 +332,40 @@ public class TTRLocalGame extends LocalGame {
                 //check enough cards
                 if(color == TTRState.CARD.WHITECARD){
                     if (user.getWhiteCards() < thePathLength - wilds) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }else if(color == TTRState.CARD.BLACKCARD){
                     if (user.getBlackCards() < thePathLength - wilds) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }else if(color == TTRState.CARD.ORANGECARD){
                     if (user.getOrangeCards() < thePathLength - wilds) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }else if(color == TTRState.CARD.PINKCARD){
                     if (user.getPinkCards() < thePathLength - wilds) {
+                        System.out.println("fail place train");
+
                         return false;
                     }
                 }
             }
             //checks enough wilds
             if(user.getWildCards() < wilds){
+                System.out.println("fail place train");
+
                 return false;
             }
             //checks too many wilds
             if(wilds > thePathLength){
+                System.out.println("fail place train");
+
                 return false;
             }
             //end of checks
@@ -366,8 +396,12 @@ public class TTRLocalGame extends LocalGame {
             }
             //((PlaceTrains) action).resetSelectedPath();//again I think this is a preference thing so might need it.
             changeTurn(state);
+            System.out.println("true place train");
+
             return true;
         }else{
+            System.out.println("fail place train");
+
             return false;
         }
     }
