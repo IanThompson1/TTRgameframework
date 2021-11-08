@@ -29,6 +29,8 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
+        if (!(info instanceof TTRState)){return;}
+
         TTRState state = (TTRState) info;
 
     //if its my turn take a turn
