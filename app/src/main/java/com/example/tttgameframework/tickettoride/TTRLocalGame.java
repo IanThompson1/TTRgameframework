@@ -240,7 +240,7 @@ public class TTRLocalGame extends LocalGame {
                 }
             }
             if(counter<1 || counter >2){
-                System.out.println("fail draw train");
+                System.out.println("fail draw train1");
                 return false;
             }
             //all checks
@@ -249,18 +249,18 @@ public class TTRLocalGame extends LocalGame {
                     Player wilds = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
                         if(counter ==1){
-                            System.out.println("fail draw train");
+                            System.out.println("fail draw train2");
 
                             return false;
                         }
                     }else{
                         //face up cards
-                        if(counter ==1 && faceUp.get(i) != TTRState.CARD.WILDCARD){
-                            System.out.println("fail draw train");
+                        if(counter ==1 && faceUp.get(i-2) != TTRState.CARD.WILDCARD){
+                            System.out.println("fail draw train3");
 
                             return false;
-                        }else if(faceUp.get(i) == TTRState.CARD.WILDCARD){
-                            System.out.println("fail draw train");
+                        }else if(faceUp.get(i-2) == TTRState.CARD.WILDCARD){
+                            System.out.println("fail draw train4");
 
                             return false;
                         }
@@ -275,7 +275,7 @@ public class TTRLocalGame extends LocalGame {
                         user.addCardHand(random.get(i));
                     }else{
                         //face up cards
-                        user.addCardHand(faceUp.get(i));
+                        user.addCardHand(faceUp.get(i-2));
                     }
                 }
             }
@@ -286,7 +286,7 @@ public class TTRLocalGame extends LocalGame {
                         random.remove(random.get(i));
                     }else{ //i >= 2
                         //face up cards
-                        faceUp.remove(faceUp.get(i));
+                        faceUp.remove(faceUp.get(i-2));
                     }
                 }
             }

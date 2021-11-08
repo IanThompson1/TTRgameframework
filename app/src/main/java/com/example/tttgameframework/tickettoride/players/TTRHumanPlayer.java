@@ -439,12 +439,13 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         //if the player clicks draw train then send the action draw train
         if (button.getId() == R.id.DrawTrainButton) {
             //asks if the user already has chosen 2 actions already
-            if (typeAction == ACTION.NONE) {
+            if (typeAction == ACTION.NONE || typeAction == ACTION.DRAW) {
                 typeAction = ACTION.DRAW;
+
                 if (turnActions.size() < 2) {
                     //if hasn't chosen 2 actions then add another action
                     //sets the first or second card drawn to deck draw
-                    if (selected.size() == 0) {
+                    if (turnActions.size() == 0) {
                         selected.set(0, true);
                     } else {
                         selected.set(1, true);
@@ -470,13 +471,15 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
             //else if the player clicks on a face up card
         } else if (button.getId() == R.id.FaceUp1Button) {
-            if (typeAction == ACTION.NONE) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(2)) {
+                System.out.println("does it get here");
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
                     selected.set(2, true);
                     turnActions.add(new DrawTrains(this, selected));
                 } else {
+                    System.out.println(turnActions.size());
                     flash(Color.RED, 20);
                 }
 
@@ -484,7 +487,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.FaceUp2Button) {
-            if (typeAction == ACTION.NONE) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(3)) {
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
@@ -498,7 +501,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.FaceUp3Button) {
-            if (typeAction == ACTION.NONE) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(4)) {
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
@@ -514,7 +517,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
 
         } else if (button.getId() == R.id.FaceUp4Button) {
-            if (typeAction == ACTION.NONE) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(5)) {
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
@@ -527,7 +530,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.FaceUp5Button) {
-            if (typeAction == ACTION.NONE) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(6))  {
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
@@ -544,6 +547,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 for (int i = 0; i < turnActions.size(); i++) {
                     game.sendAction(turnActions.get(i));
                 }
+                for(int i = 0; i < 7; i++){
+                    System.out.println(i + " " + selected.get(i));
+                }
             } else if (typeAction == ACTION.PLACE) {
                 if (wilds > 0 && turnActions.size() == 0) {
                     game.sendAction(new PlaceTrains(this, path, wilds, null));
@@ -557,6 +563,16 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             } else if (typeAction == ACTION.TICKET) {
                 //if the player is taking a draw turn then
                 game.sendAction(new DrawTickets(this, selectedTickets));
+                turnActions.clear();
+                typeAction = ACTION.NONE;
+                wilds = 0;
+                path = null;
+                for (int i = 0; i < 7; i++) {
+                    selected.set(i, false);
+                }
+                for(int i = 0; i < 2; i++){
+                    selectedTickets.set(i, 0);
+                }
                 surfaceView.invalidate();
             } else {
                 //if the player did enter a action
