@@ -69,6 +69,7 @@ public class Player{
 
     //method to give a player a ticket.
     public void addTicket(Ticket ticket) {
+        System.out.println("added ticket to hand");
         tickets.add(ticket);
     }
 

@@ -272,6 +272,7 @@ public class TTRLocalGame extends LocalGame {
                 if (selected.get(i)){
                     Player user = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
+                        System.out.println(random.get(i).toString());
                         user.addCardHand(random.get(i));
                     }else{
                         //face up cards
@@ -280,18 +281,19 @@ public class TTRLocalGame extends LocalGame {
                 }
             }
             //resetting the card decks
-            for(int i=selected.size()-1; i>=0; i--) {
+            for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
                     if(i < 2) {
                         random.remove(random.get(i));
                     }else{ //i >= 2
                         //face up cards
-                        faceUp.remove(faceUp.get(i-2));
+                        TTRState.CARD nextCard = random.get(i);
+                        faceUp.set(i-2,nextCard);
                     }
                 }
             }
             state.setCardDeck(random);
-            state.setFaceUp(faceUp);//need better logic here for face up cards
+            //state.setFaceUp(faceUp);//need better logic here for face up cards
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             System.out.println("True draw train");
