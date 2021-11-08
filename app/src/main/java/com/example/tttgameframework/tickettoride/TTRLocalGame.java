@@ -292,6 +292,7 @@ public class TTRLocalGame extends LocalGame {
                     }
                 }
             }
+            System.out.println("random deck size = "+random.size());
             state.setCardDeck(random);
             //state.setFaceUp(faceUp);//need better logic here for face up cards
             ((DrawTrains) action).resetSelectedTrains();
@@ -309,6 +310,11 @@ public class TTRLocalGame extends LocalGame {
             int thePathLength = thePath.getLength();
             int thePathOwner = thePath.getPathOwner();
             Path.COLOR thePathColor = thePath.getPathColor();
+
+            System.out.println(thePathLength+ " The path length");
+            System.out.println(wilds+ " wilds");
+
+
             //check if owned
             if(thePathOwner != -1){
                 System.out.println("fail place train");
@@ -342,32 +348,31 @@ public class TTRLocalGame extends LocalGame {
                         return false;
                     }
                 }
-            }else{
-                //check enough cards
-                if(color == TTRState.CARD.WHITECARD){
-                    if (user.getWhiteCards() < thePathLength - wilds) {
-                        System.out.println("fail place train");
+            }
+            //check enough cards
+            if(color == TTRState.CARD.WHITECARD){
+                if (user.getWhiteCards() < thePathLength - wilds) {
+                    System.out.println("fail place train");
 
-                        return false;
-                    }
-                }else if(color == TTRState.CARD.BLACKCARD){
-                    if (user.getBlackCards() < thePathLength - wilds) {
-                        System.out.println("fail place train");
+                    return false;
+                }
+            }else if(color == TTRState.CARD.BLACKCARD){
+                if (user.getBlackCards() < thePathLength - wilds) {
+                    System.out.println("fail place train");
 
-                        return false;
-                    }
-                }else if(color == TTRState.CARD.ORANGECARD){
-                    if (user.getOrangeCards() < thePathLength - wilds) {
-                        System.out.println("fail place train");
+                    return false;
+                }
+            }else if(color == TTRState.CARD.ORANGECARD){
+                if (user.getOrangeCards() < thePathLength - wilds) {
+                    System.out.println("fail place train");
 
-                        return false;
-                    }
-                }else if(color == TTRState.CARD.PINKCARD){
-                    if (user.getPinkCards() < thePathLength - wilds) {
-                        System.out.println("fail place train");
+                    return false;
+                }
+            }else if(color == TTRState.CARD.PINKCARD){
+                if (user.getPinkCards() < thePathLength - wilds) {
+                    System.out.println("fail place train");
 
-                        return false;
-                    }
+                    return false;
                 }
             }
             //checks enough wilds

@@ -658,6 +658,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             turnActions.clear();
             typeAction = ACTION.NONE;
             wilds = 0;
+            if(path == null){
+                System.out.println("path is null");
+            }
             path = null;
             for (int i = 0; i < 7; i++) {
                 selected.set(i, false);
