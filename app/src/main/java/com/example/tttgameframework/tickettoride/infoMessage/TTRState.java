@@ -40,7 +40,7 @@ public class TTRState extends GameState implements Serializable {
         LAKEVIEW
     } //16 cities in total
 
-    public int whosTurn;
+    private int whosTurn;
 
     private ArrayList<Path> allPaths;
     private ArrayList<Player> allPlayers;
@@ -252,7 +252,7 @@ public class TTRState extends GameState implements Serializable {
     public TTRState(TTRState other){
         //copies everything
         // same number of :new's
-        this.whosTurn = other.whosTurn;
+        this.whosTurn = other.getWhosTurn();
 
         //creates a new ArrayList for the copied allPaths
         this.allPaths = new ArrayList<Path>(other.allPaths.size());
@@ -421,6 +421,14 @@ public class TTRState extends GameState implements Serializable {
 
     public void setFaceUp(ArrayList<CARD> faceUp) {
         this.faceUp = faceUp;
+    }
+
+    public int getWhosTurn() {
+        return whosTurn;
+    }
+
+    public void setWhosTurn(int whosTurn) {
+        this.whosTurn = whosTurn;
     }
 
     public void addCard(CARD card){

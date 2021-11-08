@@ -31,7 +31,7 @@ public class TTRLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-        p.sendInfo(new TTRState(((TTRState) state)));
+        p.sendInfo(new TTRState(((TTRState) super.state)));
     }
 
     /** canMove()
@@ -170,7 +170,7 @@ public class TTRLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
         //check if it is the players turn
-        if(getPlayerIdx(action.getPlayer()) != state.whosTurn){
+        if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
             return false;
         }
         if(action instanceof DrawTickets){
@@ -185,7 +185,7 @@ public class TTRLocalGame extends LocalGame {
                 //move tickets to hand
                 ArrayList<Ticket> shown = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
-                Player user = state.getPlayers().get(state.whosTurn);
+                Player user = state.getPlayers().get(state.getWhosTurn());
                 //the one check is if neither card is selected
                 int count =0;
                 for(int t=0; t<selected.size(); t++){
@@ -234,7 +234,7 @@ public class TTRLocalGame extends LocalGame {
             //all checks
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
-                    Player wilds = state.getPlayers().get(state.whosTurn);
+                    Player wilds = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
                         if(counter ==1){
                             return false;
@@ -252,7 +252,7 @@ public class TTRLocalGame extends LocalGame {
 
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
-                    Player user = state.getPlayers().get(state.whosTurn);
+                    Player user = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
                         user.addCardHand(random.get(i));
                     }else{
@@ -279,7 +279,7 @@ public class TTRLocalGame extends LocalGame {
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
-            Player user = state.getPlayers().get(state.whosTurn);
+            Player user = state.getPlayers().get(state.getWhosTurn());
             Path thePath = ((PlaceTrains) action).getSelectedPath();
             int wilds = ((PlaceTrains) action).getNumberOfWilds();
             TTRState.CARD color = ((PlaceTrains) action).getColor();///////////////////////////////////////////////////////////////
@@ -340,7 +340,7 @@ public class TTRLocalGame extends LocalGame {
             //end of checks
 
             //set path owner
-            thePath.setPathOwner(state.whosTurn);
+            thePath.setPathOwner(state.getWhosTurn());
             //handles the cards
             for(int i=0; i<thePathLength-wilds; i++) {
                 //can make a switch statement
@@ -373,28 +373,28 @@ public class TTRLocalGame extends LocalGame {
 
     public void changeTurn(TTRState state){
         if(state.getNumPlayers() == 2){//use modulus to make it shorter
-            if(state.whosTurn == 0){
-                state.whosTurn = 1;
+            if(state.getWhosTurn() == 0){
+                state.setWhosTurn(1);
             }else{
-                state.whosTurn = 0;
+                state.setWhosTurn(0);
             }
         }else if(state.getNumPlayers() == 3){
-            if(state.whosTurn == 0){
-                state.whosTurn = 1;
-            }else if(state.whosTurn == 1){
-                state.whosTurn = 2;
+            if(state.getWhosTurn() == 0){
+                state.setWhosTurn(1);
+            }else if(state.getWhosTurn() == 1){
+                state.setWhosTurn(2);
             }else{
-                state.whosTurn = 0;
+                state.setWhosTurn(0);
             }
         }else{
-            if(state.whosTurn == 0){
-                state.whosTurn = 1;
-            }else if(state.whosTurn == 1){
-                state.whosTurn = 2;
-            }else if(state.whosTurn == 2){
-                state.whosTurn = 3;
+            if(state.getWhosTurn() == 0){
+                state.setWhosTurn(1);
+            }else if(state.getWhosTurn() == 1){
+                state.setWhosTurn(2);
+            }else if(state.getWhosTurn() == 2){
+                state.setWhosTurn(3);
             }else{
-                state.whosTurn = 0;
+                state.setWhosTurn(0);
             }
         }
     }
