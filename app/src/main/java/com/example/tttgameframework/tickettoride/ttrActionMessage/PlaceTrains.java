@@ -11,17 +11,19 @@ public class PlaceTrains extends GameAction {
     private Path selectedPath;
     private int numberOfWilds;
     private TTRState.CARD color;
+    private int pathNum;
     //this is an array list of integers containing all 0's except for one 1 depicting which path is selected
     /**
      * constructor for GameAction
      *
      * @param player the player who created the action
      */
-    public PlaceTrains(GamePlayer player,Path SelectedPath, int numWilds,TTRState.CARD col) {
+    public PlaceTrains(GamePlayer player,Path SelectedPath, int numWilds,TTRState.CARD col, int pathNum) {
         super(player);
         this.selectedPath = SelectedPath;
         numberOfWilds = numWilds;
         color = col;
+        this.pathNum = pathNum;
     }
 
     public void setSelectedPath(Path selectedPath) {
@@ -50,5 +52,9 @@ public class PlaceTrains extends GameAction {
 
     public void setNumberOfWilds(int numberOfWilds) {
         this.numberOfWilds = numberOfWilds;
+    }
+
+    public int getPathNum() {
+        return pathNum;
     }
 }

@@ -282,12 +282,11 @@ public class TTRSurfaceView extends SurfaceView {
 
         //Astoria-Tillamook
         canvas.drawRect(360*Xratio,155*Yratio, 390*Xratio, 265*Yratio, white);
+
         //draws if path is selected
-        System.out.println(emptyPaint.toString());
-        System.out.println(highlightPaint.toString());
-        System.out.println(hPaint(10).toString());
         canvas.drawRect(360*Xratio,155*Yratio, 390*Xratio, 265*Yratio, hPaint(18));
         //draws if someone owns the path
+        System.out.println(ownerPaint(allPaths.get(18)).toString());
         canvas.drawRect(370*Xratio,155*Yratio, 380*Xratio, 265*Yratio, ownerPaint(allPaths.get(18)));
         canvas.drawRect(395*Xratio,155*Yratio, 425*Xratio, 265*Yratio, orangePaint);
         canvas.drawRect(395*Xratio,155*Yratio, 425*Xratio, 265*Yratio, hPaint(0));
@@ -747,6 +746,7 @@ public class TTRSurfaceView extends SurfaceView {
     //helper function to get the paint of the current owner of the path
     private Paint ownerPaint(Path p){
         int owner = p.getPathOwner();
+        System.out.println(String.valueOf(owner));
         if(owner == 0){
             return greenPaint;
         } else if(owner == 1){

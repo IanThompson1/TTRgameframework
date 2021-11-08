@@ -303,6 +303,7 @@ public class TTRLocalGame extends LocalGame {
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
             Player user = state.getPlayers().get(state.getWhosTurn());
             Path thePath = ((PlaceTrains) action).getSelectedPath();
+            int pathNum = ((PlaceTrains) action).getPathNum();
             int wilds = ((PlaceTrains) action).getNumberOfWilds();
             TTRState.CARD color = ((PlaceTrains) action).getColor();///////////////////////////////////////////////////////////////
             int thePathLength = thePath.getLength();
@@ -385,6 +386,7 @@ public class TTRLocalGame extends LocalGame {
 
             //set path owner
             thePath.setPathOwner(state.getWhosTurn());
+            state.getAllPaths().set(pathNum, thePath);
             //handles the cards
             for(int i=0; i<thePathLength-wilds; i++) {
                 //can make a switch statement

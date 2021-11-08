@@ -141,7 +141,7 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
                     color = TTRState.CARD.ORANGECARD;
                 }
 
-                game.sendAction(new PlaceTrains(this, path, numWild, color));
+                game.sendAction(new PlaceTrains(this, path, numWild, color , state.getAllPaths().indexOf(path)));
                 //need to select all wilds and what color to use
             }
 
