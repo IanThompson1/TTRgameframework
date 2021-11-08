@@ -79,6 +79,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     //an array list to hold all the face up buttons
     private ArrayList<ImageButton> faceUpButtons;
 
+    //first turn varibale
+    private int firstTurn;
+
     /**
      * constructor
      *
@@ -87,6 +90,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     public TTRHumanPlayer(String name) {
         super(name);
         wilds = 0;
+        firstTurn = 1;
         path = null;
         selected = new ArrayList<Boolean>();
         selectedTickets = new ArrayList<Integer>();
@@ -99,7 +103,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         for (int i = 0; i < 7; i++) {
             selected.add(false);
         }
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 2; i++) {
             selectedTickets.add(0);
         }
 
@@ -107,6 +111,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+
         Xratio = (float) (32.0/25.0);
         Yratio = (float) (3.0/2.0);
         Rratio = Yratio;
@@ -115,6 +120,11 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         //ignore if not an "up" event
         if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
             return true;
+        }
+
+        if(firstTurn == 1){
+            firstTurn = 0;
+            game.sendAction(new DrawTickets(this, new ArrayList<Integer>()));
         }
         //get the x and y coordinates of the touch location
         //convert them to square coordinates
@@ -344,6 +354,13 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 }
                 faceUpButtons.set(i, button);
             }
+            blackTrainHandButton.setImageResource(R.drawable.black_train_v);
+            whiteTrainHandButton.setImageResource(R.drawable.white_train_v);
+            orangeTrainHandButton.setImageResource(R.drawable.orange_train_v);
+            wildTrainHandButton.setImageResource(R.drawable.wild_train_v);
+            pinkTrainHandButton.setImageResource(R.drawable.purple_train_v);
+            drawTrainButton.setImageResource(R.drawable.train_draw);
+            drawTicketsButton.setImageResource(R.drawable.ticket_draw);
 
             Logger.log("TAG", "receiving");
         }
@@ -408,7 +425,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View button) {
-
+        if(firstTurn == 1){
+            firstTurn = 0;
+            game.sendAction(new DrawTickets(this, null));
+        }
         //if the player clicks draw train then send the action draw train
         if (button.getId() == R.id.DrawTrainButton) {
             //asks if the user already has chosen 2 actions already

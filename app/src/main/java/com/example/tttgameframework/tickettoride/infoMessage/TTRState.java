@@ -243,6 +243,9 @@ public class TTRState extends GameState implements Serializable {
             cardDeck.remove(0);
         }
 
+
+        shownTickets = new ArrayList<Ticket>();
+
     }
 
     /** copy constructor for TTRGameState
@@ -305,7 +308,7 @@ public class TTRState extends GameState implements Serializable {
     //method that allows players to get tickets.
     public ArrayList<Ticket> getTickets(){
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 2; i++){
             tickets.add(ticketDeck.get(i));
             ticketDeck.remove(i);
         }
