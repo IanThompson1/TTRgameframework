@@ -12,7 +12,7 @@ public class TTRState extends GameState implements Serializable {
     //Tag for logging
     private static final String TAG = "TTTState";
     private static final long serialVersionUID = 7552321013488624386L;
-    private ArrayList<Ticket> shownTickets = null;
+    private ArrayList<Ticket> shownTickets;
     public enum CARD{
         WHITECARD,
         BLACKCARD,
@@ -292,6 +292,13 @@ public class TTRState extends GameState implements Serializable {
         }
 
         this.numPlayers = other.numPlayers;
+
+
+        this.shownTickets = new ArrayList<Ticket>(other.shownTickets.size());
+
+        for(Ticket x: other.shownTickets){
+            this.shownTickets.add(new Ticket(x));
+        }
     }
 
     //getter method for cardDeck

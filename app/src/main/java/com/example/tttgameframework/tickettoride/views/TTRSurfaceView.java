@@ -639,7 +639,7 @@ public class TTRSurfaceView extends SurfaceView {
 
 
         //shows ticket if there is tickets in shown ticket
-        if(shownTickets == null){
+        if(shownTickets == null || shownTickets.size() == 0){
             canvas.drawText("????????", 1710.f *Xratio, 980.f*Yratio, ticketTextPaint);
             canvas.drawText("????????", 1710.f *Xratio, 1130.f*Yratio, ticketTextPaint);
         } else {
@@ -701,7 +701,7 @@ public class TTRSurfaceView extends SurfaceView {
         shownTickets = state.getShownTickets();
         curTickets = player0.getTickets();
         curPath = p;
-        if(shownTickets == null){
+        if(shownTickets == null || shownTickets.size() == 0){
             System.out.println("Still empty");
         } else {
             System.out.println(shownTickets.get(0).toString());
