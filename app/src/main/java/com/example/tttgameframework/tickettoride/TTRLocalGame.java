@@ -62,7 +62,7 @@ public class TTRLocalGame extends LocalGame {
 
         //get players of players
         ArrayList<Player> players = state.getPlayers();
-
+        System.out.println("This is called?");
 
         //1. Check if game is over.
         //      Game is over if any 1 player runs out of trains.
@@ -145,7 +145,6 @@ public class TTRLocalGame extends LocalGame {
         }
 
         //Player winner = players.get(winnerID);
-
         //4. Generate and return message of who the winner is.
         return winnerID + " is the winner.";
 
@@ -218,6 +217,7 @@ public class TTRLocalGame extends LocalGame {
                 Collections.shuffle(shown);
                 //((DrawTickets) action).resetSelectedTickets(); this is a preference thing so might need it.
                 //increment who's turn
+                state.getPlayers().set(state.getWhosTurn(), user);
                 changeTurn(state);
             }
             System.out.println("True draw Tickets1");

@@ -560,6 +560,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 System.out.println(state.getPlayers().size());
                 System.out.println(state.getPlayers().get(0).getTickets().size());
                 System.out.println(state.getPlayers().get(0).getTickets().get(0).toString());
+                surfaceView.invalidate();
             } else {
                 //if the player did enter a action
                 System.out.println("ANGRY");
