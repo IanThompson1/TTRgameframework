@@ -85,10 +85,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         super(name);
         wilds = 0;
         path = null;
-        ArrayList<Boolean> selected = new ArrayList<Boolean>();
-        ArrayList<Integer> selectedTickets = new ArrayList<Integer>();
-        ArrayList<GameAction> turnActions = new ArrayList<GameAction>();
-        ArrayList<ImageButton> faceUpButtons = new ArrayList<ImageButton>();
+        selected = new ArrayList<Boolean>();
+        selectedTickets = new ArrayList<Integer>();
+        faceUpButtons = new ArrayList<ImageButton>();
+        turnActions = new ArrayList<GameAction>();
         for (int i = 0; i < 7; i++) {
             selected.add(false);
         }
