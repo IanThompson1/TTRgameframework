@@ -561,7 +561,7 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawRect(1485*Xratio, 855*Yratio, 1515*Xratio, 975*Yratio,hPaint(11));
         canvas.drawRect(1485*Xratio, 980*Yratio, 1515*Xratio, 1100*Yratio,hPaint(11));
         canvas.drawRect(1485*Xratio, 1105*Yratio, 1515*Xratio, 1225*Yratio,hPaint(11));
-        canvas.drawRect(1495*Xratio, 855*Yratio, 1505*Xratio*Xratio,1225*Yratio, ownerPaint(allPaths.get(11)));
+        canvas.drawRect(1495*Xratio, 855*Yratio, 1505*Xratio,1225*Yratio, ownerPaint(allPaths.get(11)));
         canvas.restore();
 
         //CoosBoy-Roseburg
