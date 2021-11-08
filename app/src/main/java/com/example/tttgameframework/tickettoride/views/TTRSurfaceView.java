@@ -40,6 +40,9 @@ public class TTRSurfaceView extends SurfaceView {
     private Paint otherInfoPaint;
     private Paint emptyPaint;
     private Paint highlightPaint;
+    private float Xratio;
+    private float Yratio;
+    private float Rratio;
 
     //instance variables that hold the players train counts
     private int player0Trains;
@@ -130,11 +133,15 @@ public class TTRSurfaceView extends SurfaceView {
         otherInfoPaint = new Paint(otherTrainCountPaint);
         otherInfoPaint.setARGB(255,255,255,255);
 
-
-
+        Xratio = (float) (25.0/32.0);
+        Yratio = (float) (2.0/3.0);
+        Rratio = Yratio;
     }
 
     protected void onDraw(Canvas canvas){
+        Xratio = (float) (25.0/32.0);
+        Yratio = (float) (2.0/3.0);
+        Rratio = Yratio;
 
         if(state == null){
             return;
@@ -144,46 +151,46 @@ public class TTRSurfaceView extends SurfaceView {
         float maxSize =2000;
         float ratio = Math.min((float)maxSize/image.getWidth(),(float)maxSize/image.getHeight());
         int width = Math.round((float)ratio*image.getWidth());
-        Bitmap newImage = Bitmap.createScaledBitmap(image,width,1300,true);
+        Bitmap newImage = Bitmap.createScaledBitmap(image,Math.round(width*Yratio),Math.round(1300*Xratio),true);
 
         //background
-        canvas.drawBitmap(newImage, 150.f, 0.f, redPaint);
+        canvas.drawBitmap(newImage, 150.f*Xratio, 0.f*Yratio, redPaint);
 
 
 
         //current player
-        canvas.drawCircle( 2225, 1425,75,white);
-        canvas.drawCircle( 2400, 1425,100,greenPaint);
-        canvas.drawText(String.valueOf(player0Trains), 2190, 1450, trainCountPaint);
+        canvas.drawCircle( 2225*Xratio, 1425*Yratio,75*Rratio,white);
+        canvas.drawCircle( 2400*Xratio, 1425*Yratio,100*Rratio,greenPaint);
+        canvas.drawText(String.valueOf(player0Trains), 2190*Xratio, 1450, trainCountPaint);
 
         //player 2
-        canvas.drawCircle(600,100,70,redPaint);
-        canvas.drawRect(600, 60, 900, 170,redPaint);
-        canvas.drawCircle(660,140,27,white);
-        canvas.drawText(String.valueOf(player1Trains), 645, 150, otherTrainCountPaint);
-        canvas.drawRect(720,70, 770, 110, drawTrainPaint);
-        canvas.drawText(String.valueOf(player1Cards), 790, 100, otherInfoPaint);
-        canvas.drawRect(720,120, 770, 160, ticketPaint);
-        canvas.drawText(String.valueOf(player1Tickets), 790, 150, otherInfoPaint);
+        canvas.drawCircle(600*Xratio,100*Yratio,70*Rratio,redPaint);
+        canvas.drawRect(600*Xratio, 60*Yratio, 900*Xratio, 170*Yratio,redPaint);
+        canvas.drawCircle(660*Xratio,140*Yratio,27*Rratio,white);
+        canvas.drawText(String.valueOf(player1Trains), 645*Xratio, 150*Yratio, otherTrainCountPaint);
+        canvas.drawRect(720*Xratio,70*Yratio, 770*Xratio, 110*Yratio, drawTrainPaint);
+        canvas.drawText(String.valueOf(player1Cards), 790*Xratio, 100*Yratio, otherInfoPaint);
+        canvas.drawRect(720*Xratio,120*Yratio, 770*Xratio, 160*Yratio, ticketPaint);
+        canvas.drawText(String.valueOf(player1Tickets), 790*Xratio, 150*Yratio, otherInfoPaint);
         //player 3
-        canvas.drawCircle(  1025,100,70,bluePaint);
-        canvas.drawRect(1025, 60, 1325, 170,bluePaint);
-        canvas.drawCircle(1085,140,27,white);
-        canvas.drawText(String.valueOf(player2Trains), 1070, 150, otherTrainCountPaint);
-        canvas.drawRect(1145,70, 1195, 110, drawTrainPaint);
-        canvas.drawText(String.valueOf(player2Cards), 1215, 100, otherInfoPaint);
-        canvas.drawRect(1145,120, 1195, 160, ticketPaint);
-        canvas.drawText(String.valueOf(player2Tickets), 1215, 150, otherInfoPaint);
+        canvas.drawCircle(  1025*Xratio,100*Yratio,70*Rratio,bluePaint);
+        canvas.drawRect(1025*Xratio, 60*Yratio, 1325*Xratio, 170*Yratio,bluePaint);
+        canvas.drawCircle(1085*Xratio,140*Yratio,27*Rratio,white);
+        canvas.drawText(String.valueOf(player2Trains), 1070*Xratio, 150*Yratio, otherTrainCountPaint);
+        canvas.drawRect(1145*Xratio,70*Yratio, 1195*Xratio, 110*Yratio, drawTrainPaint);
+        canvas.drawText(String.valueOf(player2Cards), 1215*Xratio, 100*Yratio, otherInfoPaint);
+        canvas.drawRect(1145*Xratio,120*Yratio, 1195*Xratio, 160*Yratio, ticketPaint);
+        canvas.drawText(String.valueOf(player2Tickets), 1215*Xratio, 150*Yratio, otherInfoPaint);
 
         //player 4
-        canvas.drawCircle(1450,100,70,yellowPaint);
-        canvas.drawRect(1450, 60, 1750, 170,yellowPaint);
-        canvas.drawCircle(1510,140,27,white);
-        canvas.drawText(String.valueOf(player3Trains), 1495, 150, otherTrainCountPaint);
-        canvas.drawRect(1570,70, 1620, 110, drawTrainPaint);
-        canvas.drawText(String.valueOf(player3Cards), 1640, 100, otherInfoPaint);
-        canvas.drawRect(1570,120, 1620, 160, ticketPaint);
-        canvas.drawText(String.valueOf(player3Tickets), 1640, 150, otherInfoPaint);
+        canvas.drawCircle(1450*Xratio,100*Yratio,70*Rratio,yellowPaint);
+        canvas.drawRect(1450*Xratio, 60*Yratio, 1750*Xratio, 170*Yratio,yellowPaint);
+        canvas.drawCircle(1510*Xratio,140*Yratio,27*Rratio,white);
+        canvas.drawText(String.valueOf(player3Trains), 1495*Xratio, 150*Yratio, otherTrainCountPaint);
+        canvas.drawRect(1570*Xratio,70*Yratio, 1620*Xratio, 110*Yratio, drawTrainPaint);
+        canvas.drawText(String.valueOf(player3Cards), 1640*Xratio, 100*Yratio, otherInfoPaint);
+        canvas.drawRect(1570*Xratio,120*Yratio, 1620*Xratio, 160*Yratio, ticketPaint);
+        canvas.drawText(String.valueOf(player3Tickets), 1640*Xratio, 150*Yratio, otherInfoPaint);
 
         /**
          * Board drawings
@@ -193,71 +200,71 @@ public class TTRSurfaceView extends SurfaceView {
          */
 
         //Astoria
-        canvas.drawCircle(400,120,25,white);
-        canvas.drawText("Astoria", 270, 130, textPaint);
+        canvas.drawCircle(400*Xratio,120*Yratio,25*Rratio,white);
+        canvas.drawText("Astoria", 270*Xratio, 130*Yratio, textPaint);
 
         //Tillamook
-        canvas.drawCircle(390, 300, 25, white);
-        canvas.drawText("Tillamook", 235, 310,textPaint);
+        canvas.drawCircle(390*Xratio, 300*Yratio, 25*Rratio, white);
+        canvas.drawText("Tillamook", 235*Xratio, 310*Yratio,textPaint);
 
         //Newport
-        canvas.drawCircle(360, 500, 25, white);
-        canvas.drawText("Newport", 220, 510, textPaint);
+        canvas.drawCircle(360*Xratio, 500*Yratio, 25*Rratio, white);
+        canvas.drawText("Newport", 220*Xratio, 510*Yratio, textPaint);
 
         //Coos Bay
-        canvas.drawCircle(320, 880  , 25,white);
-        canvas.drawText("Coos Bay", 165, 890, textPaint);
+        canvas.drawCircle(320*Xratio, 880*Yratio  , 25*Rratio,white);
+        canvas.drawText("Coos Bay", 165*Xratio, 890*Yratio, textPaint);
 
         //Portland
-        canvas.drawCircle(650,280, 25, white);
-        canvas.drawText("Portland", 660, 225, textPaint);
+        canvas.drawCircle(650*Xratio,280*Yratio, 25*Rratio, white);
+        canvas.drawText("Portland", 660*Xratio, 225*Yratio, textPaint);
 
         //Salem
-        canvas.drawCircle(600,420,25, white);
-        canvas.drawText("Salem", 640, 430, textPaint);
+        canvas.drawCircle(600*Xratio,420*Yratio,25*Rratio, white);
+        canvas.drawText("Salem", 640*Xratio, 430*Yratio, textPaint);
 
 
         //Eugene
-        canvas.drawCircle(570,670,25,white);
-        canvas.drawText("Eugene", 600, 710, textPaint);
+        canvas.drawCircle(570*Xratio,670*Yratio,25*Rratio,white);
+        canvas.drawText("Eugene", 600*Xratio, 710*Yratio, textPaint);
 
 
         //RoseBurg
-        canvas.drawCircle(530,920,25,white);
-        canvas.drawText("RoseBurg", 560, 930, textPaint);
+        canvas.drawCircle(530*Xratio,920*Yratio,25*Rratio,white);
+        canvas.drawText("RoseBurg", 560*Xratio, 930*Yratio, textPaint);
 
         //Grants Pass
-        canvas.drawCircle(520,1125,25,white);
-        canvas.drawText("Grants Pass", 450, 1180, textPaint);
+        canvas.drawCircle(520*Xratio,1125*Yratio,25*Rratio,white);
+        canvas.drawText("Grants Pass", 450*Xratio, 1180*Yratio, textPaint);
 
         //The Dalles
-        canvas.drawCircle(1000,270, 25, white);
-        canvas.drawText("The Dalles", 980, 230, textPaint);
+        canvas.drawCircle(1000*Xratio,270*Yratio, 25*Rratio, white);
+        canvas.drawText("The Dalles", 980*Xratio, 230*Yratio, textPaint);
 
         //Bend
-        canvas.drawCircle(1000,670, 25, white);
-        canvas.drawText("Bend", 1050, 670, textPaint);
+        canvas.drawCircle(1000*Xratio,670*Yratio, 25*Rratio, white);
+        canvas.drawText("Bend", 1050*Xratio, 670*Yratio, textPaint);
 
         //K Falls
-        canvas.drawCircle(880,1195,25, white);
-        canvas.drawText("K Falls", 920, 1160, textPaint);
+        canvas.drawCircle(880*Xratio,1195*Yratio,25*Rratio, white);
+        canvas.drawText("K Falls", 920*Xratio, 1160*Yratio, textPaint);
 
         //Pendelton
-        canvas.drawCircle(1560, 260, 25, white);
-        canvas.drawText("Pendleton", 1500, 230, textPaint);
+        canvas.drawCircle(1560*Xratio, 260*Yratio, 25*Rratio, white);
+        canvas.drawText("Pendleton", 1500*Xratio, 230*Yratio, textPaint);
 
         //La Grand
-        canvas.drawCircle(1750, 350,25, white);
-        canvas.drawText("La Grand", 1780, 360, textPaint );
+        canvas.drawCircle(1750*Xratio, 350*Yratio,25*Rratio, white);
+        canvas.drawText("La Grand", 1780*Xratio, 360*Yratio, textPaint );
 
         //Burns
-        canvas.drawCircle(1500, 820,25, white);
-        canvas.drawText("Burns", 1530, 830, textPaint);
+        canvas.drawCircle(1500*Xratio, 820*Yratio,25*Rratio, white);
+        canvas.drawText("Burns", 1530*Xratio, 830*Yratio, textPaint);
 
 
         //LakeView
-        canvas.drawCircle(1250,1195,25,white);
-        canvas.drawText("Lakeview",1280, 1205, textPaint);
+        canvas.drawCircle(1250*Xratio,1195*Yratio,25*Rratio,white);
+        canvas.drawText("Lakeview",1280*Xratio, 1205*Yratio, textPaint);
 
 
         /**
@@ -267,79 +274,79 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.save();
 
         //Astoria-Tillamook
-        canvas.drawRect(360,155, 390, 265, white);
+        canvas.drawRect(360*Xratio,155*Yratio, 390*Xratio, 265*Yratio, white);
         //draws if path is selected
-        canvas.drawRect(360,155, 390, 265, hPaint(18));
+        canvas.drawRect(360*Xratio,155*Yratio, 390*Xratio, 265*Yratio, hPaint(18));
         //draws if someone owns the path
-        canvas.drawRect(370,155, 380, 265, ownerPaint(allPaths.get(18)));
-        canvas.drawRect(395,155, 425, 265, orangePaint);
-        canvas.drawRect(395,155, 425, 265, hPaint(0));
-        canvas.drawRect(405,155, 415, 265, ownerPaint(allPaths.get(0)));
+        canvas.drawRect(370*Xratio,155*Yratio, 380*Xratio, 265*Yratio, ownerPaint(allPaths.get(18)));
+        canvas.drawRect(395*Xratio,155*Yratio, 425*Xratio, 265*Yratio, orangePaint);
+        canvas.drawRect(395*Xratio,155*Yratio, 425*Xratio, 265*Yratio, hPaint(0));
+        canvas.drawRect(405*Xratio,155*Yratio, 415*Xratio, 265*Yratio, ownerPaint(allPaths.get(0)));
 
 
         //Astoria-Portland
-        canvas.rotate(125, 400,120);
-        canvas.drawRect(355, -25,385,85,greyPaint);
-        canvas.drawRect(355, -140,385,-30,greyPaint);
-        canvas.drawRect(365,-140, 375, 85, ownerPaint(allPaths.get(24)));
-        canvas.drawRect(355, -25,385,85,hPaint(24));
-        canvas.drawRect(355, -140,385,-30,hPaint(24));
-        canvas.drawRect(390, -25,420,85,greyPaint);
-        canvas.drawRect(390, -140,420,-30,greyPaint);
-        canvas.drawRect(400,-140, 410, 85, ownerPaint(allPaths.get(25)));
-        canvas.drawRect(390, -25,420,85,hPaint(25));
-        canvas.drawRect(390, -140,420,-30,hPaint(25));
+        canvas.rotate(125, 400*Xratio,120*Yratio);
+        canvas.drawRect(355*Xratio, -25*Yratio,385*Xratio,85*Yratio,greyPaint);
+        canvas.drawRect(355*Xratio,-140*Yratio,385*Xratio,-30*Yratio,greyPaint);
+        canvas.drawRect(365*Xratio,-140*Yratio, 375*Xratio, 85*Yratio, ownerPaint(allPaths.get(24)));
+        canvas.drawRect(355*Xratio, -25*Yratio,385*Xratio,85*Yratio,hPaint(24));
+        canvas.drawRect(355*Xratio, -140*Yratio,385*Xratio,-30*Yratio,hPaint(24));
+        canvas.drawRect(390*Xratio, -25*Yratio,420*Xratio,85*Yratio,greyPaint);
+        canvas.drawRect(390*Xratio, -140*Yratio,420*Xratio,-30*Yratio,greyPaint);
+        canvas.drawRect(400*Xratio,-140*Yratio, 410*Xratio, 85*Yratio, ownerPaint(allPaths.get(25)));
+        canvas.drawRect(390*Xratio, -25*Yratio,420*Xratio,85*Yratio,hPaint(25));
+        canvas.drawRect(390*Xratio, -140*Yratio,420*Xratio,-30*Yratio,hPaint(25));
         canvas.restore();
         //found how to rotate on stack overflow
 
         //Tillamook-Portland
         canvas.save();
-        canvas.rotate(87, 390,300);
-        canvas.drawRect(350,135, 380, 265,pinkPaint);
-        canvas.drawRect(350,135, 380, 265,hPaint(6));
-        canvas.drawRect(360,135, 370, 265, ownerPaint(allPaths.get(6)));
-        canvas.drawRect(385,135, 415, 265,blackPaint );
-        canvas.drawRect(385,135, 415, 265,hPaint(12) );
-        canvas.drawRect(395,135, 405, 265,ownerPaint(allPaths.get(12)));
+        canvas.rotate(87, 390*Xratio,300*Yratio);
+        canvas.drawRect(350*Xratio,135*Yratio, 380*Xratio, 265*Yratio,pinkPaint);
+        canvas.drawRect(350*Xratio,135*Yratio, 380*Xratio, 265*Yratio,hPaint(6));
+        canvas.drawRect(360*Xratio,135*Yratio, 370*Xratio, 265*Yratio, ownerPaint(allPaths.get(6)));
+        canvas.drawRect(385*Xratio,135*Yratio, 415*Xratio, 265*Yratio,blackPaint );
+        canvas.drawRect(385*Xratio,135*Yratio, 415*Xratio, 265*Yratio,hPaint(12) );
+        canvas.drawRect(395*Xratio,135*Yratio, 405*Xratio, 265*Yratio,ownerPaint(allPaths.get(12)));
 
         canvas.restore();
 
         //Tillamook-Newport
         canvas.save();
-        canvas.rotate(5,390,300);
-        canvas.drawRect(345, 335,375,465, greyPaint);
-        canvas.drawRect(345, 335,375,465, hPaint(30));
-        canvas.drawRect(355, 334, 365,465, ownerPaint(allPaths.get(30)));
-        canvas.drawRect(380, 335,410,465, greyPaint);
-        canvas.drawRect(380, 335,410,465, hPaint(31));
-        canvas.drawRect(390, 334, 400,465, ownerPaint(allPaths.get(31)));
+        canvas.rotate(5,390*Xratio,300*Yratio);
+        canvas.drawRect(345*Xratio, 335*Yratio,375*Xratio,465*Yratio, greyPaint);
+        canvas.drawRect(345*Xratio, 335*Yratio,375*Xratio,465*Yratio, hPaint(30));
+        canvas.drawRect(355*Xratio, 334*Yratio, 365*Xratio,465*Yratio, ownerPaint(allPaths.get(30)));
+        canvas.drawRect(380*Xratio, 335*Yratio,410*Xratio,465*Yratio, greyPaint);
+        canvas.drawRect(380*Xratio, 335*Yratio,410*Xratio,465*Yratio, hPaint(31));
+        canvas.drawRect(390*Xratio, 334*Yratio, 400*Xratio,465*Yratio, ownerPaint(allPaths.get(31)));
 
         canvas.restore();
 
         //Portland-The Dalles
         canvas.save();
-        canvas.rotate(89, 650,280);
-        canvas.drawRect(610,110, 640, 235,orangePaint );
-        canvas.drawRect(610,  -20, 640, 105,orangePaint );
-        canvas.drawRect(610,110, 640, 235,hPaint(1) );
-        canvas.drawRect(610,  -20, 640, 105,hPaint(1) );
-        canvas.drawRect(620, -20, 630,235, ownerPaint(allPaths.get(1)));
-        canvas.drawRect(645,110, 675, 235,pinkPaint );
-        canvas.drawRect(645,-20, 675, 105,pinkPaint );
-        canvas.drawRect(645,110, 675, 235,hPaint(7) );
-        canvas.drawRect(645,-20, 675, 105,hPaint(7) );
-        canvas.drawRect(655, -20, 665,235, ownerPaint(allPaths.get(7)));
+        canvas.rotate(89, 650*Xratio,280*Yratio);
+        canvas.drawRect(610*Xratio,110*Yratio, 640*Xratio, 235*Yratio,orangePaint );
+        canvas.drawRect(610*Xratio,  -20*Yratio, 640*Xratio, 105*Yratio,orangePaint );
+        canvas.drawRect(610*Xratio,110*Yratio, 640*Xratio, 235*Yratio,hPaint(1) );
+        canvas.drawRect(610*Xratio,  -20*Yratio, 640*Xratio, 105*Yratio,hPaint(1) );
+        canvas.drawRect(620*Xratio, -20*Yratio, 630*Xratio,235*Yratio, ownerPaint(allPaths.get(1)));
+        canvas.drawRect(645*Xratio,110*Yratio, 675*Xratio, 235*Yratio,pinkPaint );
+        canvas.drawRect(645*Xratio,-20*Yratio, 675*Xratio, 105*Yratio,pinkPaint );
+        canvas.drawRect(645*Xratio,110*Yratio, 675*Xratio, 235*Yratio,hPaint(7) );
+        canvas.drawRect(645*Xratio,-20*Yratio, 675*Xratio, 105*Yratio,hPaint(7) );
+        canvas.drawRect(655*Xratio, -20*Yratio, 665*Xratio,235*Yratio, ownerPaint(allPaths.get(7)));
         canvas.restore();
 
         //Portland-Salem
         canvas.save();
-        canvas.rotate(15,650,280);
-        canvas.drawRect(615, 315, 645,410, greyPaint);
-        canvas.drawRect(615, 315, 645,410, hPaint(26));
-        canvas.drawRect(625, 315, 635,410, ownerPaint(allPaths.get(26)));
-        canvas.drawRect(650, 315, 680,410, greyPaint);
-        canvas.drawRect(615, 315, 645,410, hPaint(27));
-        canvas.drawRect(660, 315, 670,410, ownerPaint(allPaths.get(27)));
+        canvas.rotate(15,650*Xratio,280*Yratio);
+        canvas.drawRect(615*Xratio, 315*Yratio, 645*Xratio,410*Yratio, greyPaint);
+        canvas.drawRect(615*Xratio, 315*Yratio, 645*Xratio,410*Yratio, hPaint(26));
+        canvas.drawRect(625*Xratio, 315*Yratio, 635*Xratio,410*Yratio, ownerPaint(allPaths.get(26)));
+        canvas.drawRect(650*Xratio, 315*Yratio, 680*Xratio,410*Yratio, greyPaint);
+        canvas.drawRect(615*Xratio, 315*Yratio, 645*Xratio,410*Yratio, hPaint(27));
+        canvas.drawRect(660*Xratio, 315*Yratio, 670*Xratio,410*Yratio, ownerPaint(allPaths.get(27)));
 
 
 
@@ -347,278 +354,278 @@ public class TTRSurfaceView extends SurfaceView {
 
         //The Dalles- Pendleton
         canvas.save();
-        canvas.rotate(270,1000,270);
-        canvas.drawRect(965, 315, 995, 440, blackPaint);
-        canvas.drawRect(965, 445, 995, 570, blackPaint);
-        canvas.drawRect(965, 575, 995, 700, blackPaint);
-        canvas.drawRect(965, 315, 995, 440, hPaint(13));
-        canvas.drawRect(965, 445, 995, 570, hPaint(13));
-        canvas.drawRect(965, 575, 995, 700, hPaint(13));
-        canvas.drawRect(975, 315, 985,700, ownerPaint(allPaths.get(13)));
-        canvas.drawRect(1000, 315, 1030, 440, white);
-        canvas.drawRect(1000, 445, 1030, 570, white);
-        canvas.drawRect(1000, 575, 1030, 700, white);
-        canvas.drawRect(1000, 315, 1030, 440, hPaint(19));
-        canvas.drawRect(1000, 445, 1030, 570, hPaint(19));
-        canvas.drawRect(1000, 575, 1030, 700, hPaint(19));
-        canvas.drawRect(1010, 315, 1020,700, ownerPaint(allPaths.get(19)));
+        canvas.rotate(270,1000*Xratio,270*Yratio);
+        canvas.drawRect(965*Xratio, 315*Yratio, 995*Xratio, 440*Yratio, blackPaint);
+        canvas.drawRect(965*Xratio, 445*Yratio, 995*Xratio, 570*Yratio, blackPaint);
+        canvas.drawRect(965*Xratio, 575*Yratio, 995*Xratio, 700*Yratio, blackPaint);
+        canvas.drawRect(965*Xratio, 315*Yratio, 995*Xratio, 440*Yratio, hPaint(13));
+        canvas.drawRect(965*Xratio, 445*Yratio, 995*Xratio, 570*Yratio, hPaint(13));
+        canvas.drawRect(965*Xratio, 575*Yratio, 995*Xratio, 700*Yratio, hPaint(13));
+        canvas.drawRect(975*Xratio, 315*Yratio, 985*Xratio,700*Yratio, ownerPaint(allPaths.get(13)));
+        canvas.drawRect(1000*Xratio, 315*Yratio, 1030*Xratio, 440*Yratio, white);
+        canvas.drawRect(1000*Xratio, 445*Yratio, 1030*Xratio, 570*Yratio, white);
+        canvas.drawRect(1000*Xratio, 575*Yratio, 1030*Xratio, 700*Yratio, white);
+        canvas.drawRect(1000*Xratio, 315*Yratio, 1030*Xratio, 440*Yratio, hPaint(19));
+        canvas.drawRect(1000*Xratio, 445*Yratio, 1030*Xratio, 570*Yratio, hPaint(19));
+        canvas.drawRect(1000*Xratio, 575*Yratio, 1030*Xratio, 700*Yratio, hPaint(19));
+        canvas.drawRect(1010*Xratio, 315*Yratio, 1020*Xratio,700*Yratio, ownerPaint(allPaths.get(19)));
         canvas.restore();
 
         //The Dalles- Bend
-        canvas.drawRect(965, 305,995,415, greyPaint);
-        canvas.drawRect(965, 420,995,530, greyPaint);
-        canvas.drawRect(965, 535,995,645, greyPaint);
-        canvas.drawRect(965, 305,995,415, hPaint(28));
-        canvas.drawRect(965, 420,995,530, hPaint(28));
-        canvas.drawRect(965, 535,995,645, hPaint(28));
-        canvas.drawRect(975, 305, 985,645, ownerPaint(allPaths.get(28)));
-        canvas.drawRect(1000, 305,1030,415, greyPaint);
-        canvas.drawRect(1000, 420,1030,530, greyPaint);
-        canvas.drawRect(1000, 535,1030,645, greyPaint);
-        canvas.drawRect(1000, 305,1030,415, hPaint(29));
-        canvas.drawRect(1000, 420,1030,530, hPaint(29));
-        canvas.drawRect(1000, 535,1030,645, hPaint(29));
-        canvas.drawRect(1010, 305, 1020,645, ownerPaint(allPaths.get(29)));
+        canvas.drawRect(965*Xratio, 305*Yratio,995*Xratio,415*Yratio, greyPaint);
+        canvas.drawRect(965*Xratio, 420*Yratio,995*Xratio,530*Yratio, greyPaint);
+        canvas.drawRect(965*Xratio, 535*Yratio,995*Xratio,645*Yratio, greyPaint);
+        canvas.drawRect(965*Xratio, 305*Yratio,995*Xratio,415*Yratio, hPaint(28));
+        canvas.drawRect(965*Xratio, 420*Yratio,995*Xratio,530*Yratio, hPaint(28));
+        canvas.drawRect(965*Xratio, 535*Yratio,995*Xratio,645*Yratio, hPaint(28));
+        canvas.drawRect(975*Xratio, 305*Yratio, 985*Xratio,645*Yratio, ownerPaint(allPaths.get(28)));
+        canvas.drawRect(1000*Xratio, 305*Yratio,1030*Xratio,415*Yratio, greyPaint);
+        canvas.drawRect(1000*Xratio, 420*Yratio,1030*Xratio,530*Yratio, greyPaint);
+        canvas.drawRect(1000*Xratio, 535*Yratio,1030*Xratio,645*Yratio, greyPaint);
+        canvas.drawRect(1000*Xratio, 305*Yratio,1030*Xratio,415*Yratio, hPaint(29));
+        canvas.drawRect(1000*Xratio, 420*Yratio,1030*Xratio,530*Yratio, hPaint(29));
+        canvas.drawRect(1000*Xratio, 535*Yratio,1030*Xratio,645*Yratio, hPaint(29));
+        canvas.drawRect(1010*Xratio, 305*Yratio, 1020*Xratio,645*Yratio, ownerPaint(allPaths.get(29)));
 
 
         //Pendleton-Bend
         canvas.save();
-        canvas.rotate(53, 1560,260);
-        canvas.drawRect( 1545, 300, 1575, 440, pinkPaint);
-        canvas.drawRect( 1545, 445, 1575, 585, pinkPaint);
-        canvas.drawRect( 1545, 590, 1575, 730, pinkPaint);
-        canvas.drawRect( 1545, 735, 1575, 875, pinkPaint);
-        canvas.drawRect( 1545, 300, 1575, 440, hPaint(10));
-        canvas.drawRect( 1545, 445, 1575, 585, hPaint(10));
-        canvas.drawRect( 1545, 590, 1575, 730, hPaint(10));
-        canvas.drawRect( 1545, 735, 1575, 875, hPaint(10));
-        canvas.drawRect(1555, 300, 1565,875, ownerPaint(allPaths.get(10)));
+        canvas.rotate(53, 1560*Xratio,260*Yratio);
+        canvas.drawRect( 1545*Xratio, 300*Yratio, 1575*Xratio, 440*Yratio, pinkPaint);
+        canvas.drawRect( 1545*Xratio, 445*Yratio, 1575*Xratio, 585*Yratio, pinkPaint);
+        canvas.drawRect( 1545*Xratio, 590*Yratio, 1575*Xratio, 730*Yratio, pinkPaint);
+        canvas.drawRect( 1545*Xratio, 735*Yratio, 1575*Xratio, 875*Yratio, pinkPaint);
+        canvas.drawRect( 1545*Xratio, 300*Yratio, 1575*Xratio, 440*Yratio, hPaint(10));
+        canvas.drawRect( 1545*Xratio, 445*Yratio, 1575*Xratio, 585*Yratio, hPaint(10));
+        canvas.drawRect( 1545*Xratio, 590*Yratio, 1575*Xratio, 730*Yratio, hPaint(10));
+        canvas.drawRect( 1545*Xratio, 735*Yratio, 1575*Xratio, 875*Yratio, hPaint(10));
+        canvas.drawRect(1555*Xratio, 300*Yratio, 1565*Xratio,875*Yratio, ownerPaint(allPaths.get(10)));
 
 
         canvas.restore();
 
         //Pendleton-La Grand
         canvas.save();
-        canvas.rotate(-65,1560,260);
-        canvas.drawRect(1515, 295, 1545, 420,orangePaint);
-        canvas.drawRect(1515, 295, 1545, 420,hPaint(3));
-        canvas.drawRect(1525, 295, 1535,420, ownerPaint(allPaths.get(3)));
-        canvas.drawRect(1550, 295, 1580, 420, blackPaint);
-        canvas.drawRect(1550, 295, 1580, 420, hPaint(14));
-        canvas.drawRect(1560, 295, 1570,420, ownerPaint(allPaths.get(14)));
+        canvas.rotate(-65,1560*Xratio,260*Yratio);
+        canvas.drawRect(1515*Xratio, 295*Yratio, 1545*Xratio, 420*Yratio,orangePaint);
+        canvas.drawRect(1515*Xratio, 295*Yratio, 1545*Xratio, 420*Yratio,hPaint(3));
+        canvas.drawRect(1525*Xratio, 295*Yratio, 1535*Xratio,420*Yratio, ownerPaint(allPaths.get(3)));
+        canvas.drawRect(1550*Xratio, 295*Yratio, 1580*Xratio, 420*Yratio, blackPaint);
+        canvas.drawRect(1550*Xratio, 295*Yratio, 1580*Xratio, 420*Yratio, hPaint(14));
+        canvas.drawRect(1560*Xratio, 295*Yratio, 1570*Xratio,420*Yratio, ownerPaint(allPaths.get(14)));
         canvas.restore();
 
         //Newport-Salem
         canvas.save();
-        canvas.rotate(-108,360,500);
-        canvas.drawRect(345,535,375,630, greyPaint);
-        canvas.drawRect(345,635,375,730, greyPaint);
-        canvas.drawRect(345,535,375,630, hPaint(37));
-        canvas.drawRect(345,635,375,730, hPaint(37));
-        canvas.drawRect(355, 535, 365,730, ownerPaint(allPaths.get(37)));
+        canvas.rotate(-108,360*Xratio,500*Yratio);
+        canvas.drawRect(345*Xratio,535*Yratio,375*Xratio,630*Yratio, greyPaint);
+        canvas.drawRect(345*Xratio,635*Yratio,375*Xratio,730*Yratio, greyPaint);
+        canvas.drawRect(345*Xratio,535*Yratio,375*Xratio,630*Yratio, hPaint(37));
+        canvas.drawRect(345*Xratio,635*Yratio,375*Xratio,730*Yratio, hPaint(37));
+        canvas.drawRect(355*Xratio, 535*Yratio, 365*Xratio,730*Yratio, ownerPaint(allPaths.get(37)));
 
         canvas.restore();
 
         //Newport-CoosBoy
         canvas.save();
-        canvas.rotate(7,360,500);
-        canvas.drawRect(345,535,375,635,pinkPaint);
-        canvas.drawRect(345,640,375,740,pinkPaint);
-        canvas.drawRect(345,745,375,845,pinkPaint);
-        canvas.drawRect(345,535,375,635,hPaint(8));
-        canvas.drawRect(345,640,375,740,hPaint(8));
-        canvas.drawRect(345,745,375,845,hPaint(8));
-        canvas.drawRect(355, 535, 365,845, ownerPaint(allPaths.get(8)));
+        canvas.rotate(7,360*Xratio,500*Yratio);
+        canvas.drawRect(345*Xratio,535*Yratio,375*Xratio,635*Yratio,pinkPaint);
+        canvas.drawRect(345*Xratio,640*Yratio,375*Xratio,740*Yratio,pinkPaint);
+        canvas.drawRect(345*Xratio,745*Yratio,375*Xratio,845*Yratio,pinkPaint);
+        canvas.drawRect(345*Xratio,535*Yratio,375*Xratio,635*Yratio,hPaint(8));
+        canvas.drawRect(345*Xratio,640*Yratio,375*Xratio,740*Yratio,hPaint(8));
+        canvas.drawRect(345*Xratio,745*Yratio,375*Xratio,845*Yratio,hPaint(8));
+        canvas.drawRect(355*Xratio, 535*Yratio, 365*Xratio,845*Yratio, ownerPaint(allPaths.get(8)));
         canvas.restore();
 
         //Newport-Eugene
         canvas.save();
-        canvas.rotate(-52,360,500);
-        canvas.drawRect(345,535,375,630,white);
-        canvas.drawRect(345,635,375,730,white);
-        canvas.drawRect(345,535,375,630,hPaint(21));
-        canvas.drawRect(345,635,375,730,hPaint(21));
-        canvas.drawRect(355, 535, 365,730, ownerPaint(allPaths.get(21)));
+        canvas.rotate(-52,360*Xratio,500*Yratio);
+        canvas.drawRect(345*Xratio,535*Yratio,375*Xratio,630*Yratio,white);
+        canvas.drawRect(345*Xratio,635*Yratio,375*Xratio,730*Yratio,white);
+        canvas.drawRect(345*Xratio,535*Yratio,375*Xratio,630*Yratio,hPaint(21));
+        canvas.drawRect(345*Xratio,635*Yratio,375*Xratio,730*Yratio,hPaint(21));
+        canvas.drawRect(355*Xratio, 535*Yratio, 365*Xratio,730*Yratio, ownerPaint(allPaths.get(21)));
 
         canvas.restore();
 
         //Salem-Eugene
         canvas.save();
-        canvas.rotate(5,600,420);
-        canvas.drawRect(565,455, 595,550,blackPaint);
-        canvas.drawRect(565,555, 595,650, blackPaint);
-        canvas.drawRect(565,455, 595,550,hPaint(15));
-        canvas.drawRect(565,555, 595,650, hPaint(15));
-        canvas.drawRect(575, 455, 585,650, ownerPaint(allPaths.get(15)));
-        canvas.drawRect(600,455, 630,550, orangePaint);
-        canvas.drawRect(600,555, 630,650, orangePaint);
-        canvas.drawRect(600,455, 630,550, hPaint(2));
-        canvas.drawRect(600,555, 630,650, hPaint(2));
-        canvas.drawRect(610, 455, 620,650, ownerPaint(allPaths.get(2)));
+        canvas.rotate(5,600*Xratio,420*Yratio);
+        canvas.drawRect(565*Xratio,455*Yratio, 595*Xratio,550*Yratio,blackPaint);
+        canvas.drawRect(565*Xratio,555*Yratio, 595*Xratio,650*Yratio, blackPaint);
+        canvas.drawRect(565*Xratio,455*Yratio, 595*Xratio,550*Yratio,hPaint(15));
+        canvas.drawRect(565*Xratio,555*Yratio, 595*Xratio,650*Yratio, hPaint(15));
+        canvas.drawRect(575*Xratio, 455*Yratio, 585*Xratio,650*Yratio, ownerPaint(allPaths.get(15)));
+        canvas.drawRect(600*Xratio,455*Yratio, 630*Xratio,550*Yratio, orangePaint);
+        canvas.drawRect(600*Xratio,555*Yratio, 630*Xratio,650*Yratio, orangePaint);
+        canvas.drawRect(600*Xratio,455*Yratio, 630*Xratio,550*Yratio, hPaint(2));
+        canvas.drawRect(600*Xratio,555*Yratio, 630*Xratio,650*Yratio, hPaint(2));
+        canvas.drawRect(610*Xratio, 455*Yratio, 620*Xratio,650*Yratio, ownerPaint(allPaths.get(2)));
 
         canvas.restore();
 
         //Salem-Bend
         canvas.save();
-        canvas.rotate(-57,600,420);
-        canvas.drawRect(585,455, 615,580, white);
-        canvas.drawRect(585,585, 615,710, white);
-        canvas.drawRect(585,715, 615,840, white);
-        canvas.drawRect(585,455, 615,580, hPaint(20));
-        canvas.drawRect(585,585, 615,710, hPaint(20));
-        canvas.drawRect(585,715, 615,840, hPaint(20));
-        canvas.drawRect(595, 455, 605,840, ownerPaint(allPaths.get(20)));
+        canvas.rotate(-57,600*Xratio,420*Yratio);
+        canvas.drawRect(585*Xratio,455*Yratio, 615*Xratio,580*Yratio, white);
+        canvas.drawRect(585*Xratio,585*Yratio, 615*Xratio,710*Yratio, white);
+        canvas.drawRect(585*Xratio,715*Yratio, 615*Xratio,840*Yratio, white);
+        canvas.drawRect(585*Xratio,455*Yratio, 615*Xratio,580*Yratio, hPaint(20));
+        canvas.drawRect(585*Xratio,585*Yratio, 615*Xratio,710*Yratio, hPaint(20));
+        canvas.drawRect(585*Xratio,715*Yratio, 615*Xratio,840*Yratio, hPaint(20));
+        canvas.drawRect(595*Xratio, 455*Yratio, 605*Xratio,840*Yratio, ownerPaint(allPaths.get(20)));
         canvas.restore();
 
         //LaGrand-Burns
         canvas.save();
-        canvas.rotate(28,1750,350);
-        canvas.drawRect(1735, 385, 1765, 495, orangePaint);
-        canvas.drawRect(1735, 500, 1765, 610, orangePaint);
-        canvas.drawRect(1735, 615, 1765, 725, orangePaint);
-        canvas.drawRect(1735, 730, 1765, 840, orangePaint);
-        canvas.drawRect(1735, 385, 1765, 495, hPaint(4));
-        canvas.drawRect(1735, 500, 1765, 610, hPaint(4));
-        canvas.drawRect(1735, 615, 1765, 725, hPaint(4));
-        canvas.drawRect(1735, 730, 1765, 840, hPaint(4));
-        canvas.drawRect(1745, 385, 1755,840, ownerPaint(allPaths.get(4)));
+        canvas.rotate(28,1750*Xratio,350*Yratio);
+        canvas.drawRect(1735*Xratio, 385*Yratio, 1765*Xratio, 495*Yratio, orangePaint);
+        canvas.drawRect(1735*Xratio, 500*Yratio, 1765*Xratio, 610*Yratio, orangePaint);
+        canvas.drawRect(1735*Xratio, 615*Yratio, 1765*Xratio, 725*Yratio, orangePaint);
+        canvas.drawRect(1735*Xratio, 730*Yratio, 1765*Xratio, 840*Yratio, orangePaint);
+        canvas.drawRect(1735*Xratio, 385*Yratio, 1765*Xratio, 495*Yratio, hPaint(4));
+        canvas.drawRect(1735*Xratio, 500*Yratio, 1765*Xratio, 610*Yratio, hPaint(4));
+        canvas.drawRect(1735*Xratio, 615*Yratio, 1765*Xratio, 725*Yratio, hPaint(4));
+        canvas.drawRect(1735*Xratio, 730*Yratio, 1765*Xratio, 840*Yratio, hPaint(4));
+        canvas.drawRect(1745*Xratio, 385*Yratio, 1755*Xratio,840*Yratio, ownerPaint(allPaths.get(4)));
         canvas.restore();
 
         //Euguene-Bend
         canvas.save();
-        canvas.rotate(-89,570,670);
-        canvas.drawRect(555, 720, 585, 885, pinkPaint);
-        canvas.drawRect(555, 890, 585, 1050,pinkPaint);
-        canvas.drawRect(555, 720, 585, 885, hPaint(9));
-        canvas.drawRect(555, 890, 585, 1050,hPaint(9));
-        canvas.drawRect(565, 720, 575,1050, ownerPaint(allPaths.get(9)));
+        canvas.rotate(-89,570*Xratio,670*Yratio);
+        canvas.drawRect(555*Xratio, 720*Yratio, 585*Xratio, 885*Yratio, pinkPaint);
+        canvas.drawRect(555*Xratio, 890*Yratio, 585*Xratio, 1050*Yratio,pinkPaint);
+        canvas.drawRect(555*Xratio, 720*Yratio, 585*Xratio, 885*Yratio, hPaint(9));
+        canvas.drawRect(555*Xratio, 890*Yratio, 585*Xratio, 1050*Yratio,hPaint(9));
+        canvas.drawRect(565*Xratio, 720*Yratio, 575*Xratio,1050*Yratio, ownerPaint(allPaths.get(9)));
         canvas.restore();
 
         //Eugene-Roseburg
         canvas.save();
-        canvas.rotate(7,570,670);
-        canvas.drawRect(530, 705, 560, 800, greyPaint);
-        canvas.drawRect(530, 805, 560, 900, greyPaint);
-        canvas.drawRect(530, 705, 560, 800, hPaint(32));
-        canvas.drawRect(530, 805, 560, 900, hPaint(32));
-        canvas.drawRect(540, 705, 550,900, ownerPaint(allPaths.get(32)));
-        canvas.drawRect(565, 705, 595, 800, greyPaint);
-        canvas.drawRect(565, 805, 595, 900, greyPaint);
-        canvas.drawRect(565, 705, 595, 800, hPaint(33));
-        canvas.drawRect(565, 805, 595, 900, hPaint(33));
-        canvas.drawRect(575, 705, 585,900, ownerPaint(allPaths.get(33)));
+        canvas.rotate(7,570*Xratio,670*Yratio);
+        canvas.drawRect(530*Xratio, 705*Yratio, 560*Xratio, 800*Yratio, greyPaint);
+        canvas.drawRect(530*Xratio, 805*Yratio, 560*Xratio, 900*Yratio, greyPaint);
+        canvas.drawRect(530*Xratio, 705*Yratio, 560*Xratio, 800*Yratio, hPaint(32));
+        canvas.drawRect(530*Xratio, 805*Yratio, 560*Xratio, 900*Yratio, hPaint(32));
+        canvas.drawRect(540*Xratio, 705*Yratio, 550*Xratio,900*Yratio, ownerPaint(allPaths.get(32)));
+        canvas.drawRect(565*Xratio, 705*Yratio, 595*Xratio, 800*Yratio, greyPaint);
+        canvas.drawRect(565*Xratio, 805*Yratio, 595*Xratio, 900*Yratio, greyPaint);
+        canvas.drawRect(565*Xratio, 705*Yratio, 595*Xratio, 800*Yratio, hPaint(33));
+        canvas.drawRect(565*Xratio, 805*Yratio, 595*Xratio, 900*Yratio, hPaint(33));
+        canvas.drawRect(575*Xratio, 705*Yratio, 585*Xratio,900*Yratio, ownerPaint(allPaths.get(33)));
         canvas.restore();
 
         //Bend-KFalls
         canvas.save();
-        canvas.rotate(12,1000,670);
-        canvas.drawRect(985, 705, 1015, 820,orangePaint);
-        canvas.drawRect(985, 825, 1015, 940,orangePaint);
-        canvas.drawRect(985, 945, 1015, 1060,orangePaint);
-        canvas.drawRect(985, 1065, 1015, 1180,orangePaint);
-        canvas.drawRect(985, 705, 1015, 820,hPaint(38));
-        canvas.drawRect(985, 825, 1015, 940,hPaint(38));
-        canvas.drawRect(985, 945, 1015, 1060,hPaint(38));
-        canvas.drawRect(985, 1065, 1015, 1180,hPaint(38));
-        canvas.drawRect(995, 705, 1005,1180, ownerPaint(allPaths.get(38)));
+        canvas.rotate(12,1000*Xratio,670*Yratio);
+        canvas.drawRect(985*Xratio, 705*Yratio, 1015*Xratio, 820*Yratio,orangePaint);
+        canvas.drawRect(985*Xratio, 825*Yratio, 1015*Xratio, 940*Yratio,orangePaint);
+        canvas.drawRect(985*Xratio, 945*Yratio, 1015*Xratio, 1060*Yratio,orangePaint);
+        canvas.drawRect(985*Xratio, 1065*Yratio, 1015*Xratio, 1180*Yratio,orangePaint);
+        canvas.drawRect(985*Xratio, 705*Yratio, 1015*Xratio, 820*Yratio,hPaint(38));
+        canvas.drawRect(985*Xratio, 825*Yratio, 1015*Xratio, 940*Yratio,hPaint(38));
+        canvas.drawRect(985*Xratio, 945*Yratio, 1015*Xratio, 1060*Yratio,hPaint(38));
+        canvas.drawRect(985*Xratio, 1065*Yratio, 1015*Xratio, 1180*Yratio,hPaint(38));
+        canvas.drawRect(995*Xratio, 705*Yratio, 1005*Xratio,1180*Yratio, ownerPaint(allPaths.get(38)));
 
         canvas.restore();
 
         //Bend-Burns
         canvas.save();
-        canvas.rotate(-73, 1000,670);
-        canvas.drawRect(985, 710, 1015, 845,greyPaint);
-        canvas.drawRect(985, 850, 1015, 985,greyPaint);
-        canvas.drawRect(985, 990, 1015, 1120,greyPaint);
-        canvas.drawRect(985, 710, 1015, 845,hPaint(36));
-        canvas.drawRect(985, 850, 1015, 985,hPaint(36));
-        canvas.drawRect(985, 990, 1015, 1120,hPaint(36));
-        canvas.drawRect(995, 710, 1005,1120, ownerPaint(allPaths.get(36)));
+        canvas.rotate(-73, 1000*Xratio,670*Yratio);
+        canvas.drawRect(985*Xratio, 710*Yratio, 1015*Xratio, 845*Yratio,greyPaint);
+        canvas.drawRect(985*Xratio, 850*Yratio, 1015*Xratio, 985*Yratio,greyPaint);
+        canvas.drawRect(985*Xratio, 990*Yratio, 1015*Xratio, 1120*Yratio,greyPaint);
+        canvas.drawRect(985*Xratio, 710*Yratio, 1015*Xratio, 845*Yratio,hPaint(36));
+        canvas.drawRect(985*Xratio, 850*Yratio, 1015*Xratio, 985*Yratio,hPaint(36));
+        canvas.drawRect(985*Xratio, 990*Yratio, 1015*Xratio, 1120*Yratio,hPaint(36));
+        canvas.drawRect(995*Xratio, 710*Yratio, 1005*Xratio,1120*Yratio, ownerPaint(allPaths.get(36)));
         canvas.restore();
 
         //Burns-Lakeview
         canvas.save();
-        canvas.rotate(33,1500, 820);
-        canvas.drawRect(1485, 855, 1515, 975,pinkPaint);
-        canvas.drawRect(1485, 980, 1515, 1100,pinkPaint);
-        canvas.drawRect(1485, 1105, 1515, 1225,pinkPaint);
-        canvas.drawRect(1485, 855, 1515, 975,hPaint(11));
-        canvas.drawRect(1485, 980, 1515, 1100,hPaint(11));
-        canvas.drawRect(1485, 1105, 1515, 1225,hPaint(11));
-        canvas.drawRect(1495, 855, 1505,1225, ownerPaint(allPaths.get(11)));
+        canvas.rotate(33,1500*Xratio, 820*Yratio);
+        canvas.drawRect(1485*Xratio, 855*Yratio, 1515*Xratio, 975*Yratio,pinkPaint);
+        canvas.drawRect(1485*Xratio, 980*Yratio, 1515*Xratio, 1100*Yratio,pinkPaint);
+        canvas.drawRect(1485*Xratio, 1105*Yratio, 1515*Xratio, 1225*Yratio,pinkPaint);
+        canvas.drawRect(1485*Xratio, 855*Yratio, 1515*Xratio, 975*Yratio,hPaint(11));
+        canvas.drawRect(1485*Xratio, 980*Yratio, 1515*Xratio, 1100*Yratio,hPaint(11));
+        canvas.drawRect(1485*Xratio, 1105*Yratio, 1515*Xratio, 1225*Yratio,hPaint(11));
+        canvas.drawRect(1495*Xratio, 855*Yratio, 1505*Xratio*Xratio,1225*Yratio, ownerPaint(allPaths.get(11)));
         canvas.restore();
 
         //CoosBoy-Roseburg
         canvas.save();
-        canvas.rotate(-80,320,880);
-        canvas.drawRect(305, 915,335, 1050, white);
-        canvas.drawRect(305, 915,335, 1050, hPaint(22));
-        canvas.drawRect(315, 915, 325,1050, ownerPaint(allPaths.get(22)));
+        canvas.rotate(-80,320*Xratio,880*Yratio);
+        canvas.drawRect(305*Xratio, 915*Yratio,335*Xratio, 1050*Yratio, white);
+        canvas.drawRect(305*Xratio, 915*Yratio,335*Xratio, 1050*Yratio, hPaint(22));
+        canvas.drawRect(315*Xratio, 915*Yratio, 325*Xratio,1050*Yratio, ownerPaint(allPaths.get(22)));
         canvas.restore();
 
         //CoosBoy-Grants Pass
         canvas.save();
-        canvas.rotate(-38, 320,880);
-        canvas.drawRect(305,915, 335, 1035,blackPaint);
-        canvas.drawRect(305,1040, 335, 1160,blackPaint);
-        canvas.drawRect(305,915, 335, 1035,hPaint(17));
-        canvas.drawRect(305,1040, 335, 1160,hPaint(17));
-        canvas.drawRect(315, 915, 325,1160, ownerPaint(allPaths.get(17)));
+        canvas.rotate(-38, 320*Xratio,880*Yratio);
+        canvas.drawRect(305*Xratio,915*Yratio, 335*Xratio, 1035*Yratio,blackPaint);
+        canvas.drawRect(305*Xratio,1040*Yratio, 335*Xratio, 1160*Yratio,blackPaint);
+        canvas.drawRect(305*Xratio,915*Yratio, 335*Xratio, 1035*Yratio,hPaint(17));
+        canvas.drawRect(305*Xratio,1040*Yratio, 335*Xratio, 1160*Yratio,hPaint(17));
+        canvas.drawRect(315*Xratio, 915*Yratio, 325*Xratio,1160*Yratio, ownerPaint(allPaths.get(17)));
         canvas.restore();
 
         //Roseburg-Grants Pass
         canvas.save();
-        canvas.rotate(3,530,920);
-        canvas.drawRect(515, 955, 545, 1080, greyPaint);
-        canvas.drawRect(515, 955, 545, 1080, hPaint(34));
-        canvas.drawRect(525, 955, 535,1080, ownerPaint(allPaths.get(34)));
+        canvas.rotate(3,530*Xratio,920*Yratio);
+        canvas.drawRect(515*Xratio, 955*Yratio, 545*Xratio, 1080*Yratio, greyPaint);
+        canvas.drawRect(515*Xratio, 955*Yratio, 545*Xratio, 1080*Yratio, hPaint(34));
+        canvas.drawRect(525*Xratio, 955*Yratio, 535*Xratio,1080*Yratio, ownerPaint(allPaths.get(34)));
         canvas.restore();
 
         //Roseburg-KFalls
         canvas.save();
-        canvas.rotate(-52,530,920);
-        canvas.drawRect(515, 955, 545, 1075, greyPaint);
-        canvas.drawRect(515, 1080, 545, 1200, greyPaint);
-        canvas.drawRect(515, 1205, 545, 1325, greyPaint);
-        canvas.drawRect(515, 955, 545, 1075, hPaint(35));
-        canvas.drawRect(515, 1080, 545, 1200, hPaint(35));
-        canvas.drawRect(515, 1205, 545, 1325, hPaint(35));
-        canvas.drawRect(525, 955, 535,1325, ownerPaint(allPaths.get(35)));
+        canvas.rotate(-52,530*Xratio,920*Yratio);
+        canvas.drawRect(515*Xratio, 955*Yratio, 545*Xratio, 1075*Yratio, greyPaint);
+        canvas.drawRect(515*Xratio, 1080*Yratio, 545*Xratio, 1200*Yratio, greyPaint);
+        canvas.drawRect(515*Xratio, 1205*Yratio, 545*Xratio, 1325*Yratio, greyPaint);
+        canvas.drawRect(515*Xratio, 955*Yratio, 545*Xratio, 1075*Yratio, hPaint(35));
+        canvas.drawRect(515*Xratio, 1080*Yratio, 545*Xratio, 1200*Yratio, hPaint(35));
+        canvas.drawRect(515*Xratio, 1205*Yratio, 545*Xratio, 1325*Yratio, hPaint(35));
+        canvas.drawRect(525*Xratio, 955*Yratio, 535*Xratio,1325*Yratio, ownerPaint(allPaths.get(35)));
         canvas.restore();
 
         //Grants Pass-KFalls
         canvas.save();
-        canvas.rotate(-77,520,1125);
-        canvas.drawRect(505,1170,535, 1295, orangePaint);
-        canvas.drawRect(505,1300,535, 1425, orangePaint);
-        canvas.drawRect(505,1170,535, 1295, hPaint(5));
-        canvas.drawRect(505,1300,535, 1425, hPaint(5));
-        canvas.drawRect(515, 1170, 525,1425, ownerPaint(allPaths.get(5)));
+        canvas.rotate(-77,520*Xratio,1125*Yratio);
+        canvas.drawRect(505*Xratio,1170*Yratio,535*Xratio, 1295*Yratio, orangePaint);
+        canvas.drawRect(505*Xratio,1300*Yratio,535*Xratio, 1425*Yratio, orangePaint);
+        canvas.drawRect(505*Xratio,1170*Yratio,535*Xratio, 1295*Yratio, hPaint(5));
+        canvas.drawRect(505*Xratio,1300*Yratio,535*Xratio, 1425*Yratio, hPaint(5));
+        canvas.drawRect(515*Xratio, 1170*Yratio, 525*Xratio,1425*Yratio, ownerPaint(allPaths.get(5)));
         canvas.restore();
 
         //KFalls - LakeView
         canvas.save();
-        canvas.rotate(-90, 880,1195);
-        canvas.drawRect(865,1230,895, 1365,white );
-        canvas.drawRect(865,1370,895, 1505,white );
-        canvas.drawRect(865,1230,895, 1365,hPaint(23) );
-        canvas.drawRect(865,1370,895, 1505,hPaint(23) );
-        canvas.drawRect(875, 1230, 885,1505, ownerPaint(allPaths.get(23)));
+        canvas.rotate(-90, 880*Xratio,1195*Yratio);
+        canvas.drawRect(865*Xratio,1230*Yratio,895*Xratio, 1365*Yratio,white );
+        canvas.drawRect(865*Xratio,1370*Yratio,895*Xratio, 1505*Yratio,white );
+        canvas.drawRect(865*Xratio,1230*Yratio,895*Xratio, 1365*Yratio,hPaint(23) );
+        canvas.drawRect(865*Xratio,1370*Yratio,895*Xratio, 1505*Yratio,hPaint(23) );
+        canvas.drawRect(875*Xratio, 1230*Yratio, 885*Xratio,1505*Yratio, ownerPaint(allPaths.get(23)));
         canvas.restore();
 
 
         //draws the tickets
-        canvas.drawRect(0, 1260, 285, 1350, blackPaint);
-        canvas.drawRect(10,1270,275 ,1340, ticketPaint);
-        canvas.drawRect(0, 1350, 285, 1440, blackPaint);
-        canvas.drawRect(10,1360,275 ,1430, ticketPaint);
-        canvas.drawRect(0, 1440, 285, 1530, blackPaint);
-        canvas.drawRect(10,1450,275 ,1520, ticketPaint);
+        canvas.drawRect(0*Xratio, 1260*Yratio, 285*Xratio, 1350*Yratio, blackPaint);
+        canvas.drawRect(10*Xratio,1270*Yratio,275*Xratio ,1340*Yratio, ticketPaint);
+        canvas.drawRect(0*Xratio, 1350*Yratio, 285*Xratio, 1440*Yratio, blackPaint);
+        canvas.drawRect(10*Xratio,1360*Yratio,275*Xratio ,1430*Yratio, ticketPaint);
+        canvas.drawRect(0*Xratio, 1440*Yratio, 285*Xratio, 1530*Yratio, blackPaint);
+        canvas.drawRect(10*Xratio,1450*Yratio,275*Xratio ,1520*Yratio, ticketPaint);
 
         if(curTickets.size() > 0){
-            canvas.drawText(curTickets.get(0).toString(), 20.f,1310.f,ticketTextPaint);
+            canvas.drawText(curTickets.get(0).toString(), 20.f*Xratio,1310.f*Yratio,ticketTextPaint);
             if(curTickets.size() > 1){
-                canvas.drawText(curTickets.get(1).toString(), 20.f,1390.f,ticketTextPaint);
+                canvas.drawText(curTickets.get(1).toString(), 20.f*Xratio,1390.f*Yratio,ticketTextPaint);
             }
         }
 
@@ -626,29 +633,26 @@ public class TTRSurfaceView extends SurfaceView {
 
 
         //draw the ticket chooser location
-        canvas.drawRect(1690, 890, 2110 , 1210, blackPaint);
-        canvas.drawRect(1700, 900 , 2100, 1045, ticketPaint);
-        canvas.drawRect(1700, 1055 , 2100, 1200, ticketPaint);
+        canvas.drawRect(1690*Xratio, 890*Yratio, 2110 *Xratio, 1210*Yratio, blackPaint);
+        canvas.drawRect(1700*Xratio, 900*Yratio , 2100*Xratio, 1045*Yratio, ticketPaint);
+        canvas.drawRect(1700*Xratio, 1055*Yratio , 2100*Xratio, 1200*Yratio, ticketPaint);
 
         //shows ticket if there is tickets in shown ticket
         if(shownTickets == null){
-            canvas.drawText("????????", 1710.f , 980.f, ticketTextPaint);
-            canvas.drawText("????????", 1710.f , 1130.f, ticketTextPaint);
+            canvas.drawText("????????", 1710.f *Xratio, 980.f*Yratio, ticketTextPaint);
+            canvas.drawText("????????", 1710.f *Xratio, 1130.f*Yratio, ticketTextPaint);
         } else {
-            canvas.drawText(shownTickets.get(0).toString(), 1710.f , 980.f, ticketTextPaint);
-            canvas.drawText(shownTickets.get(1).toString(), 1710.f , 1130.f, ticketTextPaint);
+            canvas.drawText(shownTickets.get(0).toString(), 1710.f*Xratio , 980.f*Yratio, ticketTextPaint);
+            canvas.drawText(shownTickets.get(1).toString(), 1710.f*Xratio , 1130.f*Yratio, ticketTextPaint);
         }
 
         //highlights the ticket selected
         if(selectedTickets.get(0) == 1){
-            canvas.drawRect(1690, 890, 2110, 1045, highlightPaint);
+            canvas.drawRect(1690*Xratio, 890*Yratio, 2110*Xratio, 1045*Yratio, highlightPaint);
         }
         if(selectedTickets.get(1) == 1){
-            canvas.drawRect(1690, 1055, 2110, 1210, highlightPaint);
+            canvas.drawRect(1690*Xratio, 1055*Yratio, 2110*Xratio, 1210*Yratio, highlightPaint);
         }
-
-
-
 
 
 

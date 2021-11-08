@@ -43,6 +43,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ImageButton faceup4Button = null;
     private ImageButton faceup5Button = null;
     private ImageButton drawTrainButton = null;
+    private float Xratio;
+    private float Yratio;
+    private float Rratio;
 
     //variable that holds type of action (implement enum later)
     public enum ACTION {
@@ -89,16 +92,25 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         selectedTickets = new ArrayList<Integer>();
         faceUpButtons = new ArrayList<ImageButton>();
         turnActions = new ArrayList<GameAction>();
+        Xratio = (float) (25.0/32.0);
+        Yratio = (float) (2.0/3.0);
+        Rratio = Yratio;
+
         for (int i = 0; i < 7; i++) {
             selected.add(false);
         }
         for(int i = 0; i < 2; i++){
             selectedTickets.add(0);
         }
+
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        Xratio = (float) (32.0/25.0);
+        Yratio = (float) (3.0/2.0);
+        Rratio = Yratio;
+
         //part grabbed from TTTHumanPlayer
         //ignore if not an "up" event
         if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
@@ -106,8 +118,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         }
         //get the x and y coordinates of the touch location
         //convert them to square coordinates
-        int x = (int) motionEvent.getX();
-        int y = (int) motionEvent.getY();
+        int x = (int) (motionEvent.getX()*Xratio);
+        int y = (int) (motionEvent.getY()*Yratio);
         //checks if the coordinates are valid coordinates
         if (x > 0 && x < 1800 && y > 0 && y < 1300) {
             ArrayList<Path> allPaths = state.getAllPaths();
