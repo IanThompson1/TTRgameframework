@@ -125,6 +125,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         if(firstTurn == 1){
             firstTurn = 0;
             game.sendAction(new DrawTickets(this, new ArrayList<Integer>()));
+            return true;
         }
         //get the x and y coordinates of the touch location
         //convert them to square coordinates
@@ -296,6 +297,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             if(y <= 1050){
                 //player chooses top ticket
                 selectedTickets.set(0, 1);
+                System.out.println("Ticket selected");
             } else {
                 //player chooses bottom ticket
                 selectedTickets.set(1,1);
@@ -307,6 +309,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             flash(Color.RED, 20);
             return true;
         }
+        surfaceView.invalidate();
         return true;
     }
 
@@ -430,6 +433,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         if(firstTurn == 1){
             firstTurn = 0;
             game.sendAction(new DrawTickets(this, null));
+            return;
         }
         //if the player clicks draw train then send the action draw train
         if (button.getId() == R.id.DrawTrainButton) {
@@ -554,6 +558,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 game.sendAction(turnActions.get(0));
             } else {
                 //if the player did enter a action
+                System.out.println("ANGRY");
                 flash(Color.RED, 20);
             }
 
@@ -569,6 +574,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             for(int i = 0; i < 2; i++){
                 selectedTickets.set(i, 0);
             }
+            surfaceView.invalidate();
 
 
         } else if (button.getId() == R.id.whiteTrainHand) {

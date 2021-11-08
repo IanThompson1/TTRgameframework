@@ -670,7 +670,8 @@ public class TTRSurfaceView extends SurfaceView {
     public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p){
         //sets the values of the players hand size, ticket size, train count
 
-        this.state = state;
+
+        this.state = new TTRState(state);
         ArrayList<Player> players = state.getPlayers();
         int numPlayers = state.getNumPlayers();
         Player player0 = players.get(0);
@@ -698,7 +699,12 @@ public class TTRSurfaceView extends SurfaceView {
         this.allPaths = state.getAllPaths();
         this.selected = selected;
         this.selectedTickets = selectedTickets;
-        shownTickets = state.getShownTickets();
+        if(this.state.getShownTickets() == null){
+            shownTickets = null;
+        } else {
+            shownTickets = new ArrayList<Ticket>(this.state.getShownTickets());
+        }
+
         curTickets = player0.getTickets();
         curPath = p;
         if(shownTickets == null || shownTickets.size() == 0){
