@@ -19,7 +19,7 @@ import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
 public class TTRLocalGame extends LocalGame {
     private TTRState state;
     public TTRLocalGame(){
-        state = new TTRState(this.players.length);
+        state = new TTRState(2);
     }
 
     /** sendUpdatedStateTo

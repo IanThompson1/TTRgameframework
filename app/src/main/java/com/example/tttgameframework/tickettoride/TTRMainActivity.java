@@ -42,7 +42,7 @@ public class TTRMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name){return new TTRComputerPlayer1(name); }
         });
 
-        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2, "Ticket To Ride", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Ticket To Ride", PORT_NUMBER);
         defaultConfig.addPlayer("Human", 0);
         defaultConfig.addPlayer("Computer", 1);
         defaultConfig.setRemoteData("Remote Human player", "", 0); //not used

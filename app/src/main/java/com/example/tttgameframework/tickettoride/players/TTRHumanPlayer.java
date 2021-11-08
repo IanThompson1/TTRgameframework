@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.tttgameframework.GameFramework.Game;
 import com.example.tttgameframework.GameFramework.GameMainActivity;
 import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
@@ -73,7 +74,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ArrayList<Integer> selectedTickets;
 
     //an array list to hold all the face up buttons
-    ArrayList<ImageButton> faceUpButtons;
+    private ArrayList<ImageButton> faceUpButtons;
 
     /**
      * constructor
@@ -84,6 +85,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         super(name);
         wilds = 0;
         path = null;
+        ArrayList<Boolean> selected = new ArrayList<Boolean>();
+        ArrayList<Integer> selectedTickets = new ArrayList<Integer>();
+        ArrayList<GameAction> turnActions = new ArrayList<GameAction>();
+        ArrayList<ImageButton> faceUpButtons = new ArrayList<ImageButton>();
         for (int i = 0; i < 7; i++) {
             selected.add(false);
         }
