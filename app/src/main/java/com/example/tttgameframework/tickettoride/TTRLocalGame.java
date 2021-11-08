@@ -21,6 +21,7 @@ public class TTRLocalGame extends LocalGame {
     public TTRLocalGame(){
         super();
         super.state = new TTRState(2);
+        state = (TTRState) super.state;
     }
 
     /** sendUpdatedStateTo
@@ -31,7 +32,7 @@ public class TTRLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-        p.sendInfo(new TTRState(((TTRState) super.state)));
+        p.sendInfo(new TTRState(((TTRState) state)));
     }
 
     /** canMove()
