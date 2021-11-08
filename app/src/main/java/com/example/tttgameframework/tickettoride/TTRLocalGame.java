@@ -202,9 +202,11 @@ public class TTRLocalGame extends LocalGame {
                 for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
                     if(selected.get(i) == 1) {
-                        user.addTicket(shown.get(selected.get(i)));
+                        System.out.println(shown.get(i).toString() + "adding this card to the players hand");
+                        user.addTicket(shown.get(i));
                     }else{
-                        state.addTicket(shown.get(selected.get(i)));//auto reshuffles
+                        System.out.println(shown.get(i).toString() + "resetting ticket deck");
+                        state.addTicket(shown.get(i));//auto reshuffles
                     }
                 }
 

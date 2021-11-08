@@ -557,10 +557,12 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             } else if (typeAction == ACTION.TICKET) {
                 //if the player is taking a draw turn then
                 game.sendAction(new DrawTickets(this, selectedTickets));
+                System.out.println(state.getPlayers().size());
+                System.out.println(state.getPlayers().get(0).getTickets().size());
                 System.out.println(state.getPlayers().get(0).getTickets().get(0).toString());
             } else {
                 //if the player did enter a action
-
+                System.out.println("ANGRY");
                 flash(Color.RED, 20);
             }
 
