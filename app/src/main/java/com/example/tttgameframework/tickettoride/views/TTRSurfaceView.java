@@ -615,10 +615,15 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawRect(0, 1440, 285, 1530, blackPaint);
         canvas.drawRect(10,1450,275 ,1520, ticketPaint);
 
+        if(curTickets.size() > 0){
+            canvas.drawText(curTickets.get(0).toString(), 20.f,1310.f,ticketTextPaint);
+            if(curTickets.size() > 1){
+                canvas.drawText(curTickets.get(1).toString(), 20.f,1390.f,ticketTextPaint);
+            }
+        }
 
-        canvas.drawText(curTickets.get(0).toString(), 20.f,1310.f,ticketTextPaint);
-        canvas.drawText(curTickets.get(1).toString(), 20.f,1390.f,ticketTextPaint);
-        canvas.drawText(curTickets.get(2).toString(), 20.f,1480.f,ticketTextPaint);
+
+
 
         //draw the ticket chooser location
         canvas.drawRect(1690, 890, 2110 , 1210, blackPaint);
@@ -670,14 +675,20 @@ public class TTRSurfaceView extends SurfaceView {
         player1Trains = player1.getNumTrains();
         player1Cards = player1.getCardHand().size();
         player1Tickets = player1.getTickets().size();
-        Player player2 = players.get(2);
-        player2Trains = player2.getNumTrains();
-        player2Cards = player2.getCardHand().size();
-        player2Tickets = player2.getTickets().size();
-        Player player3 = players.get(3);
-        player3Trains = player3.getNumTrains();
-        player3Cards = player3.getCardHand().size();
-        player3Tickets = player3.getTickets().size();
+        if(state.getNumPlayers() > 2) {
+            Player player2 = players.get(2);
+            player2Trains = player2.getNumTrains();
+            player2Cards = player2.getCardHand().size();
+            player2Tickets = player2.getTickets().size();
+            if(state.getNumPlayers() == 4) {
+                Player player3 = players.get(3);
+                player3Trains = player3.getNumTrains();
+                player3Cards = player3.getCardHand().size();
+                player3Tickets = player3.getTickets().size();
+            }
+        }
+
+
         this.allPaths = state.getAllPaths();
         this.selected = selected;
         this.selectedTickets = selectedTickets;
