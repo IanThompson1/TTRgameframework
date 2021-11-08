@@ -15,13 +15,16 @@ import java.util.Random;
 public class TTRComputerPlayer0 extends GameComputerPlayer {
 
     private static final Random rand = new Random();
+    private int firstTurn;
     /**
      * constructor
      *
      * @param name the player's name (e.g., "John")
      */
     public TTRComputerPlayer0(String name) {
+
         super(name);
+        firstTurn = 1;
     }
 
     @Override
@@ -32,6 +35,13 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
         if (state.getTurn() != playerNum){  //not sure
             return;
         }
+
+        if (firstTurn == 1){
+            firstTurn = 0;
+            game.sendAction(new DrawTickets(this, null));
+            return;
+        }
+
         //check if it is start of game and player has no tickets
         //use all players and find this computer player
         ArrayList<Player> players = state.getPlayers();
@@ -46,8 +56,8 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
         if (self.getTickets().size() == 0){
             ArrayList<Integer> tickets = new ArrayList<Integer>(2);
             //pick the first ticket
-            tickets.set(0,1);
-            tickets.set(1,0);
+            tickets.add(1);
+            tickets.add(0);
             game.sendAction(new DrawTickets(this, tickets));
         }
 
