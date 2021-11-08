@@ -136,6 +136,7 @@ public class TTRSurfaceView extends SurfaceView {
         Xratio = (float) (25.0/32.0);
         Yratio = (float) (2.0/3.0);
         Rratio = Yratio;
+
     }
 
     protected void onDraw(Canvas canvas){

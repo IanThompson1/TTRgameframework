@@ -298,10 +298,11 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 //player chooses top ticket
                 selectedTickets.set(0, 1);
                 System.out.println("Ticket selected");
+                typeAction = ACTION.TICKET;
             } else {
                 //player chooses bottom ticket
                 selectedTickets.set(1,1);
-
+                typeAction = ACTION.TICKET;
             }
 
         } else {
@@ -555,7 +556,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
             } else if (typeAction == ACTION.TICKET) {
                 //if the player is taking a draw turn then
-                game.sendAction(turnActions.get(0));
+                game.sendAction(new DrawTickets(this, selectedTickets));
+                System.out.println(state.getPlayers().get(0).getTickets().get(0).toString());
             } else {
                 //if the player did enter a action
                 System.out.println("ANGRY");

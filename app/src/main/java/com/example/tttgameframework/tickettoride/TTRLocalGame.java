@@ -187,7 +187,7 @@ public class TTRLocalGame extends LocalGame {
                 //the one check is if neither card is selected
                 int count =0;
                 for(int t=0; t<selected.size(); t++){
-                    if(selected.get(t) == 0){
+                    if(selected.get(t) == 1){
                         count++;
                     }
                 }
@@ -197,6 +197,8 @@ public class TTRLocalGame extends LocalGame {
                 }
 
                 //loops through the 2 possible selected tickets
+                System.out.println(selected.size()+" selected size");
+                System.out.println(shown.size() + " shown size");
                 for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
                     if(selected.get(i) == 1) {
@@ -207,9 +209,10 @@ public class TTRLocalGame extends LocalGame {
                 }
 
                 //stop drawing the tickets
-                for(int i=selected.size()-1; i>=0; i--) {
-                    state.removeShownTicket(shown.get(selected.get(i)));
-                }
+                state.clearShownTickets();
+//                for(int i=selected.size()-1; i>=0; i--) {
+//                    state.removeShownTicket(shown.get(selected.get(i)));
+//                }
                 Collections.shuffle(shown);
                 //((DrawTickets) action).resetSelectedTickets(); this is a preference thing so might need it.
                 //increment who's turn
