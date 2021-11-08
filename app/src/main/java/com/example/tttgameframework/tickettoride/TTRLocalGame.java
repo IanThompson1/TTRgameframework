@@ -259,7 +259,7 @@ public class TTRLocalGame extends LocalGame {
                             System.out.println("fail draw train3");
 
                             return false;
-                        }else if(faceUp.get(i-2) == TTRState.CARD.WILDCARD){
+                        }else if(faceUp.get(i-2) == TTRState.CARD.WILDCARD && counter == 2){
                             System.out.println("fail draw train4");
 
                             return false;

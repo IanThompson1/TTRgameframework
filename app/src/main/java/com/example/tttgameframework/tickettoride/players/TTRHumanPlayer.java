@@ -472,7 +472,6 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             //else if the player clicks on a face up card
         } else if (button.getId() == R.id.FaceUp1Button) {
             if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(2)) {
-                System.out.println("does it get here");
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
@@ -558,9 +557,6 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     selectedTickets.set(i, 0);
                 }
                 surfaceView.invalidate();
-                for(int i = 0; i < 7; i++){
-                    System.out.println(i + " " + selected.get(i));
-                }
             } else if (typeAction == ACTION.PLACE) {
                 if (wilds > 0 && turnActions.size() == 0) {
                     game.sendAction(new PlaceTrains(this, path, wilds, null));
