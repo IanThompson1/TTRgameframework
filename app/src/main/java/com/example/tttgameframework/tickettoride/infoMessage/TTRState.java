@@ -303,13 +303,13 @@ public class TTRState extends GameState implements Serializable {
 
     //getter method for cardDeck
     public ArrayList<CARD> getCardDeck() {
-        System.out.println("this is the random card deck "+ cardDeck.get(0));
+        System.out.println("this is the random card deck "+ cardDeck.size());
         return cardDeck;
     }
 
     //setter method for cardDeck
     public void setCardDeck(ArrayList<CARD> cardDeck1){
-        cardDeck.clear();
+
         cardDeck = new ArrayList<CARD>(cardDeck1.size());
         System.out.println(cardDeck1.size());
         cardDeck.addAll(cardDeck1);

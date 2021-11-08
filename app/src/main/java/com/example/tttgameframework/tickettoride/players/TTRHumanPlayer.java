@@ -547,6 +547,17 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 for (int i = 0; i < turnActions.size(); i++) {
                     game.sendAction(turnActions.get(i));
                 }
+                turnActions.clear();
+                typeAction = ACTION.NONE;
+                wilds = 0;
+                path = null;
+                for (int i = 0; i < 7; i++) {
+                    selected.set(i, false);
+                }
+                for(int i = 0; i < 2; i++){
+                    selectedTickets.set(i, 0);
+                }
+                surfaceView.invalidate();
                 for(int i = 0; i < 7; i++){
                     System.out.println(i + " " + selected.get(i));
                 }
