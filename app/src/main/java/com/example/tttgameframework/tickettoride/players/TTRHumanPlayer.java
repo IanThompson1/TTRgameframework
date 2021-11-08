@@ -462,7 +462,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         } else if (button.getId() == R.id.DrawTicketButton) {
             if (typeAction == ACTION.NONE) {
                 typeAction = ACTION.TICKET;
-                game.sendAction(new DrawTickets(this, new ArrayList<Integer>()));
+                game.sendAction(new DrawTickets(this, null));
             } else {
                 flash(Color.RED, 20);
             }
