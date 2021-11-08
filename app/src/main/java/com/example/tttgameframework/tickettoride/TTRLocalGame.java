@@ -17,7 +17,7 @@ import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
 
 public class TTRLocalGame extends LocalGame {
-    private TTRState state;
+    private TTRState state; 
     public TTRLocalGame(){
         super();
         super.state = new TTRState(2);
@@ -178,6 +178,7 @@ public class TTRLocalGame extends LocalGame {
             if(((DrawTickets) action).getSelected() == null){
                 //draw tickets to part of the screen
                 ArrayList<Ticket> temp = state.getTickets();
+                System.out.println("" + temp.get(0).toString());
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
                 //invalidate(); ?

@@ -415,7 +415,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     public void onClick(View button) {
         if(firstTurn == 1){
             firstTurn = 0;
-            game.sendAction(new DrawTickets(this, new ArrayList<Integer>()));
+            game.sendAction(new DrawTickets(this, null));
         }
         //if the player clicks draw train then send the action draw train
         if (button.getId() == R.id.DrawTrainButton) {
