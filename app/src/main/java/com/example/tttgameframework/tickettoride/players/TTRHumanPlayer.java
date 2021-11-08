@@ -310,6 +310,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             flash(Color.RED, 20);
             return true;
         }
+        surfaceView.setState(state, selected, selectedTickets, path);
         surfaceView.invalidate();
         return true;
     }

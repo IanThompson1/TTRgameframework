@@ -43,6 +43,7 @@ public class TTRSurfaceView extends SurfaceView {
     private float Xratio;
     private float Yratio;
     private float Rratio;
+    private Paint higlighter;
 
     //instance variables that hold the players train counts
     private int player0Trains;
@@ -106,6 +107,7 @@ public class TTRSurfaceView extends SurfaceView {
         drawTrainPaint = new Paint();
         emptyPaint = new Paint();
         highlightPaint = new Paint();
+        higlighter = new Paint();
         white.setARGB(255,255,255,255);
         redPaint.setARGB(255,255,0,0);
         greenPaint.setARGB(255,0,255,0);
@@ -123,6 +125,7 @@ public class TTRSurfaceView extends SurfaceView {
         drawTrainPaint.setARGB(255,173,216, 230);
         emptyPaint.setARGB(0 , 255,255,255);
         highlightPaint.setARGB(155, 173, 216, 230);
+        higlighter.setARGB(255,173,216,230);
         screenHeight = getMeasuredHeight();
         screenWidth = getMeasuredWidth();
         ticketTextPaint.setTextSize(27);
@@ -280,6 +283,9 @@ public class TTRSurfaceView extends SurfaceView {
         //Astoria-Tillamook
         canvas.drawRect(360*Xratio,155*Yratio, 390*Xratio, 265*Yratio, white);
         //draws if path is selected
+        System.out.println(emptyPaint.toString());
+        System.out.println(highlightPaint.toString());
+        System.out.println(hPaint(10).toString());
         canvas.drawRect(360*Xratio,155*Yratio, 390*Xratio, 265*Yratio, hPaint(18));
         //draws if someone owns the path
         canvas.drawRect(370*Xratio,155*Yratio, 380*Xratio, 265*Yratio, ownerPaint(allPaths.get(18)));
@@ -756,8 +762,8 @@ public class TTRSurfaceView extends SurfaceView {
 
     //helper function paint if the path is selected
     private Paint hPaint(int path){
-        if(curPath == state.getAllPaths().get(path)){
-            return highlightPaint;
+        if(curPath == allPaths.get(path)){
+            return higlighter;
         } else {
             return emptyPaint;
         }
