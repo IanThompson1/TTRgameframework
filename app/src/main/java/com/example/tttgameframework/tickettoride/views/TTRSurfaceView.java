@@ -80,6 +80,9 @@ public class TTRSurfaceView extends SurfaceView {
     //holds the TTRstate
     protected TTRState state;
 
+    //holds the current player
+    private Player curPlayer;
+
     public TTRSurfaceView(Context context, AttributeSet atr) {
         super(context, atr);
         //enable drawing
@@ -656,6 +659,13 @@ public class TTRSurfaceView extends SurfaceView {
             canvas.drawRect(1690*Xratio, 1055*Yratio, 2110*Xratio, 1210*Yratio, highlightPaint);
         }
 
+        //draws the number of cards the player for each card
+        canvas.drawText(String.valueOf(curPlayer.getBlackCards()), 450*Xratio, 1250*Yratio, ticketTextPaint);
+        canvas.drawText(String.valueOf(curPlayer.getOrangeCards()), 700*Xratio, 1250*Yratio, ticketTextPaint);
+        canvas.drawText(String.valueOf(curPlayer.getPinkCards()), 1050*Xratio, 1250*Yratio, ticketTextPaint);
+        canvas.drawText(String.valueOf(curPlayer.getWhiteCards()), 1400*Xratio, 1250*Yratio, ticketTextPaint);
+        canvas.drawText(String.valueOf(curPlayer.getWildCards()), 1750*Xratio, 1250*Yratio, ticketTextPaint);
+
 
 
 
@@ -670,32 +680,43 @@ public class TTRSurfaceView extends SurfaceView {
     //function to change the gui given the information given
     public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p){
         //sets the values of the players hand size, ticket size, train count
-
+        Player player0;
+        Player player1;;
+        Player player2 = new Player(2);;
+        Player player3 = new Player(3);;
 
         this.state = new TTRState(state);
         ArrayList<Player> players = state.getPlayers();
         int numPlayers = state.getNumPlayers();
-        Player player0 = players.get(0);
+        player0 = players.get(0);
         player0Trains = player0.getNumTrains();
         player0Cards = player0.getCardHand().size();
         player0Tickets = player0.getTickets().size();
-        Player player1 = players.get(1);
+        player1 = players.get(1);
         player1Trains = player1.getNumTrains();
         player1Cards = player1.getCardHand().size();
         player1Tickets = player1.getTickets().size();
         if(state.getNumPlayers() > 2) {
-            Player player2 = players.get(2);
+            player2 = players.get(2);
             player2Trains = player2.getNumTrains();
             player2Cards = player2.getCardHand().size();
             player2Tickets = player2.getTickets().size();
             if(state.getNumPlayers() == 4) {
-                Player player3 = players.get(3);
+                player3 = players.get(3);
                 player3Trains = player3.getNumTrains();
                 player3Cards = player3.getCardHand().size();
                 player3Tickets = player3.getTickets().size();
             }
         }
-
+        if(state.getWhosTurn() == 0){
+            curPlayer =  player0;
+        } else if(state.getWhosTurn() == 1){
+            curPlayer =  player1;
+        } else if(state.getWhosTurn() == 2){
+            curPlayer =  player2;
+        } else if(state.getWhosTurn() == 3){
+            curPlayer =  player3;
+        }
 
         this.allPaths = state.getAllPaths();
         this.selected = selected;
@@ -706,7 +727,7 @@ public class TTRSurfaceView extends SurfaceView {
             shownTickets = new ArrayList<Ticket>(this.state.getShownTickets());
         }
 
-        curTickets = player0.getTickets();
+        curTickets = curPlayer.getTickets();
         curPath = p;
         if(shownTickets == null || shownTickets.size() == 0){
             System.out.println("Still empty");

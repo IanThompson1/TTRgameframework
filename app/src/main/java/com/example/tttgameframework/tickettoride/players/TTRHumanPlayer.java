@@ -560,7 +560,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 System.out.println(state.getPlayers().get(0).getTickets().get(0).toString());
             } else {
                 //if the player did enter a action
-                System.out.println("ANGRY");
+
                 flash(Color.RED, 20);
             }
 
