@@ -213,6 +213,7 @@ public class TTRState extends GameState implements Serializable {
         ticketDeck.add(new Ticket(10,CITY.PENDLETON,CITY.KFALLS));
         ticketDeck.add(new Ticket(13,CITY.LAGRANDE,CITY.GPASS));
         ticketDeck.add(new Ticket(6,CITY.COOSBAY,CITY.BEND));
+        Collections.shuffle(ticketDeck);
 
         /**
          * Card face up and down deck
