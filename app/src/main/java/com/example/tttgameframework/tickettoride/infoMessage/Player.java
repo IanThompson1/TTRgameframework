@@ -42,6 +42,10 @@ public class Player{
         return numTrains;
     }
 
+    public void setNumTrains(int numTrains) {
+        this.numTrains = numTrains;
+    }
+
     //method to the players name
     public int getName(){
         return name;

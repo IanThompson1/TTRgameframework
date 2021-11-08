@@ -414,6 +414,8 @@ public class TTRLocalGame extends LocalGame {
                 user.removeCardHand(TTRState.CARD.WILDCARD);
                 state.addCard(TTRState.CARD.WILDCARD);
             }
+            state.getPlayers().get(state.getWhosTurn()).setNumTrains(state.getPlayers().get(state.getWhosTurn()).getNumTrains() - thePathLength);
+
             //((PlaceTrains) action).resetSelectedPath();//again I think this is a preference thing so might need it.
             changeTurn(state);
             System.out.println("true place train");
