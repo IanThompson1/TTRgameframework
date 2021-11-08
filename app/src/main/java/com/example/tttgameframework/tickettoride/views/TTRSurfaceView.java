@@ -74,6 +74,9 @@ public class TTRSurfaceView extends SurfaceView {
     //holds selected path
     private Path curPath;
 
+    //holds the TTRstate
+    protected TTRState state;
+
     public TTRSurfaceView(Context context, AttributeSet atr) {
         super(context, atr);
         //enable drawing
@@ -133,7 +136,9 @@ public class TTRSurfaceView extends SurfaceView {
 
     protected void onDraw(Canvas canvas){
 
-
+        if(state == null){
+            return;
+        }
         Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.oregon_map);
         //following code was taken from stack overflow
         float maxSize =2000;
@@ -654,6 +659,7 @@ public class TTRSurfaceView extends SurfaceView {
     //function to change the gui given the information given
     public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p){
         //sets the values of the players hand size, ticket size, train count
+        this.state = state;
         ArrayList<Player> players = state.getPlayers();
         int numPlayers = state.getNumPlayers();
         Player player0 = players.get(0);
@@ -672,12 +678,13 @@ public class TTRSurfaceView extends SurfaceView {
         player3Trains = player3.getNumTrains();
         player3Cards = player3.getCardHand().size();
         player3Tickets = player3.getTickets().size();
-        allPaths = state.getAllPaths();
+        this.allPaths = state.getAllPaths();
         this.selected = selected;
         this.selectedTickets = selectedTickets;
         shownTickets = state.getShownTickets();
         curTickets = player0.getTickets();
         curPath = p;
+
 
     }
 
@@ -699,7 +706,7 @@ public class TTRSurfaceView extends SurfaceView {
 
     //helper function paint if the path is selected
     private Paint hPaint(int path){
-        if(curPath == allPaths.get(path)){
+        if(curPath == state.getAllPaths().get(path)){
             return highlightPaint;
         } else {
             return emptyPaint;
