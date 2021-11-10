@@ -46,6 +46,7 @@ public class TTRSurfaceView extends SurfaceView {
     private float Yratio;
     private float Rratio;
     private Paint higlighter;
+    private Paint numCardsPaint;
 
     //instance variables that hold the players train counts
     private int player0Trains;
@@ -114,6 +115,7 @@ public class TTRSurfaceView extends SurfaceView {
         highlightPaint = new Paint();
         higlighter = new Paint();
         buttonHighlight = new Paint();
+        numCardsPaint = new Paint();
         white.setARGB(255,255,255,255);
         redPaint.setARGB(255,255,0,0);
         greenPaint.setARGB(255,0,255,0);
@@ -132,16 +134,19 @@ public class TTRSurfaceView extends SurfaceView {
         emptyPaint.setARGB(0 , 255,255,255);
         highlightPaint.setARGB(155, 173, 216, 230);
         higlighter.setARGB(255,173,216,230);
+        numCardsPaint.setColor(Color.BLACK);
         screenHeight = getMeasuredHeight();
         screenWidth = getMeasuredWidth();
         ticketTextPaint.setTextSize(27);
         textPaint.setTextSize(30);
         trainCountPaint.setTextSize(50);
         otherTrainCountPaint.setTextSize(25);
+        numCardsPaint.setTextSize(50);
         trainCountPaint.setFakeBoldText(true);
         otherTrainCountPaint.setFakeBoldText(true);
         textPaint.setFakeBoldText(true);
         ticketTextPaint.setFakeBoldText(true);
+        numCardsPaint.setFakeBoldText(true);
         otherInfoPaint = new Paint(otherTrainCountPaint);
         otherInfoPaint.setARGB(255,255,255,255);
         buttonHighlight.setColor(Color.GREEN);
@@ -173,9 +178,9 @@ public class TTRSurfaceView extends SurfaceView {
 
 
         //current player
-        canvas.drawCircle( 2225*Xratio, 1425*Yratio,75*Rratio,white);
-        canvas.drawCircle( 2400*Xratio, 1425*Yratio,100*Rratio,greenPaint);
-        canvas.drawText(String.valueOf(curPlayer.getNumTrains()), 2190*Xratio, 1450, trainCountPaint);
+        canvas.drawCircle( 2225*Xratio, 1525*Yratio,75*Rratio,white);
+        canvas.drawCircle( 2400*Xratio, 1525*Yratio,100*Rratio,greenPaint);
+        canvas.drawText(String.valueOf(curPlayer.getNumTrains()), 2190*Xratio, 1550*Yratio, trainCountPaint);
 
         //player 2
         canvas.drawCircle(600*Xratio,100*Yratio,70*Rratio,redPaint);
@@ -672,11 +677,11 @@ public class TTRSurfaceView extends SurfaceView {
         }
 
         //draws the number of cards the player for each card
-        canvas.drawText(String.valueOf(curPlayer.getBlackCards()), 450*Xratio, 1250*Yratio, ticketTextPaint);
-        canvas.drawText(String.valueOf(curPlayer.getOrangeCards()), 700*Xratio, 1250*Yratio, ticketTextPaint);
-        canvas.drawText(String.valueOf(curPlayer.getPinkCards()), 1050*Xratio, 1250*Yratio, ticketTextPaint);
-        canvas.drawText(String.valueOf(curPlayer.getWhiteCards()), 1400*Xratio, 1250*Yratio, ticketTextPaint);
-        canvas.drawText(String.valueOf(curPlayer.getWildCards()), 1750*Xratio, 1250*Yratio, ticketTextPaint);
+        canvas.drawText(String.valueOf(curPlayer.getBlackCards()), 440*Xratio, 1300*Yratio, numCardsPaint);
+        canvas.drawText(String.valueOf(curPlayer.getOrangeCards()), 720*Xratio, 1300*Yratio, numCardsPaint);
+        canvas.drawText(String.valueOf(curPlayer.getPinkCards()), 1055*Xratio, 1300*Yratio, numCardsPaint);
+        canvas.drawText(String.valueOf(curPlayer.getWhiteCards()), 1400*Xratio, 1300*Yratio, numCardsPaint);
+        canvas.drawText(String.valueOf(curPlayer.getWildCards()), 1740*Xratio, 1300*Yratio, numCardsPaint);
 
         //highlights the train cards selected
         //random
