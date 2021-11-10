@@ -17,7 +17,7 @@ public class Player{
         name = playerNum;
         cardHand = new ArrayList<TTRState.CARD>();
         this.tickets = new ArrayList<Ticket>();
-        numTrains = 20;
+        numTrains = 20;//can change this to make game end earlier
     }
 
     //Copy constructor
