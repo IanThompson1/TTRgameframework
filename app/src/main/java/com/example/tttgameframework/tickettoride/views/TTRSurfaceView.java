@@ -86,6 +86,9 @@ public class TTRSurfaceView extends SurfaceView {
     //holds the current player
     private Player curPlayer;
 
+    //holds the selected card color
+    private TTRState.CARD selectedCardColor;
+
     public TTRSurfaceView(Context context, AttributeSet atr) {
         super(context, atr);
         //enable drawing
@@ -565,7 +568,7 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawRect(1485*Xratio, 855*Yratio, 1515*Xratio, 975*Yratio,hPaint(11));
         canvas.drawRect(1485*Xratio, 980*Yratio, 1515*Xratio, 1100*Yratio,hPaint(11));
         canvas.drawRect(1485*Xratio, 1105*Yratio, 1515*Xratio, 1225*Yratio,hPaint(11));
-        canvas.drawRect(1495*Xratio, 855*Yratio, 1505*Xratio*Xratio,1225*Yratio, ownerPaint(allPaths.get(11)));
+        canvas.drawRect(1495*Xratio, 855*Yratio, 1505*Xratio,1225*Yratio, ownerPaint(allPaths.get(11)));
         canvas.restore();
 
         //CoosBoy-Roseburg
@@ -676,26 +679,45 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawText(String.valueOf(curPlayer.getWildCards()), 1750*Xratio, 1250*Yratio, ticketTextPaint);
 
         //highlights the train cards selected
-        for(int i=0; i<6; i++){
-            //if(selected.get(i)){
+        //random
+        for(int i=0; i<2; i++){
+            if(selected.get(i)){
+                canvas.drawRect(2130*Xratio,(205+(205*5))*Yratio,2560*Xratio,(410+(205*5))*Yratio,buttonHighlight);
+            }
+        }
+        //face up
+        for(int i=0; i<5; i++){
+            if(selected.get(i+2)){
                 canvas.drawRect(2130*Xratio,(205+(205*i))*Yratio,2560*Xratio,(410+(205*i))*Yratio,buttonHighlight);
-            //}
+            }
         }
 
 
         //highlights the players cards
-        for(int i=0; i<5; i++) {
-            canvas.drawRect((265 + 331 * i) * Xratio, 1340 * Yratio, (605 + 328 * i) * Xratio, 1800 * Yratio, buttonHighlight);
+        int j = -1;
+        if(selectedCardColor == TTRState.CARD.BLACKCARD){
+            j=0;
+        }else if(selectedCardColor == TTRState.CARD.ORANGECARD){
+            j=1;
+        }else if(selectedCardColor == TTRState.CARD.PINKCARD){
+            j=2;
+        }else if(selectedCardColor == TTRState.CARD.WHITECARD){
+            j=3;
+        }else if(selectedCardColor == TTRState.CARD.WILDCARD){
+            j=4;
         }
-
+        System.out.println("j is "+j);
+        if(j != -1) {
+            canvas.drawRect((265 + 331 * j) * Xratio, 1340 * Yratio, (605 + 328 * j) * Xratio, 1800 * Yratio, buttonHighlight);
+        }
     }
     //function to change the gui given the information given
     public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p){
         //sets the values of the players hand size, ticket size, train count
         Player player0;
-        Player player1;;
-        Player player2 = new Player(2);;
-        Player player3 = new Player(3);;
+        Player player1;
+        Player player2 = new Player(2);
+        Player player3 = new Player(3);
 
         this.state = new TTRState(state);
         ArrayList<Player> players = state.getPlayers();
@@ -748,6 +770,18 @@ public class TTRSurfaceView extends SurfaceView {
         }
 
 
+    }
+    //helper function for showing the selected paths
+    public void setSelectedView(ArrayList<Boolean> selected){
+        this.selected = selected;
+    }
+
+    public void setSelectedCardColor(TTRState.CARD col){
+        selectedCardColor = col;
+    }
+
+    public void resetSelectedCardColor(){
+        selectedCardColor = null;
     }
 
     //helper function to get the paint of the current owner of the path

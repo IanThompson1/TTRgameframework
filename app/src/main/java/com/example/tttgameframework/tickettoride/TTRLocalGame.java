@@ -217,11 +217,7 @@ public class TTRLocalGame extends LocalGame {
 
                 //stop drawing the tickets
                 state.clearShownTickets();
-//                for(int i=selected.size()-1; i>=0; i--) {
-//                    state.removeShownTicket(shown.get(selected.get(i)));
-//                }
                 Collections.shuffle(shown);
-                //((DrawTickets) action).resetSelectedTickets(); this is a preference thing so might need it.
                 //increment who's turn
                 state.getPlayers().set(state.getWhosTurn(), user);
                 changeTurn(state);
@@ -246,7 +242,6 @@ public class TTRLocalGame extends LocalGame {
             //all checks
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
-                    Player wilds = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
                         if(counter ==1){
                             System.out.println("fail draw train2");
@@ -306,7 +301,7 @@ public class TTRLocalGame extends LocalGame {
             Path thePath = ((PlaceTrains) action).getSelectedPath();
             int pathNum = ((PlaceTrains) action).getPathNum();
             int wilds = ((PlaceTrains) action).getNumberOfWilds();
-            TTRState.CARD color = ((PlaceTrains) action).getColor();///////////////////////////////////////////////////////////////
+            TTRState.CARD color = ((PlaceTrains) action).getColor();
             int thePathLength = thePath.getLength();
             int thePathOwner = thePath.getPathOwner();
             Path.COLOR thePathColor = thePath.getPathColor();

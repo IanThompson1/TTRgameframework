@@ -143,192 +143,227 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 //checks if the its the path 1: Astoria -> Tillamook white
                 path = allPaths.get(18);
                 pathNumber = 18;
-
+                typeAction = ACTION.PLACE;
             } else if (x >= 395 && x <= 425 && y <= 265 && y >= 155) {
                 //checks if its the path 2: Astoria - Tillamook Orange
                 path = allPaths.get(0);
                 pathNumber = 0;
-
+                typeAction = ACTION.PLACE;
 
             } else if (x >= 426 && x <= 625 && y <= 230 && y >= 100) {
                 //checks if its the path 3: Astoria - Portland grey
                 path = allPaths.get(24);
                 pathNumber = 24;
+                typeAction = ACTION.PLACE;
 
 
             } else if (x >= 426 && x <= 575 && y <= 300 && y >= 270) {
                 //checks if its the path 4: Tillamook - Portland pink
                 path = allPaths.get(6);
                 pathNumber = 6;
+                typeAction = ACTION.PLACE;
 
 
             } else if (x >= 426 && x <= 575 && y <= 330 && y >= 300) {
                 //checks if its the path 5: Tillamook - Portland black
                 path = allPaths.get(12);
                 pathNumber = 12;
+                typeAction = ACTION.PLACE;
 
 
             } else if (x >= 325 && x <= 365 && y <= 470 && y >= 325) {
                 //checks if its the path 6: Tillamook - Newport grey left
                 path = allPaths.get(30);
                 pathNumber = 30;
+                typeAction = ACTION.PLACE;
 
 
             } else if (x >= 366 && x <= 410 && y <= 470 && y >= 325) {
                 //checks if its the path 7: Tillamook - Newport grey right
                 path = allPaths.get(31);
                 pathNumber = 31;
+                typeAction = ACTION.PLACE;
 
 
             } else if (x >= 690 && x <= 975 && y <= 255 && y >= 225) {
                 //checks if its the path 8: Portland - The Dalles orange
                 path = allPaths.get(1);
                 pathNumber = 1;
+                typeAction = ACTION.PLACE;
 
             } else if (x >= 690 && x <= 975 && y <= 305 && y >= 256) {
                 //checks if its the path 7: Portland - The Dalles pink
                 path = allPaths.get(7);
                 pathNumber = 7;
+                typeAction = ACTION.PLACE;
 
             } else if (x >= 590 && x <= 625 && y <= 405 && y >= 310) {
                 //checks if its the path 26: Portland - Salem grey left
                 path = allPaths.get(26);
                 pathNumber = 26;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 626 && x <= 660 && y <= 405  && y >= 310) {
                 //checks if its the path 27: Portland- Salem grey right
                 path = allPaths.get(27);
                 pathNumber = 27;
+                typeAction = ACTION.PLACE;
 
             }else if(x >= 1050 && x <= 1430 && y <= 255  && y >= 225) {
                 //checks if its the path 19: The Dalles - Pendleton white
                 path = allPaths.get(19);
                 pathNumber = 19;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1050 && x <= 1430 && y <= 305  && y >= 256) {
                 //checks if its the path 13: The Dalles - Pendleton black
                 path = allPaths.get(13);
                 pathNumber = 13;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 965 && x <= 995 && y <= 645  && y >= 305) {
                 //checks if its the path 28: The Dalles - Bend grey left
                 path = allPaths.get(28);
                 pathNumber = 28;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1000 && x <= 1030 && y <= 645  && y >= 305) {
                 //checks if its the path 29: The Dalles - Bend grey right
                 path = allPaths.get(29);
                 pathNumber = 29;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1050 && x <= 1550 && y <= 675  && y >= 315) {
                 //checks if its the path 10: Pendleton - Bend pink
                 path = allPaths.get(10);
                 pathNumber = 10;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1590 && x <= 1700 && y <= 310  && y >= 250) {
                 //checks if its the path 14: Pendleton - La Grand black
                 path = allPaths.get(14);
                 pathNumber = 14;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1590 && x <= 1700 && y <= 375  && y >= 311) {
                 //checks if its the path 3: Pendleton - La Grand orange
                 path = allPaths.get(3);
                 pathNumber = 3;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 400 && x <= 570 && y <= 510  && y >= 410) {
                 //checks if its the path 37: Newport - Salem grey
                 path = allPaths.get(37);
                 pathNumber = 37;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 300 && x <= 390 && y <= 850 && y >= 525) {
                 //checks if its the path 8: Newport - Coosbay pink
                 path = allPaths.get(8);
                 pathNumber = 8;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 391 && x <= 550 && y <= 650  && y >= 511) {
                 //checks if its the path 21: Newport - Eugene white
                 path = allPaths.get(21);
                 pathNumber = 21;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 551 && x <= 581 && y <= 650  && y >= 450) {
                 //checks if its the path 15: Salem - Eugene black
                 path = allPaths.get(15);
                 pathNumber = 15;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 582 && x <= 625 && y <= 650  && y >= 450) {
                 //checks if its the path 2: Salem - Eugene orange
                 path = allPaths.get(2);
                 pathNumber = 2;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 626 && x <= 964 && y <= 640  && y >= 425) {
                 //checks if its the path 20: Salem - Bend white
                 path = allPaths.get(20);
                 pathNumber = 20;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1551 && x <= 1750 && y <= 800  && y >= 400) {
                 //checks if its the path 4: La Grand - Burns orange
                 path = allPaths.get(4);
                 pathNumber = 4;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 600 && x <= 950 && y <= 700  && y >= 641) {
                 //checks if its the path 9: Eugene - Bend pink
                 path = allPaths.get(9);
                 pathNumber = 9;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 500 && x <= 550 && y <= 900  && y >= 700) {
                 //checks if its the path 32: Eugene - Roseburg left
                 path = allPaths.get(32);
                 pathNumber = 32;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 551 && x <= 599 && y <= 900  && y >= 700) {
                 //checks if its the path 33: Eugene = Roseburg grey right
                 path = allPaths.get(33);
                 pathNumber = 33;
+                typeAction = ACTION.PLACE;
 
             }else if(x >= 875 && x <= 1010 && y <= 1175  && y >= 701) {
                 //checks if its the path 5: Bend - KFalls orange
                 path = allPaths.get(38);
                 pathNumber = 38;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1011 && x <= 1450 && y <= 825  && y >= 676) {
                 //checks if its the path 36: Bend - Burns grey
                 path = allPaths.get(36);
                 pathNumber = 36;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 1250 && x <= 1500 && y <= 1200  && y >= 826) {
                 //checks if its the path 11: Burns - Lake view pink
                 path = allPaths.get(11);
                 pathNumber = 11;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 350 && x <= 499 && y <= 905  && y >= 851) {
                 //checks if its the path 22: Coosbay - Roseburg white
                 path = allPaths.get(22);
                 pathNumber = 22;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 325 && x <= 500 && y <= 1100  && y >= 906) {
                 //checks if its the path 17: Coosbay - Grants Pass black
                 path = allPaths.get(17);
                 pathNumber = 17;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 501 && x <= 550 && y <= 1100  && y >= 950) {
                 //checks if its the path 34: Roseburg - Grants Pass grey
                 path = allPaths.get(34);
                 pathNumber = 34;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 551 && x <= 874 && y <= 1125  && y >= 900) {
                 //checks if its the path 35: Roseburg - KFalls grey
                 path = allPaths.get(35);
                 pathNumber = 35;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 551 && x <= 850 && y <= 1200  && y >= 1126) {
                 //checks if its the path 5: Grants Pass - KFalls orange
                 path = allPaths.get(5);
                 pathNumber = 5;
+                typeAction = ACTION.PLACE;
 
             } else if(x >= 900 && x <= 1200 && y <= 1225  && y >= 1176) {
                 //checks if its the path 23: KFalls - LakeView white
                 path = allPaths.get(23);
                 pathNumber = 23;
+                typeAction = ACTION.PLACE;
 
             }
         } else if (x >= 1700 && x <= 2100 && y >= 900 && y <= 1200) {
@@ -487,9 +522,13 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     //if hasn't chosen 2 actions then add another action
                     //sets the first or second card drawn to deck draw
                     if (turnActions.size() == 0) {
-                        selected.set(0, true);
+                        selected.set(0, !selected.get(0));
+                        surfaceView.setSelectedView(selected);
+                        surfaceView.invalidate();
                     } else {
-                        selected.set(1, true);
+                        selected.set(1, !selected.get(1));
+                        surfaceView.setSelectedView(selected);
+                        surfaceView.invalidate();
                     }
                     turnActions.add(new DrawTrains(this, selected));
                 } else {
@@ -516,8 +555,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
-                    selected.set(2, true);
+                    selected.set(2, !selected.get(2));
                     turnActions.add(new DrawTrains(this, selected));
+                    surfaceView.setSelectedView(selected);
+                    surfaceView.invalidate();
                 } else {
                     System.out.println(turnActions.size());
                     flash(Color.RED, 20);
@@ -531,8 +572,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
-                    selected.set(3, true);
+                    selected.set(3, !selected.get(3));
                     turnActions.add(new DrawTrains(this, selected));
+                    surfaceView.setSelectedView(selected);
+                    surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
@@ -545,8 +588,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
-                    selected.set(4, true);
+                    selected.set(4, !selected.get(4));
                     turnActions.add(new DrawTrains(this, selected));
+                    surfaceView.setSelectedView(selected);
+                    surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
@@ -561,8 +606,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
-                    selected.set(5, true);
+                    selected.set(5, !selected.get(5));
                     turnActions.add(new DrawTrains(this, selected));
+                    surfaceView.setSelectedView(selected);
+                    surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
@@ -574,8 +621,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 typeAction = ACTION.DRAW;
                 if (turnActions.size() < 2) {
                     //sets the draw train to the 1st face up card
-                    selected.set(6, true);
+                    selected.set(6, !selected.get(6));
                     turnActions.add(new DrawTrains(this, selected));
+                    surfaceView.setSelectedView(selected);
+                    surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
@@ -626,6 +675,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     for(int i = 0; i < 2; i++){
                         selectedTickets.set(i, 0);
                     }
+                    surfaceView.resetSelectedCardColor();
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
@@ -668,44 +718,60 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             for(int i = 0; i < 2; i++){
                 selectedTickets.set(i, 0);
             }
+            surfaceView.resetSelectedCardColor();
             surfaceView.invalidate();
 
 
         } else if (button.getId() == R.id.whiteTrainHand) {
-            if (typeAction == ACTION.NONE || typeAction == ACTION.PLACE) {
-                typeAction = ACTION.PLACE;
+            if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
+                if(turnActions.size() > 0) {
+                    turnActions.remove(0);
+                }
                 turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.WHITECARD , pathNumber));
+                surfaceView.setSelectedCardColor(TTRState.CARD.WHITECARD);
+                surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.blackTrainHand) {
-            if (typeAction == ACTION.NONE || typeAction == ACTION.PLACE) {
-                typeAction = ACTION.PLACE;
+            if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
+                if(turnActions.size() > 0) {
+                    turnActions.remove(0);
+                }
                 turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.BLACKCARD, pathNumber));
+                surfaceView.setSelectedCardColor(TTRState.CARD.BLACKCARD);
+                surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.pinkTrainHand) {
-            if (typeAction == ACTION.NONE || typeAction == ACTION.PLACE) {
-                typeAction = ACTION.PLACE;
+            if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
+                if(turnActions.size() > 0) {
+                    turnActions.remove(0);
+                }
                 turnActions.add(new PlaceTrains(this, path, wilds, TTRState.CARD.PINKCARD, pathNumber));
+                surfaceView.setSelectedCardColor(TTRState.CARD.PINKCARD);
+                surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.orangeTrainHand) {
-            if (typeAction == ACTION.NONE || typeAction == ACTION.PLACE) {
-                typeAction = ACTION.PLACE;
+            if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
+                if(turnActions.size() > 0) {
+                    turnActions.remove(0);
+                }
                 turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.ORANGECARD, pathNumber));
+                surfaceView.setSelectedCardColor(TTRState.CARD.ORANGECARD);
+                surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.wildTrainHand) {
-            if (typeAction == ACTION.NONE) {
-                typeAction = ACTION.PLACE;
+            if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
                 wilds++;
             } else {
