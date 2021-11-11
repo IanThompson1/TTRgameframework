@@ -242,19 +242,24 @@ public class TTRLocalGame extends LocalGame {
             //all checks
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
+                    //check if draw only one card adn teh one card is from random deck
                     if(i < 2) {
                         if(counter ==1){
                             System.out.println("fail draw train2");
 
                             return false;
                         }
-                    }else{
-                        //face up cards
-                        if(counter ==1 && faceUp.get(i-2) != TTRState.CARD.WILDCARD){
+                    }
+                    //there are two cards
+                    else{
+                        //if you select oly one card that is not a wild
+                        if(counter == 1 && faceUp.get(i-2) != TTRState.CARD.WILDCARD){
                             System.out.println("fail draw train3");
 
                             return false;
-                        }else if(faceUp.get(i-2) == TTRState.CARD.WILDCARD && counter == 2){
+                        }
+                        //if you select two cards and one is a wild
+                        else if(counter == 2 && faceUp.get(i-2) == TTRState.CARD.WILDCARD){
                             System.out.println("fail draw train4");
 
                             return false;
@@ -263,6 +268,7 @@ public class TTRLocalGame extends LocalGame {
                 }
             }
 
+            //add cards to the hand
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
                     Player user = state.getPlayers().get(state.getWhosTurn());

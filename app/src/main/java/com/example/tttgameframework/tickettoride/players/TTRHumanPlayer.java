@@ -11,6 +11,8 @@ import com.example.tttgameframework.GameFramework.Game;
 import com.example.tttgameframework.GameFramework.GameMainActivity;
 import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
+import com.example.tttgameframework.GameFramework.infoMessage.IllegalMoveInfo;
+import com.example.tttgameframework.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.tttgameframework.GameFramework.players.GameHumanPlayer;
 import com.example.tttgameframework.GameFramework.utilities.Logger;
 import com.example.tttgameframework.R;
@@ -404,10 +406,24 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
         if (surfaceView == null) {
             return;
-        } else if (!(info instanceof TTRState)) {
-            flash(Color.RED, 20);
+        }
+        if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo){
+            if(info instanceof IllegalMoveInfo){
+                System.out.println("Illegal Move");
+                flash(Color.RED, 20);
+            }
+            System.out.println("Not your turn move");
+            //flash(Color.BLACK, 20);
             return;
-        } else {
+        }
+
+        else if (!(info instanceof TTRState)) {
+            System.out.println("Bad move");
+            //flash(Color.RED, 20);
+            return;
+        }
+        else {
+            System.out.println("State move");
             state = new TTRState((TTRState) info);
             surfaceView.setState(state, selected, selectedTickets, path);
             System.out.println("Updating info");
