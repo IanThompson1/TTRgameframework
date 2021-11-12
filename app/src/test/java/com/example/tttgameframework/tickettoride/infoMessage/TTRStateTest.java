@@ -76,14 +76,35 @@ public class TTRStateTest {
 
     @Test
     public void getNumPlayers() {
-    }
+        TTRState state2 = new TTRState(2);
+        TTRState state3 = new TTRState(3);
 
-    @Test
-    public void getShownTickets() {
+        assertEquals(2, state2.getNumPlayers());
+        assertEquals(3, state3.getNumPlayers());
     }
 
     @Test
     public void addShownTicket() {
+        TTRState state0 = new TTRState(2);
+
+        Ticket ticket = new Ticket(1, TTRState.CITY.NEWPORT, TTRState.CITY.NEWPORT);
+        ArrayList<Ticket> tic = new ArrayList<>();
+        state0.addShownTicket(ticket);
+        tic.add(ticket);
+        assertEquals(tic.get(0), state0.getShownTickets().get(0));
+    }
+
+    @Test
+    public void getShownTickets() {
+        TTRState state = new TTRState(2);
+
+        Ticket ticket = new Ticket(1, TTRState.CITY.NEWPORT, TTRState.CITY.NEWPORT);
+        ArrayList<Ticket> tic = new ArrayList<>();
+        assertEquals(tic, state.getShownTickets());
+        state.addShownTicket(ticket);
+        tic.add(ticket);
+        assertEquals(tic.get(0), state.getShownTickets().get(0));
+
     }
 
     @Test
@@ -127,14 +148,18 @@ public class TTRStateTest {
 
     @Test
     public void setWhosTurn() {
-        TTRState test = new TTRState(2);
+        TTRState state = new TTRState(2);
 
-        test.setWhosTurn(1);
-
-        int testTurn = test.getTurn();
-
-        assertEquals(1,testTurn); //turn should automatically be set to 0.
-    }//Jennifer
+        state.setWhosTurn(0);
+        assertEquals(0, state.getWhosTurn());
+        state.setWhosTurn(1);
+        assertEquals(1, state.getWhosTurn());
+        state.setWhosTurn(2);
+        //over nunmber of players
+        assertEquals(1, state.getWhosTurn());
+        state.setWhosTurn(-1);
+        assertEquals(1, state.getWhosTurn());
+    }
 
     @Test
     public void addCard() {

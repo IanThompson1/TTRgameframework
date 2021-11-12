@@ -445,7 +445,9 @@ public class TTRState extends GameState implements Serializable {
     }
 
     public void setWhosTurn(int whosTurn) {
-        this.whosTurn = whosTurn;
+        if(whosTurn > -1 && whosTurn < numPlayers) {
+            this.whosTurn = whosTurn;
+        }
     }
 
     public void addCard(CARD card){
