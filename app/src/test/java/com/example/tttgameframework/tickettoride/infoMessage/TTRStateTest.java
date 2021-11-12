@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class TTRStateTest {
 
@@ -31,14 +32,32 @@ public class TTRStateTest {
 
     @Test
     public void setCardDeck() {
+        TTRState test =  new TTRState(2);
+
+        ArrayList<TTRState.CARD> deck = test.getCardDeck();
+        deck.remove(0);
+        deck.set(0, TTRState.CARD.ORANGECARD);
+        test.setCardDeck(deck);
+        ArrayList<TTRState.CARD> deck1 = test.getCardDeck();
+        assertEquals(TTRState.CARD.ORANGECARD, deck1.get(0));
+        assertEquals(deck.size(), deck1.size());
+
     }
 
     @Test
     public void getTickets() {
+        TTRState test = new TTRState(2);
+        ArrayList<Ticket> tickets = test.getTickets();
+
     }
 
     @Test
     public void addTicket() {
+        TTRState test = new TTRState(2);
+        Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.PENDLETON);
+        test.addTicket(testTicket);
+        int index = test.getTicketDeck().indexOf(testTicket);
+        assertEquals(testTicket, test.getTicketDeck().get(index));
     }
 
     @Test

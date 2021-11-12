@@ -330,6 +330,9 @@ public class TTRState extends GameState implements Serializable {
         Collections.shuffle(ticketDeck);
     }
 
+    public ArrayList<Ticket> getTicketDeck() {
+        return ticketDeck;
+    }
 
     //check if the ticket desk is empty
     public boolean ticketDeckEmpty(){
