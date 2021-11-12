@@ -42,14 +42,19 @@ public class TTRStateTest {
         assertEquals(TTRState.CARD.ORANGECARD, deck1.get(0));
         assertEquals(deck.size(), deck1.size());
 
-    }
+    }//Trent
 
     @Test
     public void getTickets() {
         TTRState test = new TTRState(2);
+        TTRState test1 = new TTRState(2);
         ArrayList<Ticket> tickets = test.getTickets();
+        int index1 = test1.getTicketDeck().indexOf(tickets.get(0));
+        int index2 = test1.getTicketDeck().indexOf(tickets.get(1));
+        assertEquals(test1.getTicketDeck().get(index1), tickets.get(0));
+        assertEquals(test1.getTicketDeck().get(index2), tickets.get(1));
 
-    }
+    }//Trent
 
     @Test
     public void addTicket() {
@@ -58,7 +63,7 @@ public class TTRStateTest {
         test.addTicket(testTicket);
         int index = test.getTicketDeck().indexOf(testTicket);
         assertEquals(testTicket, test.getTicketDeck().get(index));
-    }
+    }//Trent
 
     @Test
     public void ticketDeckEmpty() {
