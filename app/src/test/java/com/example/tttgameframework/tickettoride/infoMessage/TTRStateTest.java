@@ -94,6 +94,10 @@ public class TTRStateTest {
     public void clearShownTickets() {
         TTRState test = new TTRState(2);
 
+        Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.LAGRANDE);
+
+        test.addShownTicket(testTicket);
+
         test.clearShownTickets();
 
         ArrayList<Ticket> shownTicketsTest = new ArrayList<Ticket>();
