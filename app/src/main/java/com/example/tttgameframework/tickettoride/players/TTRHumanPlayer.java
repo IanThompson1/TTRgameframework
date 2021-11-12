@@ -46,6 +46,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private float Xratio;
     private float Yratio;
     private float Rratio;
+    private int numCardsSelected;
 
     //variable that holds type of action (implement enum later)
     public enum ACTION {
@@ -99,6 +100,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         selectedTickets = new ArrayList<Integer>();
         faceUpButtons = new ArrayList<ImageButton>();
         turnActions = new ArrayList<GameAction>();
+        numCardsSelected = 0;
         Xratio = (float) (25.0/32.0);
         Yratio = (float) (2.0/3.0);
         Rratio = Yratio;
@@ -517,24 +519,24 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             //asks if the user already has chosen 2 actions already
             if (typeAction == ACTION.NONE || typeAction == ACTION.DRAW) {
                 typeAction = ACTION.DRAW;
-
-                if (turnActions.size() < 2) {
-                    //if hasn't chosen 2 actions then add another action
-                    //sets the first or second card drawn to deck draw
-                    if (turnActions.size() == 0) {
-                        selected.set(0, !selected.get(0));
-                        surfaceView.setSelectedView(selected);
-                        surfaceView.invalidate();
-                    } else {
-                        selected.set(1, !selected.get(1));
-                        surfaceView.setSelectedView(selected);
-                        surfaceView.invalidate();
+                if (numCardsSelected < 2) {
+                    if (!selected.get(0)) {
+                        selected.set(0, true);
+                        numCardsSelected++;
+                    } else if (selected.get(0) && !selected.get(1)) {
+                        selected.set(1, true);
+                        numCardsSelected++;
                     }
-                    turnActions.add(new DrawTrains(this, selected));
-                } else {
+                }else if(selected.get(1)){
+                    selected.set(0, false);
+                    selected.set(1, false);
+                    numCardsSelected -= 2;
+
+                }else {
                     flash(Color.RED, 20);
                 }
-
+                surfaceView.setSelectedView(selected);
+                surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20);
             }
@@ -551,89 +553,109 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
             //else if the player clicks on a face up card
         } else if (button.getId() == R.id.FaceUp1Button) {
-            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(2)) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW)) {
                 typeAction = ACTION.DRAW;
-                if (turnActions.size() < 2) {
-                    //sets the draw train to the 1st face up card
+                //checks for the 1 case that there are 2 cards selected and neither is this card
+                if (!(numCardsSelected == 2 && !selected.get(2))) {
+                    //flips the selection
                     selected.set(2, !selected.get(2));
-                    turnActions.add(new DrawTrains(this, selected));
+                    //updates number of cards selected
+                    if (selected.get(2)) {
+                        numCardsSelected++;
+                    } else {
+                        numCardsSelected--;
+                    }
+                    //updates surface view
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
-                    System.out.println(turnActions.size());
                     flash(Color.RED, 20);
                 }
-
-            } else {
-                flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.FaceUp2Button) {
-            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(3)) {
-                typeAction = ACTION.DRAW;
-                if (turnActions.size() < 2) {
-                    //sets the draw train to the 1st face up card
-                    selected.set(3, !selected.get(3));
-                    turnActions.add(new DrawTrains(this, selected));
-                    surfaceView.setSelectedView(selected);
-                    surfaceView.invalidate();
-                } else {
-                    flash(Color.RED, 20);
+                if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW)) {
+                    typeAction = ACTION.DRAW;
+                    //checks for the 1 case that there are 2 cards selected and neither is this card
+                    if (!(numCardsSelected == 2 && !selected.get(3))) {
+                        //flips the selection
+                        selected.set(3, !selected.get(3));
+                        //updates number of cards selected
+                        if (selected.get(3)) {
+                            numCardsSelected++;
+                        } else {
+                            numCardsSelected--;
+                        }
+                        //updates surface view
+                        surfaceView.setSelectedView(selected);
+                        surfaceView.invalidate();
+                    } else {
+                        flash(Color.RED, 20);
+                    }
                 }
-
-            } else {
-                flash(Color.RED, 20);
-            }
         } else if (button.getId() == R.id.FaceUp3Button) {
-            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(4)) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW)) {
                 typeAction = ACTION.DRAW;
-                if (turnActions.size() < 2) {
-                    //sets the draw train to the 1st face up card
+                //checks for the 1 case that there are 2 cards selected and neither is this card
+                if (!(numCardsSelected == 2 && !selected.get(4))) {
+                    //flips the selection
                     selected.set(4, !selected.get(4));
-                    turnActions.add(new DrawTrains(this, selected));
+                    //updates number of cards selected
+                    if (selected.get(4)) {
+                        numCardsSelected++;
+                    } else {
+                        numCardsSelected--;
+                    }
+                    //updates surface view
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
-
-            } else {
-                flash(Color.RED, 20);
             }
-
-
         } else if (button.getId() == R.id.FaceUp4Button) {
-            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(5)) {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW)) {
                 typeAction = ACTION.DRAW;
-                if (turnActions.size() < 2) {
-                    //sets the draw train to the 1st face up card
+                //checks for the 1 case that there are 2 cards selected and neither is this card
+                if (!(numCardsSelected == 2 && !selected.get(5))) {
+                    //flips the selection
                     selected.set(5, !selected.get(5));
-                    turnActions.add(new DrawTrains(this, selected));
+                    //updates number of cards selected
+                    if (selected.get(5)) {
+                        numCardsSelected++;
+                    } else {
+                        numCardsSelected--;
+                    }
+                    //updates surface view
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
-            } else {
-                flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.FaceUp5Button) {
-            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW) && !selected.get(6))  {
+            if ((typeAction == ACTION.NONE || typeAction == ACTION.DRAW)) {
                 typeAction = ACTION.DRAW;
-                if (turnActions.size() < 2) {
-                    //sets the draw train to the 1st face up card
+                //checks for the 1 case that there are 2 cards selected and neither is this card
+                if (!(numCardsSelected == 2 && !selected.get(6))) {
+                    //flips the selection
                     selected.set(6, !selected.get(6));
-                    turnActions.add(new DrawTrains(this, selected));
+                    //updates number of cards selected
+                    if (selected.get(6)) {
+                        numCardsSelected++;
+                    } else {
+                        numCardsSelected--;
+                    }
+                    //updates surface view
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20);
                 }
-            } else {
-                flash(Color.RED, 20);
             }
         } else if (button.getId() == R.id.ConfirmButton) {
             if (typeAction == ACTION.DRAW) {
                 System.out.println("Draw");
+                turnActions.add(new DrawTrains(this, selected));
                 for (int i = 0; i < turnActions.size(); i++) {
                     game.sendAction(turnActions.get(i));
                 }
@@ -647,6 +669,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 for(int i = 0; i < 2; i++){
                     selectedTickets.set(i, 0);
                 }
+                numCardsSelected=0;
                 surfaceView.invalidate();
             } else if (typeAction == ACTION.PLACE) {
                 System.out.println("Place");
@@ -718,6 +741,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             for(int i = 0; i < 2; i++){
                 selectedTickets.set(i, 0);
             }
+            numCardsSelected=0;
             surfaceView.resetSelectedCardColor();
             surfaceView.invalidate();
 
