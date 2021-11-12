@@ -47,6 +47,7 @@ public class TTRSurfaceView extends SurfaceView {
     private float Rratio;
     private Paint higlighter;
     private Paint numCardsPaint;
+    private Paint lightgreen;
 
     //instance variables that hold the players train counts
     private int player0Trains;
@@ -116,6 +117,8 @@ public class TTRSurfaceView extends SurfaceView {
         higlighter = new Paint();
         buttonHighlight = new Paint();
         numCardsPaint = new Paint();
+        lightgreen = new Paint();
+        lightgreen.setARGB(125,0,255,0);
         white.setARGB(255,255,255,255);
         redPaint.setARGB(255,255,0,0);
         greenPaint.setARGB(255,0,255,0);
@@ -686,8 +689,10 @@ public class TTRSurfaceView extends SurfaceView {
         //highlights the train cards selected
         //random
         for(int i=0; i<2; i++){
-            if(selected.get(i)){
+            if(selected.get(1)){
                 canvas.drawRect(2130*Xratio,(205+(205*5))*Yratio,2560*Xratio,(410+(205*5))*Yratio,buttonHighlight);
+            }else if(selected.get(0)){
+                canvas.drawRect(2130*Xratio,(205+(205*5))*Yratio,2560*Xratio,(410+(205*5))*Yratio,lightgreen);
             }
         }
         //face up
