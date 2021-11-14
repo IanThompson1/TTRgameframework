@@ -67,7 +67,27 @@ public class TTRStateTest {
 
     @Test
     public void ticketDeckEmpty() {
-    }
+        TTRState state = new TTRState(4);
+        ArrayList<Ticket> empty = new ArrayList<>();
+        state.setTicketDeck(empty);
+        assertTrue(state.ticketDeckEmpty());
+        Ticket testTicket = new Ticket(1, TTRState.CITY.BEND, TTRState.CITY.BURNS);
+        state.addTicket(testTicket);
+        assertFalse(state.ticketDeckEmpty());
+    }//Ian
+
+    @Test
+    public void setTicketDeck(){
+        TTRState state = new TTRState(4);
+        ArrayList<Ticket> empty = new ArrayList<>();
+        state.setTicketDeck(empty);
+        assertTrue(state.ticketDeckEmpty());
+        Ticket testTicket = new Ticket(1, TTRState.CITY.PENDLETON, TTRState.CITY.PORTLAND);
+        ArrayList<Ticket> test = new ArrayList<>();
+        test.add(testTicket);
+        state.setTicketDeck(test);
+        assertEquals(testTicket, state.getTicketDeck().get(0));
+    }//Ian
 
     @Test
     public void testToString() {
@@ -82,12 +102,15 @@ public class TTRStateTest {
     }
 
     @Test
-    public void getPath() {
-    }
-
-    @Test
     public void getAllPaths() {
-    }
+        TTRState state = new TTRState(4);
+        Path testFirst = state.getAllPaths().get(0);
+        assertEquals(-1,testFirst.getPathOwner());
+        assertEquals(1,testFirst.getLength());
+        assertEquals(TTRState.CITY.ASTORIA,testFirst.getNode0());
+        assertEquals(TTRState.CITY.TILLAMOOK,testFirst.getNode1());
+        assertEquals(Path.COLOR.ORANGEPATH,testFirst.getPathColor());
+    }//Ian
 
     @Test
     public void getTurn() {

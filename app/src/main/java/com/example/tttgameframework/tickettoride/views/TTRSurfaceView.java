@@ -716,7 +716,6 @@ public class TTRSurfaceView extends SurfaceView {
         }else if(selectedCardColor == TTRState.CARD.WILDCARD){
             j=4;
         }
-        System.out.println("j is "+j);
         if(j != -1) {
             canvas.drawRect((265 + 331 * j) * Xratio, 1340 * Yratio, (605 + 328 * j) * Xratio, 1800 * Yratio, buttonHighlight);
         }
@@ -797,7 +796,6 @@ public class TTRSurfaceView extends SurfaceView {
     //helper function to get the paint of the current owner of the path
     private Paint ownerPaint(Path p){
         int owner = p.getPathOwner();
-        System.out.println(String.valueOf(owner));
         if(owner == 0){
             return greenPaint;
         } else if(owner == 1){

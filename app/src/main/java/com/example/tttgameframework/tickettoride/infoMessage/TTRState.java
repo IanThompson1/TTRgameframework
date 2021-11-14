@@ -319,10 +319,14 @@ public class TTRState extends GameState implements Serializable {
     public ArrayList<Ticket> getTickets(){
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
         for(int i = 0; i < 2; i++){
-            tickets.add(ticketDeck.get(i));
-            ticketDeck.remove(i);
+            tickets.add(ticketDeck.get(0));
+            ticketDeck.remove(0);
         }
         return tickets;
+    }
+
+    public void setTicketDeck(ArrayList<Ticket> ticketDeck) {
+        this.ticketDeck = ticketDeck;
     }
 
     public void addTicket(Ticket tik){
@@ -397,12 +401,6 @@ public class TTRState extends GameState implements Serializable {
     //get ArrayList of Players
     public ArrayList<Player> getPlayers(){
         return allPlayers;
-    }
-
-    //for the place train action
-    public Path getPath(){
-        Path path = allPaths.get(1);
-        return path;
     }
 
     public ArrayList<Path> getAllPaths(){

@@ -375,12 +375,19 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             //find which ticket is chosen and make it true in the arraylist
             if(y <= 1050){
                 //player chooses top ticket
-                selectedTickets.set(0, 1);
-                System.out.println("Ticket selected");
+                if(selectedTickets.get(0) == 0){
+                    selectedTickets.set(0, 1);
+                }else {
+                    selectedTickets.set(0, 0);
+                }
                 typeAction = ACTION.TICKET;
             } else {
                 //player chooses bottom ticket
-                selectedTickets.set(1,1);
+                if(selectedTickets.get(1) == 0){
+                    selectedTickets.set(1, 1);
+                }else {
+                    selectedTickets.set(1, 0);
+                }
                 typeAction = ACTION.TICKET;
             }
 
@@ -559,7 +566,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
             //else if the player clicks on draw ticket then send the action draw ticket
         } else if (button.getId() == R.id.DrawTicketButton) {
-            if (typeAction == ACTION.NONE) {
+            if (typeAction == ACTION.NONE && state.getTicketDeck().size() > 1) {
                 typeAction = ACTION.TICKET;
                 game.sendAction(new DrawTickets(this, null));
             } else {

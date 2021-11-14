@@ -173,6 +173,11 @@ public class TTRLocalGame extends LocalGame {
         if(action instanceof DrawTickets){
             if(((DrawTickets) action).getSelected() == null){
                 //draw tickets to part of the screen
+                //check if there are enough tickets in the deck
+                System.out.println(state.getTicketDeck().size() + " ticket deck size");
+                if(state.getTicketDeck().size() < 2){
+                    return false;
+                }
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
