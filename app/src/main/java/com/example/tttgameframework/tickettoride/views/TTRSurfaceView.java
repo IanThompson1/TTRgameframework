@@ -168,6 +168,7 @@ public class TTRSurfaceView extends SurfaceView {
         if(state == null){
             return;
         }
+
         Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.oregon_map);
         //following code was taken from stack overflow
         float maxSize =2000;
@@ -817,6 +818,4 @@ public class TTRSurfaceView extends SurfaceView {
             return emptyPaint;
         }
     }
-
-
 }

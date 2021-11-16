@@ -146,14 +146,14 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
      * @param duration
      * 			the number of milliseconds the flash should last
      */
-    protected void flash(int color, int duration) {
+    protected void flash(int color, int duration, int savedColor) {
         // get the top view, ignoring if null
         View top = this.getTopView();
         if (top == null) return;
 
         // save the original background color; set the new background
         // color
-        int savedColor = getBackgroundColor(top);
+        //int savedColor = getBackgroundColor(top);
         top.setBackgroundColor(color);
 
         // set up a timer event to set the background color back to

@@ -393,7 +393,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
         } else {
             //not a valid coordinate so it will flash screen
-            flash(Color.RED, 20);
+            flash(Color.RED, 20,Color.BLACK);
             return true;
         }
         surfaceView.setState(state, selected, selectedTickets, path);
@@ -419,16 +419,16 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo){
             if(info instanceof IllegalMoveInfo){
                 System.out.println("Illegal Move");
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
             System.out.println("Not your turn move");
-            //flash(Color.BLACK, 20);
+            flash(Color.BLACK, 20,Color.BLACK);
             return;
         }
 
         else if (!(info instanceof TTRState)) {
             System.out.println("Bad move");
-            //flash(Color.RED, 20);
+            flash(Color.RED, 20,Color.BLACK);
             return;
         }
         else {
@@ -556,12 +556,12 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     numCardsSelected -= 2;
 
                 }else {
-                    flash(Color.RED, 20);
+                    flash(Color.RED, 20,Color.BLACK);
                 }
                 surfaceView.setSelectedView(selected);
                 surfaceView.invalidate();
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
 
             //else if the player clicks on draw ticket then send the action draw ticket
@@ -570,7 +570,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 typeAction = ACTION.TICKET;
                 game.sendAction(new DrawTickets(this, null));
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
 
 
@@ -592,7 +592,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
-                    flash(Color.RED, 20);
+                    flash(Color.RED, 20,Color.BLACK);
                 }
             }
         } else if (button.getId() == R.id.FaceUp2Button) {
@@ -612,7 +612,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                         surfaceView.setSelectedView(selected);
                         surfaceView.invalidate();
                     } else {
-                        flash(Color.RED, 20);
+                        flash(Color.RED, 20,Color.BLACK);
                     }
                 }
         } else if (button.getId() == R.id.FaceUp3Button) {
@@ -632,7 +632,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
-                    flash(Color.RED, 20);
+                    flash(Color.RED, 20,Color.BLACK);
                 }
             }
         } else if (button.getId() == R.id.FaceUp4Button) {
@@ -652,7 +652,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
-                    flash(Color.RED, 20);
+                    flash(Color.RED, 20,Color.BLACK);
                 }
             }
         } else if (button.getId() == R.id.FaceUp5Button) {
@@ -672,7 +672,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.setSelectedView(selected);
                     surfaceView.invalidate();
                 } else {
-                    flash(Color.RED, 20);
+                    flash(Color.RED, 20,Color.BLACK);
                 }
             }
         } else if (button.getId() == R.id.ConfirmButton) {
@@ -724,7 +724,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.resetSelectedCardColor();
                     surfaceView.invalidate();
                 } else {
-                    flash(Color.RED, 20);
+                    flash(Color.RED, 20,Color.BLACK);
                 }
 
 
@@ -746,7 +746,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             } else {
                 //if the player did enter a action
                 System.out.println("ANGRY");
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
 
         } else if (button.getId() == R.id.CancelButton) {
@@ -768,7 +768,6 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             surfaceView.resetSelectedCardColor();
             surfaceView.invalidate();
 
-
         } else if (button.getId() == R.id.whiteTrainHand) {
             if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
@@ -779,7 +778,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.setSelectedCardColor(TTRState.CARD.WHITECARD);
                 surfaceView.invalidate();
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
         } else if (button.getId() == R.id.blackTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -791,7 +790,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.setSelectedCardColor(TTRState.CARD.BLACKCARD);
                 surfaceView.invalidate();
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
         } else if (button.getId() == R.id.pinkTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -803,7 +802,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.setSelectedCardColor(TTRState.CARD.PINKCARD);
                 surfaceView.invalidate();
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
         } else if (button.getId() == R.id.orangeTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -815,14 +814,14 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.setSelectedCardColor(TTRState.CARD.ORANGECARD);
                 surfaceView.invalidate();
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
         } else if (button.getId() == R.id.wildTrainHand) {
             if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
                 wilds++;
             } else {
-                flash(Color.RED, 20);
+                flash(Color.RED, 20,Color.BLACK);
             }
         }
 

@@ -172,12 +172,12 @@ public class TTRLocalGame extends LocalGame {
         }
         if(action instanceof DrawTickets){
             if(((DrawTickets) action).getSelected() == null){
-                //draw tickets to part of the screen
                 //check if there are enough tickets in the deck
                 System.out.println(state.getTicketDeck().size() + " ticket deck size");
                 if(state.getTicketDeck().size() < 2){
                     return false;
                 }
+                //draw tickets to part of the screen
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
@@ -201,16 +201,13 @@ public class TTRLocalGame extends LocalGame {
                 }
 
                 //loops through the 2 possible selected tickets
-                System.out.println(selected.size()+" selected size");
-                System.out.println(shown.size() + " shown size");
                 for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
                     if(selected.get(i) == 1) {
                         if(!shown.isEmpty()){
                             System.out.println(shown.get(i).toString() + "adding this card to the players hand");
                             user.addTicket(shown.get(i));
-                        }
-                        else{
+                        }else{
                             return false;
                         }
 
@@ -247,26 +244,23 @@ public class TTRLocalGame extends LocalGame {
             //all checks
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
-                    //check if draw only one card adn teh one card is from random deck
+                    //check if draw only one card and the one card is from random deck
                     if(i < 2) {
                         if(counter ==1){
                             System.out.println("fail draw train2");
-
                             return false;
                         }
                     }
-                    //there are two cards
+
                     else{
-                        //if you select oly one card that is not a wild
+                        //if you select only one card that is not a wild
                         if(counter == 1 && faceUp.get(i-2) != TTRState.CARD.WILDCARD){
                             System.out.println("fail draw train3");
-
                             return false;
                         }
                         //if you select two cards and one is a wild
                         else if(counter == 2 && faceUp.get(i-2) == TTRState.CARD.WILDCARD){
                             System.out.println("fail draw train4");
-
                             return false;
                         }
                     }
@@ -278,6 +272,7 @@ public class TTRLocalGame extends LocalGame {
                 if (selected.get(i)){
                     Player user = state.getPlayers().get(state.getWhosTurn());
                     if(i < 2) {
+                        //random cards
                         System.out.println(random.get(i).toString());
                         user.addCardHand(random.get(i));
                     }else{
@@ -290,6 +285,7 @@ public class TTRLocalGame extends LocalGame {
             for(int i=0; i<selected.size(); i++) {
                 if (selected.get(i)){
                     if(i < 2) {
+                        //random cards
                         random.remove(random.get(i));
                     }else{ //i >= 2
                         //face up cards
@@ -304,10 +300,10 @@ public class TTRLocalGame extends LocalGame {
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             System.out.println("True draw train");
-
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
+            //creates a bunch of variables to use
             Player user = state.getPlayers().get(state.getWhosTurn());
             Path thePath = ((PlaceTrains) action).getSelectedPath();
             int pathNum = ((PlaceTrains) action).getPathNum();
@@ -321,13 +317,13 @@ public class TTRLocalGame extends LocalGame {
             System.out.println(wilds+ " wilds");
 
 
-            //check if owned
+            //check if the path is already owned
             if(thePathOwner != -1){
                 System.out.println("fail place train");
 
                 return false;
             }
-            //check if correct color
+            //check if the color selected matches the path color (skips if the path is gray)
             if(thePathColor != Path.COLOR.GREYPATH){
                 if(color == TTRState.CARD.WHITECARD){
                     if(thePathColor != Path.COLOR.WHITEPATH) {
@@ -355,7 +351,7 @@ public class TTRLocalGame extends LocalGame {
                     }
                 }
             }
-            //check enough cards
+            //checks if you enough cards
             if(color == TTRState.CARD.WHITECARD){
                 if (user.getWhiteCards() < thePathLength - wilds) {
                     System.out.println("fail place train");
@@ -435,7 +431,7 @@ public class TTRLocalGame extends LocalGame {
     }
 
     public void changeTurn(TTRState state){
-        if(state.getNumPlayers() == 2){//use modulus to make it shorter
+        if(state.getNumPlayers() == 2){//use modulus to make it shorter in the future
             if(state.getWhosTurn() == 0){
                 state.setWhosTurn(1);
             }else{
