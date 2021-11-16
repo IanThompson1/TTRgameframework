@@ -20,10 +20,13 @@ public class TTRLocalGame extends LocalGame {
     private TTRState state; 
     public TTRLocalGame(){
         super();
-        super.state = new TTRState(2);
-        state = (TTRState) super.state;
     }
 
+    public void start(GamePlayer[] players){
+        super.start(players);
+        super.state = new TTRState(players.length);
+        state = (TTRState) super.state;
+    }
     /** sendUpdatedStateTo
      *
      * Description: Notify the player that their state has changed. Send a game info object.
