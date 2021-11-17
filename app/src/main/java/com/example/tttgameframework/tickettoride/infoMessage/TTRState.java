@@ -484,15 +484,15 @@ public class TTRState extends GameState implements Serializable {
     }
 
     //check if a ticket is completed
-    public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
+    /*public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
         HashMap<TTRState.CITY, CityNode> marked = new HashMap<>(); //hashmap to store the marked off nodes
 
 
         return dfs(marked, c0, c1, owner);
-    }
+    }*/
 
     //depth first search of gameboard to see if a ticket is complete
-    public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
+    /*public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
         marked.put(c0, cityAdjList.get(c0));
 
         if(c0 == c1){
@@ -519,5 +519,5 @@ public class TTRState extends GameState implements Serializable {
 
 
         return reached;
-    }
+    }*/
 }

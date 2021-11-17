@@ -216,7 +216,7 @@ public class TTRStateTest {
     //will fail
     @Test
     public void ticket_completed() {
-        TTRState state = new TTRState(2); //make gamestate with 2 players
+        /*TTRState state = new TTRState(2); //make gamestate with 2 players
 
         //set paths as owned
         ArrayList<Path> paths = new ArrayList<>();
@@ -246,7 +246,7 @@ public class TTRStateTest {
 
 
 
-        //city1, city2, owner
+        //city1, city2, owner*/
 
     }
 
