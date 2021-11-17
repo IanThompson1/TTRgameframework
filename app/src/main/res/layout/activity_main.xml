@@ -50,10 +50,14 @@
                 android:layout_weight="1.9"
                 android:orientation="horizontal">
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                <EditText
+                    android:id="@+id/TicketList"
+                    android:layout_width="93dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".2"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine" />
 
                 <LinearLayout
                     android:id="@+id/trainLayout"
