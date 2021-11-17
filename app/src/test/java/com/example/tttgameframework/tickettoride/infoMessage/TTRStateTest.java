@@ -46,13 +46,15 @@ public class TTRStateTest {
 
     @Test
     public void getTickets() {
+//        TTRState test = new TTRState(2);
+//        TTRState test1 = new TTRState(2);
+//        ArrayList<Ticket> tickets = test.getTickets();
         TTRState test = new TTRState(2);
-        TTRState test1 = new TTRState(2);
+        Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.PENDLETON);
+        test.addTicket(testTicket);
         ArrayList<Ticket> tickets = test.getTickets();
-        int index1 = test1.getTicketDeck().indexOf(tickets.get(0));
-        int index2 = test1.getTicketDeck().indexOf(tickets.get(1));
-        assertEquals(test1.getTicketDeck().get(index1), tickets.get(0));
-        assertEquals(test1.getTicketDeck().get(index2), tickets.get(1));
+        assertEquals(test.getTicketDeck().size(), tickets.size());
+        //assertEquals(test1.getTicketDeck().get(index2), tickets.get(1));
 
     }//Trent
 
