@@ -50,11 +50,24 @@ public class TTRStateTest {
 //        TTRState test = new TTRState(2);
 //        TTRState test1 = new TTRState(2);
 //        ArrayList<Ticket> tickets = test.getTickets();
-        TTRState test = new TTRState(2);
-        Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.PENDLETON);
-        test.addTicket(testTicket);
-        ArrayList<Ticket> tickets = test.getTickets();
-        assertEquals(test.getTicketDeck().size(), tickets.size());
+        TTRState state = new TTRState(2);
+        //full ticket deck
+        ArrayList<Ticket> tickets = new ArrayList<>();
+
+        /*for (int i = 0; i < state.getTickets().size(); i++){
+            tickets.add(state.getTicketDeck().get(i));
+        }*/
+
+        //two tickets drawn
+        ArrayList<Ticket> collected = state.getTickets();
+        assertEquals(2, collected.size());
+
+        assertNotEquals(null, collected.get(0));
+        assertNotEquals(null, collected.get(1));
+
+        assertFalse(state.getTicketDeck().contains(collected.get(0)));
+        assertFalse(state.getTicketDeck().contains(collected.get(1)));
+
         //assertEquals(test1.getTicketDeck().get(index2), tickets.get(1));
 
     }//Trent
@@ -67,7 +80,7 @@ public class TTRStateTest {
         int index = test.getTicketDeck().indexOf(testTicket);
         assertEquals(testTicket, test.getTicketDeck().get(index));
     }//Trent
-
+/*
     @Test
     public void ticketDeckEmpty() {
         TTRState state = new TTRState(4);
@@ -78,18 +91,20 @@ public class TTRStateTest {
         state.addTicket(testTicket);
         assertFalse(state.ticketDeckEmpty());
     }//Ian
-
+*/
     @Test
     public void setTicketDeck(){
         TTRState state = new TTRState(4);
         ArrayList<Ticket> empty = new ArrayList<>();
         state.setTicketDeck(empty);
-        assertTrue(state.ticketDeckEmpty());
+        //assertTrue(state.ticketDeckEmpty());
+
         Ticket testTicket = new Ticket(1, TTRState.CITY.PENDLETON, TTRState.CITY.PORTLAND);
         ArrayList<Ticket> test = new ArrayList<>();
         test.add(testTicket);
         state.setTicketDeck(test);
-        assertEquals(testTicket, state.getTicketDeck().get(0));
+        assertEquals(testTicket.getNode0(), state.getTicketDeck().get(0).getNode0());
+        assertEquals(testTicket.getNode1(), state.getTicketDeck().get(0).getNode1());
     }//Ian
 
     @Test

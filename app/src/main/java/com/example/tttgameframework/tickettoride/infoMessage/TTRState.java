@@ -332,6 +332,10 @@ public class TTRState extends GameState implements Serializable {
     }
 
     public void setTicketDeck(ArrayList<Ticket> ticketDeck) {
+        /*ticketDeck.clear();
+        for (int i = 0; i < ticketDeck.size(); i++){
+            this.ticketDeck.set(i, ticketDeck.get(i));
+        }*/
         this.ticketDeck = ticketDeck;
     }
 
@@ -343,12 +347,24 @@ public class TTRState extends GameState implements Serializable {
     public ArrayList<Ticket> getTicketDeck() {
         return ticketDeck;
     }
-
+/*
     //check if the ticket desk is empty
     public boolean ticketDeckEmpty(){
-        return ticketDeck.isEmpty();
+        if (ticketDeck == null){
+            return true;
+        }
+        else if(ticketDeck.size() == 0){
+            return true;
+        }
+        for (int i = 0; i < ticketDeck.size(); i++){
+            if (ticketDeck.get(i) != null){
+                return false;
+            }
+        }
+        return true;
+        //return ticketDeck.isEmpty();
     }
-
+*/
 
     //toString method to display TTRGameState information
     public String toString(){
