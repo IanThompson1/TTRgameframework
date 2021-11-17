@@ -722,7 +722,7 @@ public class TTRSurfaceView extends SurfaceView {
             j=4;
         }
         if(j != -1) {
-            canvas.drawRect((265 + 331 * j) * Xratio, 1340 * Yratio, (605 + 328 * j) * Xratio, 1800 * Yratio, buttonHighlight);
+            canvas.drawRect((230 + 335 * j) * Xratio, 1340 * Yratio, (575 + 335 * j) * Xratio, 1800 * Yratio, buttonHighlight);
         }
     }
     //function to change the gui given the information given
