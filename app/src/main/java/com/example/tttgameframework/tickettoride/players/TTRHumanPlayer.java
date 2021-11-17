@@ -5,6 +5,7 @@ import android.media.Image;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.tttgameframework.GameFramework.Game;
@@ -45,6 +46,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ImageButton faceup4Button = null;
     private ImageButton faceup5Button = null;
     private ImageButton drawTrainButton = null;
+    private EditText ticketList = null;
     private float Xratio;
     private float Yratio;
     private float Rratio;
@@ -435,6 +437,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         else {
             System.out.println("State move");
             state = new TTRState((TTRState) info);
+            surfaceView.setText(ticketList);
             surfaceView.setState(state, selected, selectedTickets, path);
             System.out.println("Updating info");
             surfaceView.invalidate();
@@ -500,7 +503,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         this.faceup4Button = (ImageButton) activity.findViewById(R.id.FaceUp4Button);
         this.faceup5Button = (ImageButton) activity.findViewById(R.id.FaceUp5Button);
         this.drawTrainButton = (ImageButton) activity.findViewById(R.id.DrawTrainButton);
+        this.ticketList = (EditText) activity.findViewById(R.id.TicketList);
 
+        //sets background of ticketList
+        this.ticketList.setBackgroundColor(Color.parseColor("#F6D078"));
         //give the face up buttons to the instance array list
         faceUpButtons.add(this.faceup1Button);
         faceUpButtons.add(this.faceup2Button);
