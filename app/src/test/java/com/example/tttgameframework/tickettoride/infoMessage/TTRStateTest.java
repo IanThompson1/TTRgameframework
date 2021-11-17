@@ -179,9 +179,9 @@ public class TTRStateTest {
         tic.add(ticket);
 
         state0.removeShownTicket(ticket);
-        assertNotEquals(tic.get(0), state0.getShownTickets().get(0));
+        assertNotEquals(tic.size(), state0.getShownTickets().size());
         tic.remove(ticket);
-        assertEquals(tic.get(0), state0.getShownTickets().get(0));
+        assertEquals(tic.size(), state0.getShownTickets().size());
     }//Bruce
 
     @Test
