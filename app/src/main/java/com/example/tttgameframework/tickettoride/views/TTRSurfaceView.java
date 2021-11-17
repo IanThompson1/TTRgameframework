@@ -184,6 +184,7 @@ public class TTRSurfaceView extends SurfaceView {
 
 
 
+
         //current player
         canvas.drawCircle( 2225*Xratio, 1525*Yratio,75*Rratio,white);
         canvas.drawCircle( 2400*Xratio, 1525*Yratio,100*Rratio,greenPaint);

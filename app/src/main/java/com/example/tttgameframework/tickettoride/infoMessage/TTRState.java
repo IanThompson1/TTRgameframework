@@ -172,10 +172,10 @@ public class TTRState extends GameState implements Serializable {
         //adding the paths as neighbors in the adjacency list
         for(Path p: allPaths){
             //add node0
-            Objects.requireNonNull(cityAdjList.get(p.getNode0())).addNeighbor(p);
+            cityAdjList.get(p.getNode0()).addNeighbor(p);
 
             //add node 1
-            Objects.requireNonNull(cityAdjList.get(p.getNode1())).addNeighbor(p);
+            cityAdjList.get(p.getNode1()).addNeighbor(p);
         }
 
 
@@ -187,7 +187,7 @@ public class TTRState extends GameState implements Serializable {
 
         allPlayers.add(new Player(0));
         allPlayers.add(new Player(1));
-        System.out.println(numPlayers);
+
         if (numPlayers > 2){
             //three players
             allPlayers.add(new Player(2));
@@ -306,19 +306,6 @@ public class TTRState extends GameState implements Serializable {
         for(Ticket x: other.shownTickets){
             this.shownTickets.add(new Ticket(x));
         }
-
-        for(CITY c: other.cityAdjList.keySet()){
-            this.cityAdjList.put(c, new CityNode(c));
-        }
-
-        //adding the paths as neighbors in the adjacency list
-        for(Path p: other.allPaths){
-            //add node0
-            Objects.requireNonNull(cityAdjList.get(p.getNode0())).addNeighbor(p);
-
-            //add node 1
-            Objects.requireNonNull(cityAdjList.get(p.getNode1())).addNeighbor(p);
-        }
     }
 
     //getter method for cardDeck
@@ -342,14 +329,6 @@ public class TTRState extends GameState implements Serializable {
             ticketDeck.remove(0);
         }
         return tickets;
-    }
-
-    public void setAllPaths(ArrayList<Path> other){
-        allPaths.clear();
-
-        for(Path p: other){
-            allPaths.add(new Path(p));
-        }
     }
 
     public void setTicketDeck(ArrayList<Ticket> ticketDeck) {
@@ -483,16 +462,16 @@ public class TTRState extends GameState implements Serializable {
         Collections.shuffle(cardDeck);
     }
 
-    //check if a ticket is completed
-    /*public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
+    //comment
+    public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
         HashMap<TTRState.CITY, CityNode> marked = new HashMap<>(); //hashmap to store the marked off nodes
 
 
         return dfs(marked, c0, c1, owner);
-    }*/
+    }
 
-    //depth first search of gameboard to see if a ticket is complete
-    /*public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
+    //comment
+    public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
         marked.put(c0, cityAdjList.get(c0));
 
         if(c0 == c1){
@@ -501,13 +480,11 @@ public class TTRState extends GameState implements Serializable {
 
         HashMap<TTRState.CITY, Path> neighbors = Objects.requireNonNull(cityAdjList.get(c0)).getNeighbors();
 
+        HashMap<TTRState.CITY, Boolean> visited = new HashMap<>();
 
         boolean reached = false;
 
         for(TTRState.CITY c: neighbors.keySet()){
-            if(marked.containsKey(c)){
-                return false;
-            }
             if(Objects.requireNonNull(neighbors.get(c)).getPathOwner() == owner){
                 reached = dfs(marked, c, c1, owner);
             }
@@ -519,5 +496,5 @@ public class TTRState extends GameState implements Serializable {
 
 
         return reached;
-    }*/
+    }
 }
