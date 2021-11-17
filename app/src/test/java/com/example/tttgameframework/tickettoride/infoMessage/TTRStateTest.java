@@ -1,11 +1,12 @@
 package com.example.tttgameframework.tickettoride.infoMessage;
 
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.ASTORIA;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.LAGRANDE;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class TTRStateTest {
 
@@ -59,7 +60,7 @@ public class TTRStateTest {
     @Test
     public void addTicket() {
         TTRState test = new TTRState(2);
-        Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.PENDLETON);
+        Ticket testTicket = new Ticket(8, ASTORIA, TTRState.CITY.PENDLETON);
         test.addTicket(testTicket);
         int index = test.getTicketDeck().indexOf(testTicket);
         assertEquals(testTicket, test.getTicketDeck().get(index));
@@ -107,7 +108,7 @@ public class TTRStateTest {
         Path testFirst = state.getAllPaths().get(0);
         assertEquals(-1,testFirst.getPathOwner());
         assertEquals(1,testFirst.getLength());
-        assertEquals(TTRState.CITY.ASTORIA,testFirst.getNode0());
+        assertEquals(ASTORIA,testFirst.getNode0());
         assertEquals(TTRState.CITY.TILLAMOOK,testFirst.getNode1());
         assertEquals(Path.COLOR.ORANGEPATH,testFirst.getPathColor());
     }//Ian
@@ -162,7 +163,7 @@ public class TTRStateTest {
     public void clearShownTickets() {
         TTRState test = new TTRState(2);
 
-        Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.LAGRANDE);
+        Ticket testTicket = new Ticket(8, ASTORIA, LAGRANDE);
 
         test.addShownTicket(testTicket);
 
@@ -212,11 +213,45 @@ public class TTRStateTest {
     public void addCard() {
     }
 
+    //will fail
     @Test
     public void ticket_completed() {
+        TTRState state = new TTRState(2); //make gamestate with 2 players
+
+        //set paths as owned
+        ArrayList<Path> paths = new ArrayList<>();
+
+        for(Path p: state.getAllPaths()){
+            paths.add(p);
+        }
+
+        //astoria->ptown
+        //ptown->dalles
+        //dalles->pendelton
+        //pendelton->la grande
+        for(Path p: paths){
+            p.setPathOwner(1);
+        }
+
+        state.setAllPaths(paths);
+
+        //test ticket from ASTORIA to LAGRANDE
+        ArrayList<Ticket> ticks = state.getTicketDeck();
+        boolean isComplete = false;
+
+        for(Ticket t: ticks){
+            isComplete = state.ticket_completed(t.getNode0(), t.getNode1(), 1);
+            assertTrue(isComplete);
+        }
+
+
+
+        //city1, city2, owner
+
     }
 
     @Test
     public void dfs() {
+
     }
 }
