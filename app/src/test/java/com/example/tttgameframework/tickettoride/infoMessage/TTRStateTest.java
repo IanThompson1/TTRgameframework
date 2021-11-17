@@ -91,15 +91,30 @@ public class TTRStateTest {
 
     @Test
     public void testToString() {
+        //only used for testing
     }
 
     @Test
     public void getPlayer1() {
-    }
+        TTRState state = new TTRState(2);
+        Player player = new Player(state.getPlayer1());
+        assertEquals(state.getPlayers().get(0).getCardHand().size(), player.getCardHand().size());
+
+        state.getPlayers().get(0).addCardHand(TTRState.CARD.BLACKCARD);
+        assertNotEquals(state.getPlayers().get(0).getCardHand().size(), player.getCardHand().size());
+
+        player = new Player(state.getPlayer1());
+        assertEquals(state.getPlayers().get(0).getCardHand().size(), player.getCardHand().size());
+    }//Bruce
 
     @Test
     public void getPlayers() {
-    }
+        TTRState state0 = new TTRState(2);
+        TTRState state1 = new TTRState(4);
+        assertNotEquals(null, state0.getPlayers());
+        assertNotEquals(null, state1.getPlayers());
+        assertNotEquals(state1.getPlayers().size(), state0.getPlayers().size());
+    }//Bruce
 
     @Test
     public void getAllPaths() {
@@ -128,7 +143,7 @@ public class TTRStateTest {
 
         assertEquals(2, state2.getNumPlayers());
         assertEquals(3, state3.getNumPlayers());
-    }
+    }//Bruce
 
     @Test
     public void addShownTicket() {
@@ -139,7 +154,7 @@ public class TTRStateTest {
         state0.addShownTicket(ticket);
         tic.add(ticket);
         assertEquals(tic.get(0), state0.getShownTickets().get(0));
-    }
+    }//Bruce
 
     @Test
     public void getShownTickets() {
@@ -152,37 +167,109 @@ public class TTRStateTest {
         tic.add(ticket);
         assertEquals(tic.get(0), state.getShownTickets().get(0));
 
-    }
+    }//Bruce
 
     @Test
     public void removeShownTicket() {
-    }
+        TTRState state0 = new TTRState(2);
+
+        Ticket ticket = new Ticket(1, TTRState.CITY.NEWPORT, TTRState.CITY.NEWPORT);
+        ArrayList<Ticket> tic = new ArrayList<>();
+        state0.addShownTicket(ticket);
+        tic.add(ticket);
+
+        state0.removeShownTicket(ticket);
+        assertNotEquals(tic.get(0), state0.getShownTickets().get(0));
+        tic.remove(ticket);
+        assertEquals(tic.get(0), state0.getShownTickets().get(0));
+    }//Bruce
 
     @Test
     public void clearShownTickets() {
         TTRState test = new TTRState(2);
-
         Ticket testTicket = new Ticket(8, TTRState.CITY.ASTORIA, TTRState.CITY.LAGRANDE);
 
         test.addShownTicket(testTicket);
-
         test.clearShownTickets();
 
         ArrayList<Ticket> shownTicketsTest = new ArrayList<Ticket>();
-
         shownTicketsTest = test.getShownTickets();
-
         assertEquals(0, shownTicketsTest.size());
 
     }//jennifer
 
+
+    //Will not work 100% of teh time due to random starting order
     @Test
     public void getFaceUp() {
-    }
+        TTRState state = new TTRState(2);
+        assertEquals(5, state.getFaceUp().size());
 
+        ArrayList<TTRState.CARD> cards = new ArrayList<>();
+        for (int i = 0; i < 5; i++){
+            cards.add(TTRState.CARD.WILDCARD);
+        }
+
+        boolean same = true;
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i) != state.getFaceUp().get(i)){
+                same = false;
+            }
+        }
+        assertTrue(!same);
+        same = true;
+        state.setFaceUp(cards);
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i) != state.getFaceUp().get(i)){
+                same = false;
+            }
+        }
+        assertTrue(same);
+
+    }//Bruce
+
+
+    //Will not work 100% of teh time due to random starting order
     @Test
     public void setFaceUp() {
-    }
+        TTRState state = new TTRState(2);
+
+        ArrayList<TTRState.CARD> cards = new ArrayList<>();
+        for (int i = 0; i < 5; i++){
+            cards.add(TTRState.CARD.WHITECARD);
+        }
+
+        boolean same = true;
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i) != state.getFaceUp().get(i)){
+                same = false;
+                break;
+            }
+        }
+        assertTrue(!same);
+        same = true;
+        state.setFaceUp(cards);
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i) != state.getFaceUp().get(i)){
+                same = false;
+                break;
+            }
+        }
+        assertTrue(same);
+        same = true;
+
+        for (int i = 0; i < 5; i++){
+            cards.set(i, TTRState.CARD.BLACKCARD);
+        }
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i) != state.getFaceUp().get(i)){
+                same = false;
+                break;
+            }
+        }
+        assertTrue(!same);
+
+    }//Bruce
 
     @Test
     public void getWhosTurn() {
@@ -206,17 +293,42 @@ public class TTRStateTest {
         assertEquals(1, state.getWhosTurn());
         state.setWhosTurn(-1);
         assertEquals(1, state.getWhosTurn());
-    }
+    }//Bruce
 
     @Test
     public void addCard() {
-    }
+        TTRState state = new TTRState(2);
+        ArrayList<TTRState.CARD> deck = new ArrayList<>();
+        for (int i = 0; i < state.getCardDeck().size(); i++){
+            deck.add(state.getCardDeck().get(i));
+        }
+        assertEquals(deck.size(), state.getCardDeck().size());
+        state.addCard(TTRState.CARD.BLACKCARD);
+        assertNotEquals(deck.size(), state.getCardDeck().size());
+        int stateBlack = 0;
+        int deckBlack = 0;
+
+        for(int i = 0; i < state.getCardDeck().size(); i++){
+            if(state.getCardDeck().get(i) == TTRState.CARD.BLACKCARD){
+                stateBlack++;
+            }
+        }
+        for(int i = 0; i < deck.size(); i++){
+            if(deck.get(i) == TTRState.CARD.BLACKCARD){
+                deckBlack++;
+            }
+        }
+        assertNotEquals(deckBlack, stateBlack);
+
+    }//Bruce
 
     @Test
     public void ticket_completed() {
+        //not finished yet
     }
 
     @Test
     public void dfs() {
+        //not finished yet
     }
 }

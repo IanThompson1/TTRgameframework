@@ -444,7 +444,14 @@ public class TTRState extends GameState implements Serializable {
     }
 
     public void setFaceUp(ArrayList<CARD> faceUp) {
-        this.faceUp = faceUp;
+        for (int i = 0; i < 5; i++){
+            if(faceUp == null){
+                this.faceUp = null;
+            }
+            else {
+                this.faceUp.set(i, faceUp.get(i));
+            }
+        }
     }
 
     public int getWhosTurn() {
