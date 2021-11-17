@@ -6,10 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+import android.widget.EditText;
 
 import com.example.tttgameframework.R;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
@@ -90,6 +89,9 @@ public class TTRSurfaceView extends SurfaceView {
 
     //holds the selected card color
     private TTRState.CARD selectedCardColor;
+
+    //holds the edit text view
+    private EditText text;
 
     public TTRSurfaceView(Context context, AttributeSet atr) {
         super(context, atr);
@@ -178,6 +180,8 @@ public class TTRSurfaceView extends SurfaceView {
 
         //background
         canvas.drawBitmap(newImage, 150.f*Xratio, 0.f*Yratio, redPaint);
+
+
 
 
 
@@ -640,20 +644,20 @@ public class TTRSurfaceView extends SurfaceView {
 
 
         //draws the tickets
-        canvas.drawRect(0*Xratio, 1260*Yratio, 285*Xratio, 1350*Yratio, blackPaint);
-        canvas.drawRect(10*Xratio,1270*Yratio,275*Xratio ,1340*Yratio, ticketPaint);
-        canvas.drawRect(0*Xratio, 1350*Yratio, 285*Xratio, 1440*Yratio, blackPaint);
-        canvas.drawRect(10*Xratio,1360*Yratio,275*Xratio ,1430*Yratio, ticketPaint);
-        canvas.drawRect(0*Xratio, 1440*Yratio, 285*Xratio, 1530*Yratio, blackPaint);
-        canvas.drawRect(10*Xratio,1450*Yratio,275*Xratio ,1520*Yratio, ticketPaint);
 
-        if(curTickets.size() > 0){
-            canvas.drawText(curTickets.get(0).toString(), 20.f*Xratio,1310.f*Yratio,ticketTextPaint);
-            if(curTickets.size() > 1){
-                canvas.drawText(curTickets.get(1).toString(), 20.f*Xratio,1390.f*Yratio,ticketTextPaint);
-            }
+
+//        if(curTickets.size() > 0){
+//            canvas.drawText(curTickets.get(0).toString(), 20.f*Xratio,1310.f*Yratio,ticketTextPaint);
+//            if(curTickets.size() > 1){
+//                canvas.drawText(curTickets.get(1).toString(), 20.f*Xratio,1390.f*Yratio,ticketTextPaint);
+//            }
+//        }
+        //sets the players tickets to the ticket list
+        text.setText("");
+        for(int i = 0; i < curTickets.size(); i++){
+            text.append(curTickets.get(i).toString() + "\n");
+            text.append("____________");
         }
-
 
 
 
@@ -794,6 +798,11 @@ public class TTRSurfaceView extends SurfaceView {
         selectedCardColor = null;
     }
 
+    //sets the edit text to the current one
+    public void setText(EditText editText){
+        text = editText;
+    }
+
     //helper function to get the paint of the current owner of the path
     private Paint ownerPaint(Path p){
         int owner = p.getPathOwner();
@@ -809,6 +818,7 @@ public class TTRSurfaceView extends SurfaceView {
             return emptyPaint;
         }
     }
+
 
     //helper function paint if the path is selected
     private Paint hPaint(int path){
