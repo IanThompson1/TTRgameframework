@@ -156,7 +156,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 pathNumber = 0;
                 typeAction = ACTION.PLACE;
 
-            } else if (x >= 426 && x <= 625 && y <= 230 && y >= 100) {
+            } else if (x >= 426 && x <= 625 && y <= 200 && y >= 100) {
                 //checks if its the path 3: Astoria - Portland grey
                 path = allPaths.get(24);
                 pathNumber = 24;
@@ -370,6 +370,13 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 path = allPaths.get(23);
                 pathNumber = 23;
                 typeAction = ACTION.PLACE;
+
+            } else if(x >= 426 && x <= 625 && y <= 225 && y >= 200) {
+                //checks if its the path 3: Astoria - Portland grey
+                path = allPaths.get(25);
+                pathNumber = 25;
+                typeAction = ACTION.PLACE;
+
 
             }
         } else if (x >= 1700 && x <= 2100 && y >= 900 && y <= 1200) {

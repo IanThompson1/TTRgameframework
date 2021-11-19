@@ -374,7 +374,7 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawRect(615*Xratio, 315*Yratio, 645*Xratio,410*Yratio, hPaint(26));
         canvas.drawRect(625*Xratio, 315*Yratio, 635*Xratio,410*Yratio, ownerPaint(allPaths.get(26)));
         canvas.drawRect(650*Xratio, 315*Yratio, 680*Xratio,410*Yratio, greyPaint);
-        canvas.drawRect(615*Xratio, 315*Yratio, 645*Xratio,410*Yratio, hPaint(27));
+        canvas.drawRect(650*Xratio, 315*Yratio, 680*Xratio,410*Yratio, hPaint(27));
         canvas.drawRect(660*Xratio, 315*Yratio, 670*Xratio,410*Yratio, ownerPaint(allPaths.get(27)));
 
 
