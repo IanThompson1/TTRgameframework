@@ -491,11 +491,30 @@ public class TTRState extends GameState implements Serializable {
 
 
         return dfs(marked, c0, c1, owner);*/
-        return false;
+
+        ArrayList<Path> visited = new ArrayList<>();
+
+        return dfs(visited, c0, c1, owner);
     }
 
     //comment
-    public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
+    public boolean dfs(ArrayList<Path> visited, TTRState.CITY c0, TTRState.CITY c1, int owner){
+        if(c1.equals(c0)){ //base case
+            return true;
+        }
+
+        for(Path p: allPaths){
+            if(p.getPathOwner() == owner && !visited.contains(p)) {
+                visited.add(p);
+                if (p.getNode0().equals(c0)) {
+                    return dfs(visited, p.getNode1(), c1, owner);
+                } else if (p.getNode1().equals(c0)) {
+                    //visited.add(p);
+                    return dfs(visited, p.getNode0(), c1, owner);
+                }
+            }
+        }
+
         /*marked.put(c0, cityAdjList.get(c0));
 
         if(c0 == c1){
