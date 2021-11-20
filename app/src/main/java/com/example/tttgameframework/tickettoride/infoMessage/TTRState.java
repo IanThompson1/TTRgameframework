@@ -489,15 +489,35 @@ public class TTRState extends GameState implements Serializable {
 
     //comment
     public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
-        HashMap<TTRState.CITY, CityNode> marked = new HashMap<>(); //hashmap to store the marked off nodes
+        /*HashMap<TTRState.CITY, CityNode> marked = new HashMap<>(); //hashmap to store the marked off nodes
 
 
-        return dfs(marked, c0, c1, owner);
+        return dfs(marked, c0, c1, owner);*/
+
+        ArrayList<Path> visited = new ArrayList<>();
+
+        return dfs(visited, c0, c1, owner);
     }
 
     //comment
-    public boolean dfs(HashMap<TTRState.CITY, CityNode> marked, TTRState.CITY c0, TTRState.CITY c1, int owner){
-        marked.put(c0, cityAdjList.get(c0));
+    public boolean dfs(ArrayList<Path> visited, TTRState.CITY c0, TTRState.CITY c1, int owner){
+        if(c1.equals(c0)){ //base case
+            return true;
+        }
+
+        for(Path p: allPaths){
+            if(p.getPathOwner() == owner && !visited.contains(p)) {
+                visited.add(p);
+                if (p.getNode0().equals(c0)) {
+                    return dfs(visited, p.getNode1(), c1, owner);
+                } else if (p.getNode1().equals(c0)) {
+                    //visited.add(p);
+                    return dfs(visited, p.getNode0(), c1, owner);
+                }
+            }
+        }
+
+        /*marked.put(c0, cityAdjList.get(c0));
 
         if(c0 == c1){
             return true;
@@ -520,6 +540,7 @@ public class TTRState extends GameState implements Serializable {
         }
 
 
-        return reached;
+        return reached;*/
+        return false; //dummy
     }
 }

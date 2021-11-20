@@ -343,37 +343,7 @@ public class TTRStateTest {
     //will fail
     @Test
     public void ticket_completed() {
-        /*TTRState state = new TTRState(2); //make gamestate with 2 players
 
-        //set paths as owned
-        ArrayList<Path> paths = new ArrayList<>();
-
-        for(Path p: state.getAllPaths()){
-            paths.add(p);
-        }
-
-        //astoria->ptown
-        //ptown->dalles
-        //dalles->pendelton
-        //pendelton->la grande
-        for(Path p: paths){
-            p.setPathOwner(1);
-        }
-
-        state.setAllPaths(paths);
-
-        //test ticket from ASTORIA to LAGRANDE
-        ArrayList<Ticket> ticks = state.getTicketDeck();
-        boolean isComplete = false;
-
-        for(Ticket t: ticks){
-            isComplete = state.ticket_completed(t.getNode0(), t.getNode1(), 1);
-            assertTrue(isComplete);
-        }
-
-
-
-        //city1, city2, owner*/
 
     }
 
