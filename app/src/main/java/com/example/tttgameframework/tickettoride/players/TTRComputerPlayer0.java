@@ -56,13 +56,12 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
                 break;
             }
         }
-        if (true){//self.getTickets().size() == 0
+        if (self.getTickets().size() == 0){
             ArrayList<Integer> tickets = new ArrayList<Integer>(2);
             //pick the first ticket
             tickets.add(1);
             tickets.add(0);
             game.sendAction(new DrawTickets(this, tickets));
-            firstTurn = 1;
         }
 
         else {
