@@ -173,71 +173,7 @@ public class TTRLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
-        //before each move check for the face up cards
-        for(int i=0; i<5; i++){
-            if(state.getFaceUp().get(i) == TTRState.CARD.NULLCARD){
-                if(state.getCardDeck().size() > 0){
-                    TTRState.CARD nextCard = state.getCardDeck().get(0);
-                    ArrayList<TTRState.CARD> temp = state.getCardDeck();
-                    temp.remove(temp.get(0));
-                    state.setCardDeck(temp);
-                    state.getFaceUp().set(i, nextCard);
-                }
-            }
-        }
-        //next check for triple wilds
-        int countWild = 0;
-        int nonWilds = 0;
-        //counts how many wilds and non wilds are in the face up pile
-        for(int i=0; i<5; i++){
-            if(state.getFaceUp().get(i) == TTRState.CARD.WILDCARD){
-                countWild++;
-            }else{
-                nonWilds++;
-            }
-        }
-        //counts the non wilds in the random deck
-        for(int i=0; i<state.getCardDeck().size(); i++){
-            if(state.getCardDeck().get(i) != TTRState.CARD.WILDCARD){
-                nonWilds++;
-            }
-        }
-        //replaces all face up cards if 3 wilds + enough non wilds until its fixed
-        while(countWild > 2 && nonWilds > 2){
-            countWild = 0;
-            nonWilds = 0;
-            //counts how many wilds and non wilds are in the face up pile
-            for(int i=0; i<5; i++){
-                if(state.getFaceUp().get(i) == TTRState.CARD.WILDCARD){
-                    countWild++;
-                }else{
-                    nonWilds++;
-                }
-            }
-            //counts the non wilds in the random deck
-            for(int i=0; i<state.getCardDeck().size(); i++){
-                if(state.getCardDeck().get(i) != TTRState.CARD.WILDCARD){
-                    nonWilds++;
-                }
-            }
 
-            System.out.println("found 3 wilds, resetting deck");
-            ArrayList<TTRState.CARD> faceUpCards = state.getFaceUp();
-            //adds removed cards to deck
-            for(int i=0; i<5; i++){
-                state.addCard(faceUpCards.get(i));
-            }
-            //removes the five cards
-            for(int i=0; i<5; i++){
-                faceUpCards.remove(0);
-            }
-            //replaces with random cards
-            for(int i=0; i<5; i++){
-                 TTRState.CARD nextCard = state.getCardDeck().get(0);
-                 state.getCardDeck().remove(0);
-                 faceUpCards.add(nextCard);
-            }
-        }
 
         //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
@@ -377,6 +313,7 @@ public class TTRLocalGame extends LocalGame {
             state.setCardDeck(random);
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
+            afterActionChecks();
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
@@ -486,7 +423,7 @@ public class TTRLocalGame extends LocalGame {
 
             //((PlaceTrains) action).resetSelectedPath();//again I think this is a preference thing so might need it.
             changeTurn(state);
-
+            afterActionChecks();
             return true;
         }else{
 
@@ -551,5 +488,73 @@ public class TTRLocalGame extends LocalGame {
         }
 
         return -1;
+    }
+
+    public void afterActionChecks(){
+        //before each move check for the face up cards
+        for(int i=0; i<5; i++){
+            if(state.getFaceUp().get(i) == TTRState.CARD.NULLCARD){
+                if(state.getCardDeck().size() > 0){
+                    TTRState.CARD nextCard = state.getCardDeck().get(0);
+                    ArrayList<TTRState.CARD> temp = state.getCardDeck();
+                    temp.remove(temp.get(0));
+                    state.setCardDeck(temp);
+                    state.getFaceUp().set(i, nextCard);
+                }
+            }
+        }
+        //next check for triple wilds
+        int countWild = 0;
+        int nonWilds = 0;
+        //counts how many wilds and non wilds are in the face up pile
+        for(int i=0; i<5; i++){
+            if(state.getFaceUp().get(i) == TTRState.CARD.WILDCARD){
+                countWild++;
+            }else{
+                nonWilds++;
+            }
+        }
+        //counts the non wilds in the random deck
+        for(int i=0; i<state.getCardDeck().size(); i++){
+            if(state.getCardDeck().get(i) != TTRState.CARD.WILDCARD){
+                nonWilds++;
+            }
+        }
+        //replaces all face up cards if 3 wilds + enough non wilds until its fixed
+        while(countWild > 2 && nonWilds > 2){
+            countWild = 0;
+            nonWilds = 0;
+            //counts how many wilds and non wilds are in the face up pile
+            for(int i=0; i<5; i++){
+                if(state.getFaceUp().get(i) == TTRState.CARD.WILDCARD){
+                    countWild++;
+                }else{
+                    nonWilds++;
+                }
+            }
+            //counts the non wilds in the random deck
+            for(int i=0; i<state.getCardDeck().size(); i++){
+                if(state.getCardDeck().get(i) != TTRState.CARD.WILDCARD){
+                    nonWilds++;
+                }
+            }
+
+            System.out.println("found 3 wilds, resetting deck");
+            ArrayList<TTRState.CARD> faceUpCards = state.getFaceUp();
+            //adds removed cards to deck
+            for(int i=0; i<5; i++){
+                state.addCard(faceUpCards.get(i));
+            }
+            //removes the five cards
+            for(int i=0; i<5; i++){
+                faceUpCards.remove(0);
+            }
+            //replaces with random cards
+            for(int i=0; i<5; i++){
+                TTRState.CARD nextCard = state.getCardDeck().get(0);
+                state.getCardDeck().remove(0);
+                faceUpCards.add(nextCard);
+            }
+        }
     }
 }
