@@ -90,6 +90,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     //holds the path number
     private int pathNumber;
 
+    //holds whether the card deck is empty or not
+//    private boolean emptyCardDeck;
+
     /**
      * constructor
      *
@@ -108,6 +111,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         Xratio = (float) (25.0/32.0);
         Yratio = (float) (2.0/3.0);
         Rratio = Yratio;
+//        emptyCardDeck = false;
 
         for (int i = 0; i < 7; i++) {
             selected.add(false);
@@ -447,6 +451,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 ImageButton button = faceUpButtons.get(i);
                 if(faceUps.get(i) == TTRState.CARD.BLACKCARD){
                     button.setImageResource(R.drawable.black_train_h);
+
                 } else if(faceUps.get(i) == TTRState.CARD.ORANGECARD){
                     button.setImageResource(R.drawable.orange_train_h);
 
@@ -456,21 +461,26 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 } else if(faceUps.get(i) == TTRState.CARD.WHITECARD){
                     button.setImageResource(R.drawable.white_train_h);
 
-                } else if(faceUps.get(i) == TTRState.CARD.ORANGECARD){
-                    button.setImageResource(R.drawable.orange_train_h);
-
                 } else if(faceUps.get(i) == TTRState.CARD.WILDCARD){
                     button.setImageResource(R.drawable.wild_train_h);
 
+                }else{
+                    button.setImageResource(R.color.purple_500);
                 }
                 faceUpButtons.set(i, button);
+            }
+            //draw the random card
+            if(state.getCardDeck().size() == 0){
+                drawTrainButton.setImageResource(R.color.purple_500);
+            }else{
+                drawTrainButton.setImageResource(R.drawable.train_draw);
             }
             blackTrainHandButton.setImageResource(R.drawable.black_train_v);
             whiteTrainHandButton.setImageResource(R.drawable.white_train_v);
             orangeTrainHandButton.setImageResource(R.drawable.orange_train_v);
             wildTrainHandButton.setImageResource(R.drawable.wild_train_v);
             pinkTrainHandButton.setImageResource(R.drawable.purple_train_v);
-            drawTrainButton.setImageResource(R.drawable.train_draw);
+            //drawTrainButton.setImageResource(R.drawable.train_draw);
             drawTicketsButton.setImageResource(R.drawable.ticket_draw);
 
             Logger.log("TAG", "receiving");
@@ -833,4 +843,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         }
 
     }
+
+//    public void setEmptyCardDeck(boolean bool){
+//        emptyCardDeck = bool;
+//    }
 }

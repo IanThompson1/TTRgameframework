@@ -2,6 +2,7 @@ package com.example.tttgameframework.tickettoride.players;
 
 import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
 import com.example.tttgameframework.GameFramework.players.GameComputerPlayer;
+import com.example.tttgameframework.tickettoride.TTRLocalGame;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
 import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
@@ -55,12 +56,13 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
                 break;
             }
         }
-        if (self.getTickets().size() == 0){
+        if (true){//self.getTickets().size() == 0
             ArrayList<Integer> tickets = new ArrayList<Integer>(2);
             //pick the first ticket
             tickets.add(1);
             tickets.add(0);
             game.sendAction(new DrawTickets(this, tickets));
+            firstTurn = 1;
         }
 
         else {

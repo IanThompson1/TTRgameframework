@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
+import com.example.tttgameframework.tickettoride.players.TTRHumanPlayer;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTickets;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
@@ -172,6 +173,16 @@ public class TTRLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+        //before each move check for the face up cards
+        for(int i=0; i<5; i++){
+            if(state.getFaceUp().get(i) == TTRState.CARD.NULLCARD){
+                if(state.getCardDeck().size() > 0){
+                    TTRState.CARD nextCard = state.getCardDeck().get(0);
+                    state.getFaceUp().set(i, nextCard);
+                }
+            }
+        }
+
         //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
             return false;
@@ -209,7 +220,7 @@ public class TTRLocalGame extends LocalGame {
                 //loops through the 2 possible selected tickets
                 for(int i=0; i<selected.size(); i++) {
                     //checks if the card is selected
-                    if(selected.get(i) == 1) {
+                    if(selected.get(i) == 2) {//change the 2 to a 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         if(!shown.isEmpty()){
                             System.out.println(shown.get(i).toString() + "adding this card to the players hand");
                             user.addTicket(shown.get(i));
@@ -253,8 +264,19 @@ public class TTRLocalGame extends LocalGame {
                     //check if draw only one card and the one card is from random deck
                     if(i < 2) {
                         if(counter ==1){
-                            System.out.println("fail draw train2");
                             return false;
+                        }
+                        //check not enough cards
+                        if(random.size() == 0){
+                            System.out.println("empty random deck");
+                            return false;
+                        }
+                        //checks if double draw from random with only 1 card in the random deck
+                        if(selected.get(0) && selected.get(1)){
+                            if(random.size() < 2){
+                                System.out.println("not enough random cards for a double draw");
+                                return false;
+                            }
                         }
                     }
 
@@ -292,17 +314,24 @@ public class TTRLocalGame extends LocalGame {
                 if (selected.get(i)){
                     if(i < 2) {
                         //random cards
-                        random.remove(random.get(i));
+                        random.remove(random.get(0));
                     }else{ //i >= 2
                         //face up cards
-                        TTRState.CARD nextCard = random.get(i);
-                        faceUp.set(i-2,nextCard);
+                        if(random.size() != 0) {
+                            TTRState.CARD nextCard = random.get(0);
+                            random.remove(random.get(0));
+                            faceUp.set(i - 2, nextCard);
+                        }else{
+                            faceUp.set(i - 2, TTRState.CARD.NULLCARD);
+                        }
                     }
                 }
             }
             System.out.println("random deck size = "+random.size());
             state.setCardDeck(random);
             //state.setFaceUp(faceUp);//need better logic here for face up cards
+
+
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             System.out.println("True draw train");

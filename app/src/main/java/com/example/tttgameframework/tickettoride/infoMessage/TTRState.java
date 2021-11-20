@@ -19,6 +19,7 @@ public class TTRState extends GameState implements Serializable {
         PINKCARD,
         ORANGECARD,
         WILDCARD,
+        NULLCARD
     }
 
     public enum CITY{
@@ -175,6 +176,7 @@ public class TTRState extends GameState implements Serializable {
             cityAdjList.get(p.getNode0()).addNeighbor(p);
 
             //add node 1
+
             cityAdjList.get(p.getNode1()).addNeighbor(p);
         }
 
