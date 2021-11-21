@@ -97,6 +97,11 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
                 int numOrange = self.getOrangeCards();
                 int numWild = self.getWildCards();
 
+                //handles wildnumber. wild number is the amount wilds that the player want to use, not their total # of wilds
+                if(path.getLength() < numWild){
+                    numWild = path.getLength();
+                }
+
 
                 //check color of path
                 if (path.getPathColor() == Path.COLOR.GREYPATH){

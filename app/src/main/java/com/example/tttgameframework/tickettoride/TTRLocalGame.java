@@ -66,7 +66,6 @@ public class TTRLocalGame extends LocalGame {
 
         //get players of players
         ArrayList<Player> players = state.getPlayers();
-        System.out.println("This is called?");
 
         //1. Check if game is over.
         //      Game is over if any 1 player runs out of trains.
@@ -520,8 +519,35 @@ public class TTRLocalGame extends LocalGame {
                 nonWilds++;
             }
         }
+
+        if(countWild > 2 && nonWilds <= 2){
+            System.out.println("not enough nonWilds to perform shuffle");
+            System.out.println("# of non wilds: "+nonWilds);
+        }
+
         //replaces all face up cards if 3 wilds + enough non wilds until its fixed
+
         while(countWild > 2 && nonWilds > 2){
+            System.out.println("found 3 wilds, resetting deck");
+
+            //resets the 5 face up cards
+            ArrayList<TTRState.CARD> faceUpCards = state.getFaceUp();
+            //adds removed cards to deck
+            for(int i=0; i<5; i++){
+                state.addCard(faceUpCards.get(i));
+            }
+            //removes the five cards
+            for(int i=0; i<5; i++){
+                faceUpCards.remove(0);
+            }
+            //replaces with random cards
+            for(int i=0; i<5; i++){
+                TTRState.CARD nextCard = state.getCardDeck().get(0);
+                state.getCardDeck().remove(0);
+                faceUpCards.add(nextCard);
+            }
+
+            //checks if needs to keep resetting or not
             countWild = 0;
             nonWilds = 0;
             //counts how many wilds and non wilds are in the face up pile
@@ -538,23 +564,7 @@ public class TTRLocalGame extends LocalGame {
                     nonWilds++;
                 }
             }
-
-            System.out.println("found 3 wilds, resetting deck");
-            ArrayList<TTRState.CARD> faceUpCards = state.getFaceUp();
-            //adds removed cards to deck
-            for(int i=0; i<5; i++){
-                state.addCard(faceUpCards.get(i));
-            }
-            //removes the five cards
-            for(int i=0; i<5; i++){
-                faceUpCards.remove(0);
-            }
-            //replaces with random cards
-            for(int i=0; i<5; i++){
-                TTRState.CARD nextCard = state.getCardDeck().get(0);
-                state.getCardDeck().remove(0);
-                faceUpCards.add(nextCard);
-            }
         }
+        System.out.println("number of non wilds = "+nonWilds +" \nnumber of wilds = "+countWild);
     }
 }

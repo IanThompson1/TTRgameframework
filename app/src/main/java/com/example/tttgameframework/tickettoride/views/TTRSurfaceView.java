@@ -726,7 +726,7 @@ public class TTRSurfaceView extends SurfaceView {
         }
     }
     //function to change the gui given the information given
-    public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p){
+    public void setState(TTRState state, ArrayList<Boolean> selected, ArrayList<Integer> selectedTickets, Path p) {
         //sets the values of the players hand size, ticket size, train count
         Player player0;
         Player player1;
@@ -744,32 +744,32 @@ public class TTRSurfaceView extends SurfaceView {
         player1Trains = player1.getNumTrains();
         player1Cards = player1.getCardHand().size();
         player1Tickets = player1.getTickets().size();
-        if(state.getNumPlayers() > 2) {
+        if (state.getNumPlayers() > 2) {
             player2 = players.get(2);
             player2Trains = player2.getNumTrains();
             player2Cards = player2.getCardHand().size();
             player2Tickets = player2.getTickets().size();
-            if(state.getNumPlayers() == 4) {
+            if (state.getNumPlayers() == 4) {
                 player3 = players.get(3);
                 player3Trains = player3.getNumTrains();
                 player3Cards = player3.getCardHand().size();
                 player3Tickets = player3.getTickets().size();
             }
         }
-        if(state.getWhosTurn() == 0){
-            curPlayer =  player0;
-        } else if(state.getWhosTurn() == 1){
-            curPlayer =  player1;
-        } else if(state.getWhosTurn() == 2){
-            curPlayer =  player2;
-        } else if(state.getWhosTurn() == 3){
-            curPlayer =  player3;
+        if (state.getWhosTurn() == 0) {
+            curPlayer = player0;
+        } else if (state.getWhosTurn() == 1) {
+            curPlayer = player1;
+        } else if (state.getWhosTurn() == 2) {
+            curPlayer = player2;
+        } else if (state.getWhosTurn() == 3) {
+            curPlayer = player3;
         }
 
         this.allPaths = state.getAllPaths();
         this.selected = selected;
         this.selectedTickets = selectedTickets;
-        if(this.state.getShownTickets() == null){
+        if (this.state.getShownTickets() == null) {
             shownTickets = null;
         } else {
             shownTickets = new ArrayList<Ticket>(this.state.getShownTickets());
@@ -777,9 +777,7 @@ public class TTRSurfaceView extends SurfaceView {
 
         curTickets = curPlayer.getTickets();
         curPath = p;
-        if(shownTickets == null || shownTickets.size() == 0){
-            System.out.println("Still empty");
-        } else {
+        if (!(shownTickets == null || shownTickets.size() == 0)) {
             System.out.println(shownTickets.get(0).toString());
         }
 
