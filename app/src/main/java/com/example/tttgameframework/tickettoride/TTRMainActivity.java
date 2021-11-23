@@ -23,7 +23,7 @@ public class TTRMainActivity extends GameMainActivity {
     //Tag for logging (Copied from TTT main, not sure if we need)
     private static final String TAG = "TTTMainActivity";
     public static final int PORT_NUMBER = 5213;
-    //https://github.com/IanThompson1/TTRgameframework.git
+
     @Override
     public GameConfig createDefaultConfig() {
 
