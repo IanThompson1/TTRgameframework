@@ -2,7 +2,6 @@ package com.example.tttgameframework.tickettoride;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.example.tttgameframework.GameFramework.GameMainActivity;
@@ -18,19 +17,13 @@ import com.example.tttgameframework.tickettoride.players.TTRComputerPlayer1;
 import com.example.tttgameframework.tickettoride.players.TTRHumanPlayer;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class TTRMainActivity extends GameMainActivity {
 
     //Tag for logging (Copied from TTT main, not sure if we need)
     private static final String TAG = "TTTMainActivity";
     public static final int PORT_NUMBER = 5213;
-    MediaPlayer thomas;
-    MediaPlayer mariahCarey;
-    MediaPlayer roll;
-    Timer time;
-    TimerTask timeTask;
+
     @Override
     public GameConfig createDefaultConfig() {
 
