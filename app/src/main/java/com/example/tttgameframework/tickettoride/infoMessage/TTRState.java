@@ -543,4 +543,8 @@ public class TTRState extends GameState implements Serializable {
         return reached;*/
         return false; //dummy
     }
+
+    public TTRState getCurrentState(){
+        return this;
+    }
 }

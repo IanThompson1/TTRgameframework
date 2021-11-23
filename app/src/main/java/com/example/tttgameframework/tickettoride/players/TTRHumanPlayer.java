@@ -1,7 +1,9 @@
 package com.example.tttgameframework.tickettoride.players;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +53,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private float Yratio;
     private float Rratio;
     private int numCardsSelected;
+    //music / soundFX
+    private MediaPlayer thomas;
+    private MediaPlayer mariahCarey;
+    private MediaPlayer rick;
 
     //variable that holds type of action (implement enum later)
     public enum ACTION {
@@ -98,7 +104,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
      *
      * @param name the name of the player
      */
-    public TTRHumanPlayer(String name) {
+    public TTRHumanPlayer(String name,MediaPlayer tim, MediaPlayer mc, MediaPlayer roll) {
         super(name);
         wilds = 0;
         firstTurn = 1;
@@ -120,6 +126,11 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             selectedTickets.add(0);
         }
 
+
+        thomas = tim;
+        mariahCarey = mc;
+        rick = roll;
+        startmusic();
     }
 
     @Override
@@ -851,7 +862,12 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     }
 
-//    public void setEmptyCardDeck(boolean bool){
-//        emptyCardDeck = bool;
-//    }
+    //handles music stuff
+    public void startmusic(){
+        if(thomas.isPlaying()){
+            thomas.pause();
+        }else{
+            thomas.start();
+        }
+    }
 }
