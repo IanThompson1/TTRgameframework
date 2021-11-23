@@ -11,7 +11,7 @@ import java.util.Objects;
 public class TTRState extends GameState implements Serializable {
     //Tag for logging
     private static final String TAG = "TTTState";
-    private static final long serialVersionUID = 7552321013488624386L;
+    private static final long serialVersionUID = 7542321013488624386L;
     private ArrayList<Ticket> shownTickets;
     public enum CARD{
         WHITECARD,
