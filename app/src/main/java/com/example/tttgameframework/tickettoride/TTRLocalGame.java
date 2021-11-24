@@ -70,7 +70,13 @@ public class TTRLocalGame extends LocalGame {
         boolean gameOver = false;
 
         //get players of players
-        ArrayList<Player> players = state.getPlayers();
+        ArrayList<Player> players;
+        try {
+            players = state.getPlayers();
+        }catch (Exception e){
+            return "";
+        }
+
 
         //1. Check if game is over.
         //      Game is over if any 1 player runs out of trains.
@@ -178,7 +184,6 @@ public class TTRLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-
         //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
             return false;
@@ -188,12 +193,14 @@ public class TTRLocalGame extends LocalGame {
                 //check if there are enough tickets in the deck
                 System.out.println(state.getTicketDeck().size() + " ticket deck size");
                 if(state.getTicketDeck().size() < 2){
+                    state.setSound(1);
                     return false;
                 }
                 //draw tickets to part of the screen
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
+                state.setSound(2);
                 return true;
             }else{
                 //move tickets to hand
@@ -208,6 +215,7 @@ public class TTRLocalGame extends LocalGame {
                     }
                 }
                 if(count == 0 || count > 2){
+                    state.setSound(1);
                     return false;
                 }
 
@@ -219,6 +227,7 @@ public class TTRLocalGame extends LocalGame {
                             System.out.println(shown.get(i).toString() + "adding this card to the players hand");
                             user.addTicket(shown.get(i));
                         }else{
+                            state.setSound(1);
                             return false;
                         }
 
@@ -234,6 +243,7 @@ public class TTRLocalGame extends LocalGame {
                 state.getPlayers().set(state.getWhosTurn(), user);
                 changeTurn(state);
             }
+            state.setSound(2);
             return true;
         }else if(action instanceof DrawTrains){
             ArrayList<Boolean> selected = ((DrawTrains) action).getSelectedTrains();
@@ -247,6 +257,7 @@ public class TTRLocalGame extends LocalGame {
                 }
             }
             if(counter<1 || counter >2){
+                state.setSound(1);
                 return false;
             }
             //all checks
@@ -255,15 +266,18 @@ public class TTRLocalGame extends LocalGame {
                     //check if draw only one card and the one card is from random deck
                     if(i < 2) {
                         if(counter ==1){
+                            state.setSound(1);
                             return false;
                         }
                         //check not enough cards
                         if(random.size() == 0){
+                            state.setSound(1);
                             return false;
                         }
                         //checks if double draw from random with only 1 card in the random deck
                         if(selected.get(0) && selected.get(1)){
                             if(random.size() < 2){
+                                state.setSound(1);
                                 return false;
                             }
                         }
@@ -272,10 +286,12 @@ public class TTRLocalGame extends LocalGame {
                     else{
                         //if you select only one card that is not a wild
                         if(counter == 1 && faceUp.get(i-2) != TTRState.CARD.WILDCARD){
+                            state.setSound(1);
                             return false;
                         }
                         //if you select two cards and one is a wild
                         else if(counter == 2 && faceUp.get(i-2) == TTRState.CARD.WILDCARD){
+                            state.setSound(1);
                             return false;
                         }
                     }
@@ -318,6 +334,7 @@ public class TTRLocalGame extends LocalGame {
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             afterActionChecks();
+            state.setSound(2);
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
@@ -337,29 +354,29 @@ public class TTRLocalGame extends LocalGame {
 
             //check if the path is already owned
             if(thePathOwner != -1){
-
+                state.setSound(1);
                 return false;
             }
             //check if the color selected matches the path color (skips if the path is gray)
             if(thePathColor != Path.COLOR.GREYPATH){
                 if(color == TTRState.CARD.WHITECARD){
                     if(thePathColor != Path.COLOR.WHITEPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }else if(color == TTRState.CARD.BLACKCARD){
                     if(thePathColor != Path.COLOR.BLACKPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }else if(color == TTRState.CARD.ORANGECARD){
                     if(thePathColor != Path.COLOR.ORANGEPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }else if(color == TTRState.CARD.PINKCARD){
                     if(thePathColor != Path.COLOR.PINKPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }
@@ -367,33 +384,33 @@ public class TTRLocalGame extends LocalGame {
             //checks if you enough cards
             if(color == TTRState.CARD.WHITECARD){
                 if (user.getWhiteCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }else if(color == TTRState.CARD.BLACKCARD){
                 if (user.getBlackCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }else if(color == TTRState.CARD.ORANGECARD){
                 if (user.getOrangeCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }else if(color == TTRState.CARD.PINKCARD){
                 if (user.getPinkCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }
             //checks enough wilds
             if(user.getWildCards() < wilds){
-
+                state.setSound(1);
                 return false;
             }
             //checks too many wilds
             if(wilds > thePathLength){
-
+                state.setSound(1);
                 return false;
             }
             //end of checks
@@ -428,9 +445,10 @@ public class TTRLocalGame extends LocalGame {
             //((PlaceTrains) action).resetSelectedPath();//again I think this is a preference thing so might need it.
             changeTurn(state);
             afterActionChecks();
+            state.setSound(2);
             return true;
         }else{
-
+            state.setSound(1);
             return false;
         }
     }
@@ -492,6 +510,14 @@ public class TTRLocalGame extends LocalGame {
         }
 
         return -1;
+    }
+
+    public boolean didHumanWin(){
+        int WW = whoWon();
+        //if(WW == state.getHuman){
+            return true;
+        //}
+        //return false;
     }
 
     public void afterActionChecks(){

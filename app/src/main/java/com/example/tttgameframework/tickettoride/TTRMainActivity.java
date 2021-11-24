@@ -31,6 +31,9 @@ public class TTRMainActivity extends GameMainActivity {
     private MediaPlayer thomas;
     private MediaPlayer mariahCarey;
     private MediaPlayer roll;
+    private MediaPlayer themeSong;
+    private MediaPlayer error;
+    private MediaPlayer success;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -38,13 +41,17 @@ public class TTRMainActivity extends GameMainActivity {
         thomas = MediaPlayer.create(this,R.raw.thomas);
         mariahCarey = MediaPlayer.create(this,R.raw.mariahcarey);
         roll = MediaPlayer.create(this,R.raw.roll);
+        themeSong = MediaPlayer.create(this,R.raw.beatles);
+        error = MediaPlayer.create(this,R.raw.error);
+        success = MediaPlayer.create(this,R.raw.success);
+
 
 
         //Define allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
         playerTypes.add(new GamePlayerType("Local Human Player") {
-        public GamePlayer createPlayer(String name){return new TTRHumanPlayer(name,thomas,mariahCarey, roll); }
+        public GamePlayer createPlayer(String name){return new TTRHumanPlayer(name,thomas,mariahCarey, roll, themeSong, error, success); }
         });
 
         playerTypes.add(new GamePlayerType("Computer Player (dumb)") {
