@@ -1,5 +1,6 @@
 package com.example.tttgameframework.tickettoride.infoMessage;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -9,7 +10,8 @@ import java.util.HashMap;
  * @author Jennifer, Ian, Trent, Bruce
  * @version 6 November 2021
  */
-public class CityNode {
+public class CityNode implements Serializable {
+    private static final long serialVersionUID = 7542321013422624386L;
     //instance variables
     private TTRState.CITY city;
     private HashMap<TTRState.CITY, Path> neighbors;

@@ -202,6 +202,8 @@ public class TTRLocalGame extends LocalGame {
                         count++;
                     }
                 }
+                System.out.println("how many are selected? "+count);
+                System.out.println("whos turn is it? "+state.getWhosTurn());
                 if(count == 0 || count > 2){
                     return false;
                 }

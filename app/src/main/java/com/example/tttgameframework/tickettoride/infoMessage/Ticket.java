@@ -1,6 +1,9 @@
 package com.example.tttgameframework.tickettoride.infoMessage;
 
-public class Ticket {
+import java.io.Serializable;
+
+public class Ticket implements Serializable {
+    private static final long serialVersionUID = 7542321013418624386L;
     private int PointValue;
     private TTRState.CITY node0;
     private TTRState.CITY node1;

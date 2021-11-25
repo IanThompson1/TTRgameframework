@@ -1,7 +1,9 @@
 package com.example.tttgameframework.tickettoride.infoMessage;
 
-public class Path {
+import java.io.Serializable;
 
+public class Path implements Serializable {
+    private static final long serialVersionUID = 7542921013488624386L;
     //ENUM representing the possible path colors
     public enum COLOR{
         PINKPATH,

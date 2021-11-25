@@ -124,7 +124,6 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
         Xratio = (float) (32.0/25.0);
         Yratio = (float) (3.0/2.0);
         Rratio = Yratio;
@@ -434,9 +433,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             if(info instanceof IllegalMoveInfo){
                 System.out.println("Illegal Move");
                 flash(Color.RED, 20,Color.BLACK);
+            }else {
+                System.out.println("Not your turn move");
+                flash(Color.BLACK, 20, Color.BLACK);
             }
-            System.out.println("Not your turn move");
-            flash(Color.BLACK, 20,Color.BLACK);
             return;
         }
 
