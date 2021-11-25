@@ -43,6 +43,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ImageButton wildTrainHandButton = null;
     private Button confirmButton = null;
     private Button cancelButton = null;
+    private Button helpButton = null;
+    private Button soundButton = null;
     private ImageButton drawTicketsButton = null;
     private ImageButton faceup1Button = null;
     private ImageButton faceup2Button = null;
@@ -499,9 +501,6 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 goodSound();
             }
             state.setSound(0);
-            if(!theme.isPlaying()){
-                theme.start();
-            }
 
             for(int i = 0; i < faceUps.size(); i++) {
                 //displays the current cards in the face up section
@@ -563,6 +562,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         this.wildTrainHandButton = (ImageButton) activity.findViewById(R.id.wildTrainHand);
         this.confirmButton = (Button) activity.findViewById(R.id.ConfirmButton);
         this.cancelButton = (Button) activity.findViewById(R.id.CancelButton);
+        this.helpButton = (Button) activity.findViewById(R.id.help);
+        this.soundButton = (Button) activity.findViewById(R.id.sound);
         this.drawTicketsButton = (ImageButton) activity.findViewById(R.id.DrawTicketButton);
         this.faceup1Button = (ImageButton) activity.findViewById(R.id.FaceUp1Button);
         this.faceup2Button = (ImageButton) activity.findViewById(R.id.FaceUp2Button);
@@ -589,6 +590,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         wildTrainHandButton.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        helpButton.setOnClickListener(this);
+        soundButton.setOnClickListener(this);
         drawTicketsButton.setOnClickListener(this);
         faceup1Button.setOnClickListener(this);
         faceup2Button.setOnClickListener(this);
@@ -914,6 +917,23 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 flash(Color.RED, 20,Color.BLACK);
                 badSound();
             }
+        } else if(button.getId() == R.id.sound){
+            //swaps the background music
+            if(theme.isPlaying()){
+                theme.seekTo(0);
+                theme.pause();
+                thomas.seekTo(0);
+                thomas.start();
+            }else if(thomas.isPlaying()){
+                thomas.seekTo(0);
+                thomas.pause();
+                theme.seekTo(0);
+                theme.pause();
+            }else if(!(thomas.isPlaying()) && !(theme.isPlaying())){
+                theme.start();
+            }
+        } else if(button.getId() == R.id.help){
+
         }
 
     }

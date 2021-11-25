@@ -33,15 +33,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal">
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
-                android:orientation="horizontal">
-
-            </LinearLayout>
+                android:orientation="horizontal"></LinearLayout>
 
             <LinearLayout
                 android:id="@+id/bottomLayout"
@@ -207,10 +207,26 @@
                 app:srcCompat="@drawable/train_draw"
                 tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
-            <Space
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/sound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="sound" />
+
+                <Button
+                    android:id="@+id/help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Button" />
+            </LinearLayout>
 
         </LinearLayout>
 

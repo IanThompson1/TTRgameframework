@@ -186,9 +186,9 @@ public class TTRSurfaceView extends SurfaceView {
 
 
         //current player
-        canvas.drawCircle( 2225*Xratio, 1525*Yratio,75*Rratio,white);
-        canvas.drawCircle( 2400*Xratio, 1525*Yratio,100*Rratio,greenPaint);
-        canvas.drawText(String.valueOf(curPlayer.getNumTrains()), 2190*Xratio, 1550*Yratio, trainCountPaint);
+        canvas.drawCircle( 1920*Xratio, 1277*Yratio,65*Rratio,white);
+        canvas.drawCircle( 2075*Xratio, 1277*Yratio,65*Rratio,greenPaint);
+        canvas.drawText(String.valueOf(curPlayer.getNumTrains()), 1880*Xratio, 1300*Yratio, trainCountPaint);
 
         //player 2
         canvas.drawCircle(600*Xratio,100*Yratio,70*Rratio,redPaint);
