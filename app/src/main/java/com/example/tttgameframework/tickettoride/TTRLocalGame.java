@@ -23,7 +23,7 @@ import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
 
 public class TTRLocalGame extends LocalGame {
-    private TTRState state; 
+    private TTRState state;
     public TTRLocalGame(){
         super();
     }
@@ -153,15 +153,18 @@ public class TTRLocalGame extends LocalGame {
         //3. Compare scores to determine winner.
         int winnerID = 0;
         int maxScore = scores[0];
+        System.out.println("player "+0+"'s score is: "+scores[0]);
         for(int i = 1; i < scores.length; i++){
+            System.out.println("player "+i+"'s score is: "+scores[i]);
             if(scores[i] > maxScore){
                 maxScore = scores[i];
                 winnerID = i;
             }
         }
-
+        System.out.println("winner is "+winnerID);
         //Player winner = players.get(winnerID);
         //4. Generate and return message of who the winner is.
+        state.setWhoWon(winnerID);
         return winnerID + " is the winner.";
 
         //return null; //dummy
@@ -486,38 +489,109 @@ public class TTRLocalGame extends LocalGame {
      *
      * @return  int representing the player who won
      */
-    public int whoWon(){
+    public int getWhoWon(TTRState theState){
+        TTRState winState = theState;
+        boolean gameOver = false;
 
-        String gameOver = checkIfGameOver();
-
-        //if the game is NOT over
-        if(gameOver == null){
+        //get players of players
+        ArrayList<Player> players;
+        try {
+            players = winState.getPlayers();
+        }catch (Exception e){
+            System.out.println("no players left!");
             return -1;
         }
 
-        //check which player won and return the int of that player
-        if(gameOver.equals(0+" is the winner.")){
-            return 0;
-        }
-        else if(gameOver.equals(1+" is the winner.")){
-            return 1;
-        }
-        else if(gameOver.equals(2+" is the winner.")){
-            return 2;
-        }
-        else if(gameOver.equals(3+" is the winner.")){
-            return 3;
+
+        //1. Check if game is over.
+        //      Game is over if any 1 player runs out of trains.
+        for(Player p: players){
+            if(p.getNumTrains() <= 0){ //if player has no trains left
+                //mark game is over
+                gameOver = true;
+                break;
+            }
+
         }
 
-        return -1;
+        //return if the game isn't over.
+        if(!gameOver){
+            System.out.println("game isnt over");
+            return -1;
+        }
+
+        //2. Compute the scores of all players
+        //      Compute by adding the value of all the tickets completed by a player and
+        //      subtracting the value of all the tickets a player holds but did not complete.
+        //      longest continuous path gets 10 points ***BETA***
+        //      path lengths gives you points. path L = 1 --> 1 pt
+        //      path L = 2 --> 2 pts
+        //      path L = 3 --> 4
+        //      path L = 4 --> 7
+
+        //create array for the scores of the players
+        int scores[] = new int[((TTRState)winState).getNumPlayers()];
+
+        //2a. compute scores from tickets
+        //not done
+        /*for(Player p: players){
+            //get list of tickets they have
+            ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
+            theseTickets = p.getTickets();
+
+            //compute now if the tickets are completed or not
+
+            //loop through tickets and add to the players score.
+            for(Ticket t: theseTickets){
+                if(t.getIsComplete()){
+                    scores[p.getName()] += t.getPointValue(); //add if completed
+                }
+                else{
+                    scores[p.getName()] -= t.getPointValue(); //subtract if not completed
+                }
+            }
+        }*/
+
+    //2b. compute scores from building paths
+    ArrayList<Path> thesePaths = winState.getAllPaths();
+        for(Path p: thesePaths){ //loop through all the paths
+        if(p.getPathOwner() != -1){
+            switch(p.getLength()){
+                case 1: //path L = 1 --> 1 pt
+                    scores[p.getPathOwner()] += 1;
+                    break;
+                case 2: //path L = 2 --> 2 pt2
+                    scores[p.getPathOwner()] += 2;
+                    break;
+                case 3: //path L = 3 --> 4 pt2
+                    scores[p.getPathOwner()] += 4;
+                    break;
+                case 4: //path L = 4 --> 7 pt2
+                    scores[p.getPathOwner()] += 7;
+                    break;
+            }
+        }
     }
 
-    public boolean didHumanWin(){
-        int WW = whoWon();
-        //if(WW == state.getHuman){
-            return true;
-        //}
-        //return false;
+    //2c. find the longest continuous path made ***BETA***
+
+
+    //3. Compare scores to determine winner.
+    int winnerID = 0;
+    int maxScore = scores[0];
+        System.out.println("player "+0+"'s score is: "+scores[0]);
+        for(int i = 1; i < scores.length; i++){
+        System.out.println("player "+i+"'s score is: "+scores[i]);
+        if(scores[i] > maxScore){
+            maxScore = scores[i];
+            winnerID = i;
+        }
+    }
+        System.out.println("winner is "+winnerID+"(who won)");
+    //Player winner = players.get(winnerID);
+    //4. Generate and return message of who the winner is.
+        winState.setWhoWon(winnerID);
+        return winnerID;
     }
 
     public void afterActionChecks(){

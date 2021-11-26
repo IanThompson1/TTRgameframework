@@ -940,13 +940,17 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     //handles music stuff
     public void endMusic(){
-        if(thomas.isPlaying()){
-            thomas.seekTo(0);
-            thomas.pause();
-        }
-        if(local.didHumanWin()) {
+        //stop background
+        state.setWhoWon(local.getWhoWon(state));
+        theme.seekTo(0);
+        theme.pause();
+        thomas.seekTo(0);
+        thomas.pause();
+        //play win or lose music
+        System.out.println("the player that supposedly won "+state.getWhoWon());
+        if(state.getWhoWon() == playerNum) {
             mariahCarey.start();
-        }else{
+        }else if (state.getWhoWon() != -1){
             rick.start();
         }
     }
