@@ -100,6 +100,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
      */
     public TTRHumanPlayer(String name) {
         super(name);
+        System.out.println("this is when my turn should be right? "+playerNum);
         wilds = 0;
         firstTurn = 1;
         path = null;
@@ -124,6 +125,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(state.getWhosTurn() != playerNum){
+            System.out.println("not your turn!!! player's # "+playerNum+"\nwho's turn = "+state.getWhosTurn());
+            return false;
+        }
         Xratio = (float) (32.0/25.0);
         Yratio = (float) (3.0/2.0);
         Rratio = Yratio;
@@ -556,6 +561,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View button) {
+        if(state != null && state.getWhosTurn() != playerNum){
+            System.out.println("not your turn!!!");
+            return;
+        }
         if(firstTurn == 1){
             firstTurn = 0;
             game.sendAction(new DrawTickets(this, null));
@@ -755,7 +764,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             } else if (typeAction == ACTION.TICKET) {
                 System.out.println("Ticket");
                 //if the player is taking a draw turn then
+                this.selectedTickets.set(0,selectedTickets.get(0));
+                this.selectedTickets.set(1,selectedTickets.get(1));
                 game.sendAction(new DrawTickets(this, selectedTickets));
+                System.out.println("selected tickets "+selectedTickets.get(0)+", "+selectedTickets.get(1));
                 turnActions.clear();
                 typeAction = ACTION.NONE;
                 wilds = 0;

@@ -151,7 +151,7 @@ public class TTRLocalGame extends LocalGame {
 
         //Player winner = players.get(winnerID);
         //4. Generate and return message of who the winner is.
-        return winnerID + " is the winner.";
+        return winnerID + " is the winner. with a score of "+scores[winnerID];
 
         //return null; //dummy
     } //checkIfGameOver()
@@ -192,6 +192,7 @@ public class TTRLocalGame extends LocalGame {
                 return true;
             }else{
                 //move tickets to hand
+                //state = (TTRState) super.state;
                 ArrayList<Ticket> shown = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
                 Player user = state.getPlayers().get(state.getWhosTurn());
