@@ -153,18 +153,14 @@ public class TTRLocalGame extends LocalGame {
         //3. Compare scores to determine winner.
         int winnerID = 0;
         int maxScore = scores[0];
-        System.out.println("player "+0+"'s score is: "+scores[0]);
         for(int i = 1; i < scores.length; i++){
-            System.out.println("player "+i+"'s score is: "+scores[i]);
             if(scores[i] > maxScore){
                 maxScore = scores[i];
                 winnerID = i;
             }
         }
-        System.out.println("winner is "+winnerID);
         //Player winner = players.get(winnerID);
         //4. Generate and return message of who the winner is.
-        state.setWhoWon(winnerID);
         return winnerID + " is the winner.";
 
         //return null; //dummy
@@ -579,18 +575,14 @@ public class TTRLocalGame extends LocalGame {
     //3. Compare scores to determine winner.
     int winnerID = 0;
     int maxScore = scores[0];
-        System.out.println("player "+0+"'s score is: "+scores[0]);
         for(int i = 1; i < scores.length; i++){
-        System.out.println("player "+i+"'s score is: "+scores[i]);
         if(scores[i] > maxScore){
             maxScore = scores[i];
             winnerID = i;
         }
     }
-        System.out.println("winner is "+winnerID+"(who won)");
     //Player winner = players.get(winnerID);
     //4. Generate and return message of who the winner is.
-        winState.setWhoWon(winnerID);
         return winnerID;
     }
 

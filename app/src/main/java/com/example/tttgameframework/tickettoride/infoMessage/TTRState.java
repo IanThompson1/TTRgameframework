@@ -49,7 +49,6 @@ public class TTRState extends GameState implements Serializable {
     private ArrayList<CARD> cardDeck;
     private ArrayList<CARD> faceUp;
     private ArrayList<Ticket> ticketDeck;
-    private int whoWon;
     private int numPlayers;
 
     private HashMap<TTRState.CITY, CityNode> cityAdjList;
@@ -61,7 +60,6 @@ public class TTRState extends GameState implements Serializable {
         //set number of players
         numPlayers = inNumPlayers;
         whosTurn = 0;
-        whoWon = -1;
 
         //create HashMap for adjacency list
         cityAdjList = new HashMap<>();
@@ -313,7 +311,6 @@ public class TTRState extends GameState implements Serializable {
         }
 
         this.sound = other.getSound();
-        this.whoWon = other.getWhoWon();
     }
 
     //getter method for cardDeck
@@ -486,15 +483,6 @@ public class TTRState extends GameState implements Serializable {
         if(whosTurn > -1 && whosTurn < numPlayers) {
             this.whosTurn = whosTurn;
         }
-    }
-
-    public void setWhoWon(int who) {
-        System.out.println("setting who won = "+who);
-        this.whoWon = who;
-    }
-
-    public int getWhoWon() {
-        return whoWon;
     }
 
     public void addCard(CARD card){
