@@ -517,6 +517,8 @@ public class TTRState extends GameState implements Serializable {
             }
         }
 
+        //hello
+
         /*marked.put(c0, cityAdjList.get(c0));
 
         if(c0 == c1){
