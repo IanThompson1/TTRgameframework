@@ -476,12 +476,15 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 }
                 faceUpButtons.set(i, button);
             }
-            //draw the random card
+            //checks if there is cards in the deck
+            //if there is not will assign the purple error image
+            //else it will assign the draw train image
             if(state.getCardDeck().size() == 0){
                 drawTrainButton.setImageResource(R.color.purple_500);
             }else{
                 drawTrainButton.setImageResource(R.drawable.train_draw);
             }
+            //sets the image of the cards in the players hand
             blackTrainHandButton.setImageResource(R.drawable.black_train_v);
             whiteTrainHandButton.setImageResource(R.drawable.white_train_v);
             orangeTrainHandButton.setImageResource(R.drawable.orange_train_v);
@@ -699,13 +702,17 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     flash(Color.RED, 20,Color.BLACK);
                 }
             }
+            //if confirm button is clicked
         } else if (button.getId() == R.id.ConfirmButton) {
+            //if the player is doing a draw action this turn
             if (typeAction == ACTION.DRAW) {
                 System.out.println("Draw");
+                //sends the draw action with a corresponding arraylist with the selected draw cards
                 turnActions.add(new DrawTrains(this, selected));
                 for (int i = 0; i < turnActions.size(); i++) {
                     game.sendAction(turnActions.get(i));
                 }
+                //resets values for next action
                 turnActions.clear();
                 typeAction = ACTION.NONE;
                 wilds = 0;
@@ -717,11 +724,16 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     selectedTickets.set(i, 0);
                 }
                 numCardsSelected=0;
+                //update the surface view
                 surfaceView.invalidate();
+                //if the player is placing a train this turn
             } else if (typeAction == ACTION.PLACE) {
                 System.out.println("Place");
+                //checks if the user is only using wilds
                 if (wilds > 0 && turnActions.size() == 0) {
+                    //sends the action with the path selected and the number of wilds used
                     game.sendAction(new PlaceTrains(this, path, wilds, null, pathNumber));
+                    //resets values for next action
                     turnActions.clear();
                     typeAction = ACTION.NONE;
                     wilds = 0;
@@ -732,8 +744,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     for(int i = 0; i < 2; i++){
                         selectedTickets.set(i, 0);
                     }
+                    //updates surface view
                     surfaceView.invalidate();
                 } else if (turnActions.size() > 0) {
+                    //else it will send the action with the action created when they click on their cards in hand
                     game.sendAction(turnActions.get(0));
                     turnActions.clear();
                     typeAction = ACTION.NONE;
@@ -750,11 +764,11 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 } else {
                     flash(Color.RED, 20,Color.BLACK);
                 }
-
-
+                //if the player is doing a draw tickets action
             } else if (typeAction == ACTION.TICKET) {
                 System.out.println("Ticket");
                 //if the player is taking a draw turn then
+                //sends the draw tickets action with a corresponding arraylist of the ticket selected
                 game.sendAction(new DrawTickets(this, selectedTickets));
                 turnActions.clear();
                 typeAction = ACTION.NONE;
@@ -772,9 +786,9 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 System.out.println("ANGRY");
                 flash(Color.RED, 20,Color.BLACK);
             }
-
+        //if the player clicks the cancel button
         } else if (button.getId() == R.id.CancelButton) {
-            //if cancel is clicked then it will send
+            //if cancel is clicked then it will reset values of instance variables to prep for next action
             turnActions.clear();
             typeAction = ACTION.NONE;
             wilds = 0;
@@ -791,15 +805,19 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             numCardsSelected=0;
             surfaceView.resetSelectedCardColor();
             surfaceView.invalidate();
-
+            //if they click on a card in hand
         } else if (button.getId() == R.id.whiteTrainHand) {
+            //checks if they have clicked on a path
             if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
+                //checks if the player already selected a card in hand
                 if(turnActions.size() > 0) {
                     turnActions.remove(0);
                 }
+                //then creates and adds a place train action with the corresponding card selected to the turn actions arraylist
                 turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.WHITECARD , pathNumber));
                 surfaceView.setSelectedCardColor(TTRState.CARD.WHITECARD);
+                //updates GUI
                 surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20,Color.BLACK);
