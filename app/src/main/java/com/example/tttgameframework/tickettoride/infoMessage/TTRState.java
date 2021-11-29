@@ -49,18 +49,17 @@ public class TTRState extends GameState implements Serializable {
     private ArrayList<CARD> cardDeck;
     private ArrayList<CARD> faceUp;
     private ArrayList<Ticket> ticketDeck;
-
     private int numPlayers;
 
     private HashMap<TTRState.CITY, CityNode> cityAdjList;
 
+    private int sound;//for music
 
     public TTRState(int inNumPlayers){
 
         //set number of players
         numPlayers = inNumPlayers;
         whosTurn = 0;
-
 
         //create HashMap for adjacency list
         cityAdjList = new HashMap<>();
@@ -70,6 +69,8 @@ public class TTRState extends GameState implements Serializable {
             cityAdjList.put(c, new CityNode(c));
         }
 
+        //music
+        sound = 0;
 
         /**
          * create all paths
@@ -303,6 +304,8 @@ public class TTRState extends GameState implements Serializable {
         for(Ticket x: other.shownTickets){
             this.shownTickets.add(new Ticket(x));
         }
+
+        this.sound = other.getSound();
     }
 
     //getter method for cardDeck
@@ -537,5 +540,13 @@ public class TTRState extends GameState implements Serializable {
 
         return reached;*/
         return false; //dummy
+    }
+
+    public int getSound() {
+        return sound;
+    }
+
+    public void setSound(int sound) {
+        this.sound = sound;
     }
 }
