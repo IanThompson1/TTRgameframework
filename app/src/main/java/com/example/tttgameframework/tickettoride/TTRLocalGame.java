@@ -176,6 +176,7 @@ public class TTRLocalGame extends LocalGame {
 
         //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
+            System.out.println("");
             return false;
         }
         if(action instanceof DrawTickets){
