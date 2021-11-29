@@ -5,9 +5,11 @@ import com.example.tttgameframework.GameFramework.players.GamePlayer;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlaceTrains extends GameAction {
+public class PlaceTrains extends GameAction implements Serializable {
+    private static final long serialVersionUID = 7542321013488624322L;
     private Path selectedPath;
     private int numberOfWilds;
     private TTRState.CARD color;
@@ -20,7 +22,7 @@ public class PlaceTrains extends GameAction {
      */
     public PlaceTrains(GamePlayer player,Path SelectedPath, int numWilds,TTRState.CARD col, int pathNum) {
         super(player);
-        this.selectedPath = SelectedPath;
+        this.selectedPath = new Path(SelectedPath);
         numberOfWilds = numWilds;
         color = col;
         this.pathNum = pathNum;

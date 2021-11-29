@@ -15,6 +15,7 @@ import com.example.tttgameframework.tickettoride.infoMessage.Path;
 import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.infoMessage.Ticket;
+import com.example.tttgameframework.tickettoride.players.TTRHumanPlayer;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,10 @@ public class TTRSurfaceView extends SurfaceView {
 
     private int screenHeight;
     private int screenWidth;
-    private Paint redPaint;
-    private Paint greenPaint;
-    private Paint bluePaint;
-    private Paint yellowPaint;
+    private Paint player1Paint;//red
+    private Paint player0Paint;//green
+    private Paint player2Paint;//blue
+    private Paint player3Paint;//yellow
     private Paint orangePaint;
     private Paint white;
     private Paint greyPaint;
@@ -100,10 +101,10 @@ public class TTRSurfaceView extends SurfaceView {
 
         //make paint
         white = new Paint();
-        redPaint = new Paint();
-        greenPaint = new Paint();
-        bluePaint = new Paint();
-        yellowPaint = new Paint();
+        player1Paint = new Paint();
+        player0Paint = new Paint();
+        player2Paint = new Paint();
+        player3Paint = new Paint();
         orangePaint = new Paint();
         greyPaint = new Paint();
         pinkPaint = new Paint();
@@ -122,10 +123,10 @@ public class TTRSurfaceView extends SurfaceView {
         lightgreen = new Paint();
         lightgreen.setARGB(125,0,255,0);
         white.setARGB(255,255,255,255);
-        redPaint.setARGB(255,255,0,0);
-        greenPaint.setARGB(255,0,255,0);
-        bluePaint.setARGB(255,0,0,255);
-        yellowPaint.setARGB(255,223,189,0);
+        player1Paint.setColor(Color.RED);
+        player0Paint.setColor(Color.GREEN);
+        player2Paint.setColor(Color.BLUE);
+        player3Paint.setColor(Color.YELLOW);
         orangePaint.setARGB(255,255,165,0);
         greyPaint.setARGB(255,128,128,128);
         pinkPaint.setARGB(255, 255,192,203);
@@ -179,20 +180,40 @@ public class TTRSurfaceView extends SurfaceView {
         Bitmap newImage = Bitmap.createScaledBitmap(image,Math.round(width*Yratio),Math.round(1300*Xratio),true);
 
         //background
-        canvas.drawBitmap(newImage, 150.f*Xratio, 0.f*Yratio, redPaint);
+        canvas.drawBitmap(newImage, 150.f*Xratio, 0.f*Yratio, player1Paint);
 
 
 
-
+        //player check
+        if(curPlayer.getName() == 1){
+            player1Cards = player0Cards;
+            player1Trains = player0Trains;
+            player1Tickets = player0Tickets;
+            player0Paint.setColor(Color.RED);
+            player1Paint.setColor(Color.GREEN);
+        }else if(curPlayer.getName() == 2){
+            player2Cards = player0Cards;
+            player2Trains = player0Trains;
+            player2Tickets = player0Tickets;
+            player0Paint.setColor(Color.BLUE);
+            player2Paint.setColor(Color.GREEN);
+        }else if(curPlayer.getName() == 3){
+            player3Cards = player0Cards;
+            player3Trains = player0Trains;
+            player3Tickets = player0Tickets;
+            player0Paint.setColor(Color.YELLOW);
+            player3Paint.setColor(Color.GREEN);
+        }
 
         //current player
         canvas.drawCircle( 1920*Xratio, 1277*Yratio,65*Rratio,white);
         canvas.drawCircle( 2075*Xratio, 1277*Yratio,65*Rratio,greenPaint);
         canvas.drawText(String.valueOf(curPlayer.getNumTrains()), 1880*Xratio, 1300*Yratio, trainCountPaint);
 
+
         //player 2
-        canvas.drawCircle(600*Xratio,100*Yratio,70*Rratio,redPaint);
-        canvas.drawRect(600*Xratio, 60*Yratio, 900*Xratio, 170*Yratio,redPaint);
+        canvas.drawCircle(600*Xratio,100*Yratio,70*Rratio,player1Paint);
+        canvas.drawRect(600*Xratio, 60*Yratio, 900*Xratio, 170*Yratio,player1Paint);
         canvas.drawCircle(660*Xratio,140*Yratio,27*Rratio,white);
         canvas.drawText(String.valueOf(player1Trains), 645*Xratio, 150*Yratio, otherTrainCountPaint);
         canvas.drawRect(720*Xratio,70*Yratio, 770*Xratio, 110*Yratio, drawTrainPaint);
@@ -200,8 +221,8 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawRect(720*Xratio,120*Yratio, 770*Xratio, 160*Yratio, ticketPaint);
         canvas.drawText(String.valueOf(player1Tickets), 790*Xratio, 150*Yratio, otherInfoPaint);
         //player 3
-        canvas.drawCircle(  1025*Xratio,100*Yratio,70*Rratio,bluePaint);
-        canvas.drawRect(1025*Xratio, 60*Yratio, 1325*Xratio, 170*Yratio,bluePaint);
+        canvas.drawCircle(  1025*Xratio,100*Yratio,70*Rratio,player2Paint);
+        canvas.drawRect(1025*Xratio, 60*Yratio, 1325*Xratio, 170*Yratio,player2Paint);
         canvas.drawCircle(1085*Xratio,140*Yratio,27*Rratio,white);
         canvas.drawText(String.valueOf(player2Trains), 1070*Xratio, 150*Yratio, otherTrainCountPaint);
         canvas.drawRect(1145*Xratio,70*Yratio, 1195*Xratio, 110*Yratio, drawTrainPaint);
@@ -210,14 +231,19 @@ public class TTRSurfaceView extends SurfaceView {
         canvas.drawText(String.valueOf(player2Tickets), 1215*Xratio, 150*Yratio, otherInfoPaint);
 
         //player 4
-        canvas.drawCircle(1450*Xratio,100*Yratio,70*Rratio,yellowPaint);
-        canvas.drawRect(1450*Xratio, 60*Yratio, 1750*Xratio, 170*Yratio,yellowPaint);
+        canvas.drawCircle(1450*Xratio,100*Yratio,70*Rratio,player3Paint);
+        canvas.drawRect(1450*Xratio, 60*Yratio, 1750*Xratio, 170*Yratio,player3Paint);
         canvas.drawCircle(1510*Xratio,140*Yratio,27*Rratio,white);
         canvas.drawText(String.valueOf(player3Trains), 1495*Xratio, 150*Yratio, otherTrainCountPaint);
         canvas.drawRect(1570*Xratio,70*Yratio, 1620*Xratio, 110*Yratio, drawTrainPaint);
         canvas.drawText(String.valueOf(player3Cards), 1640*Xratio, 100*Yratio, otherInfoPaint);
         canvas.drawRect(1570*Xratio,120*Yratio, 1620*Xratio, 160*Yratio, ticketPaint);
         canvas.drawText(String.valueOf(player3Tickets), 1640*Xratio, 150*Yratio, otherInfoPaint);
+
+        player0Paint.setColor(Color.GREEN);
+        player1Paint.setColor(Color.RED);
+        player2Paint.setColor(Color.BLUE);
+        player3Paint.setColor(Color.YELLOW);
 
         /**
          * Board drawings
@@ -805,13 +831,13 @@ public class TTRSurfaceView extends SurfaceView {
     private Paint ownerPaint(Path p){
         int owner = p.getPathOwner();
         if(owner == 0){
-            return greenPaint;
+            return player0Paint;
         } else if(owner == 1){
-            return redPaint;
+            return player1Paint;
         } else if(owner == 2){
-            return bluePaint;
+            return player2Paint;
         } else if(owner == 3){
-            return yellowPaint;
+            return player3Paint;
         } else {
             return emptyPaint;
         }

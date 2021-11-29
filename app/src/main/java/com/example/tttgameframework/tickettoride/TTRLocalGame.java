@@ -161,7 +161,7 @@ public class TTRLocalGame extends LocalGame {
         }
         //Player winner = players.get(winnerID);
         //4. Generate and return message of who the winner is.
-        return winnerID + " is the winner.";
+        return winnerID + " is the winner. with a score of "+scores[winnerID];
 
         //return null; //dummy
     } //checkIfGameOver()
@@ -185,6 +185,7 @@ public class TTRLocalGame extends LocalGame {
 
         //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
+            System.out.println("");
             return false;
         }
         if(action instanceof DrawTickets){
@@ -203,6 +204,7 @@ public class TTRLocalGame extends LocalGame {
                 return true;
             }else{
                 //move tickets to hand
+                //state = (TTRState) super.state;
                 ArrayList<Ticket> shown = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
                 Player user = state.getPlayers().get(state.getWhosTurn());
@@ -213,6 +215,8 @@ public class TTRLocalGame extends LocalGame {
                         count++;
                     }
                 }
+                System.out.println("how many are selected? "+count);
+                System.out.println("whos turn is it? "+state.getWhosTurn());
                 if(count == 0 || count > 2){
                     state.setSound(1);
                     return false;

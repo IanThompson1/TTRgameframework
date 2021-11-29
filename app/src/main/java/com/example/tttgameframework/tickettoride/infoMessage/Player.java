@@ -2,10 +2,11 @@ package com.example.tttgameframework.tickettoride.infoMessage;
 
 import com.example.tttgameframework.GameFramework.players.GamePlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player{
-
+public class Player implements Serializable {
+    private static final long serialVersionUID = 6542321013488624386L;
     private int numTrains;
     private ArrayList<TTRState.CARD> cardHand;
     private ArrayList<Ticket> tickets;

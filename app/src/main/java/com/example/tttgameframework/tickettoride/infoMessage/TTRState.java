@@ -197,11 +197,6 @@ public class TTRState extends GameState implements Serializable {
             if (numPlayers == 4){
                 //four players
                 allPlayers.add(new Player(3));
-                System.out.println("all players are created");
-                System.out.println("all players are created");
-                System.out.println("all players are created");
-                System.out.println("all players are created");
-                System.out.println("all players are created");
 
             }
         }
