@@ -97,7 +97,7 @@ public class TTRLocalGame extends LocalGame {
 
         //2a. compute scores from tickets
         //not done
-        /*for(Player p: players){
+        for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
             theseTickets = p.getTickets();
@@ -113,7 +113,7 @@ public class TTRLocalGame extends LocalGame {
                     scores[p.getName()] -= t.getPointValue(); //subtract if not completed
                 }
             }
-        }*/
+        }
 
         //2b. compute scores from building paths
         ArrayList<Path> thesePaths = state.getAllPaths();

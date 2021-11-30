@@ -52,7 +52,7 @@ public class TTRState extends GameState implements Serializable {
 
     private int numPlayers;
 
-    private HashMap<TTRState.CITY, CityNode> cityAdjList;
+    private HashMap<TTRState.CITY, CityNode> cityAdjList; //delete
 
 
     public TTRState(int inNumPlayers){
@@ -63,12 +63,12 @@ public class TTRState extends GameState implements Serializable {
 
 
         //create HashMap for adjacency list
-        cityAdjList = new HashMap<>();
+        cityAdjList = new HashMap<>(); //delete
 
         //create CityNodes, add to adj list
-        for(CITY c: CITY.values()){
-            cityAdjList.put(c, new CityNode(c));
-        }
+        for(CITY c: CITY.values()){ //delete
+            cityAdjList.put(c, new CityNode(c)); //delete
+        } //delete
 
 
         /**
@@ -171,13 +171,13 @@ public class TTRState extends GameState implements Serializable {
         allPaths.add(new Path(4, CITY.BEND, CITY.KFALLS, Path.COLOR.ORANGEPATH, -1));
 
         //adding the paths as neighbors in the adjacency list
-        for(Path p: allPaths){
+        for(Path p: allPaths){ //delete
             //add node0
-            cityAdjList.get(p.getNode0()).addNeighbor(p);
+            cityAdjList.get(p.getNode0()).addNeighbor(p); //delete
 
             //add node 1
 
-            cityAdjList.get(p.getNode1()).addNeighbor(p);
+            cityAdjList.get(p.getNode1()).addNeighbor(p); //delete
         }
 
 
@@ -487,7 +487,15 @@ public class TTRState extends GameState implements Serializable {
         Collections.shuffle(cardDeck);
     }
 
-    //comment
+    /** ticket_completed
+     *
+     * Description: calls dfs function to determine if the given ticket has been completed by the owner.
+     *
+     * @param c0    first city of the ticket being checked
+     * @param c1    second city of the ticket being checked.
+     * @param owner holder of ticket.
+     * @return
+     */
     public boolean ticket_completed(TTRState.CITY c0, TTRState.CITY c1, int owner){
         /*HashMap<TTRState.CITY, CityNode> marked = new HashMap<>(); //hashmap to store the marked off nodes
 
@@ -497,52 +505,51 @@ public class TTRState extends GameState implements Serializable {
         ArrayList<Path> visited = new ArrayList<>();
 
         return dfs(visited, c0, c1, owner);
-    }
+    } //ticket_completed
 
-    //comment
+
+    /** dfs
+     *
+     * Description: recursive depth first search function used to determine if tickets have been completed
+     *              by the specified owner.
+     *
+     * @param visited   ArrayList of Paths that have been checked.
+     * @param c0    first city on the ticket being checked.
+     * @param c1    second city on the ticket being checked.
+     * @param owner holder of ticket.
+     *
+     * @return      boolean representing if owner has completed the specified ticket.
+     */
     public boolean dfs(ArrayList<Path> visited, TTRState.CITY c0, TTRState.CITY c1, int owner){
-        if(c1.equals(c0)){ //base case
+        //base case, if c0 is the same as c1, return true
+        if(c1.equals(c0)){
             return true;
         }
 
+        visited = new ArrayList<>();
+
+        //loop through all the paths on the board.
+        //  note: a path is a direct line from one city to another.
         for(Path p: allPaths){
+            //if the owner being checked owns this path and the path has not been visited,
+            //"visit" the path and check it.
+
             if(p.getPathOwner() == owner && !visited.contains(p)) {
-                visited.add(p);
+                visited.add(p); //add to visited array
+
+                //if the first city of the path is the same as c0, recursively call dfs() on the second city of the path.
                 if (p.getNode0().equals(c0)) {
+                    //visited.add(p); //add to visited array
                     return dfs(visited, p.getNode1(), c1, owner);
-                } else if (p.getNode1().equals(c0)) {
-                    //visited.add(p);
-                    return dfs(visited, p.getNode0(), c1, owner);
                 }
+                //if the second city of the path is the same as c0, recursively call dfs() on the first city of the path.
+                /*else if (p.getNode1().equals(c0)) {
+                    //visited.add(p); //add to visited array
+                    return dfs(visited, p.getNode0(), c1, owner);
+                }*/
             }
         }
 
-        //hello world
-
-        /*marked.put(c0, cityAdjList.get(c0));
-
-        if(c0 == c1){
-            return true;
-        }
-
-        HashMap<TTRState.CITY, Path> neighbors = Objects.requireNonNull(cityAdjList.get(c0)).getNeighbors();
-
-        HashMap<TTRState.CITY, Boolean> visited = new HashMap<>();
-
-        boolean reached = false;
-
-        for(TTRState.CITY c: neighbors.keySet()){
-            if(Objects.requireNonNull(neighbors.get(c)).getPathOwner() == owner){
-                reached = dfs(marked, c, c1, owner);
-            }
-
-            if(reached){
-                return true;
-            }
-        }
-
-
-        return reached;*/
         return false; //dummy
-    }
+    }//dfs()
 }

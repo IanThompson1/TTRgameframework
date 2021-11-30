@@ -2,6 +2,9 @@ package com.example.tttgameframework.tickettoride.infoMessage;
 
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.ASTORIA;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.LAGRANDE;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.PENDLETON;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.PORTLAND;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.THEDALLES;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -340,15 +343,59 @@ public class TTRStateTest {
 
     }//Bruce
 
-    //will fail
+
     @Test
     public void ticket_completed() {
+        //1) create new state
+        TTRState state = new TTRState(2);
 
+        //2) base test, make sure it returns false when no game play has occured.
+        boolean testComplete = state.ticket_completed(ASTORIA, LAGRANDE, 0);
 
-    }
+        assertFalse(testComplete);
+
+        //3) base test, test that the owner of the path is -1
+        boolean testComplete2 = state.ticket_completed(ASTORIA, LAGRANDE, -1);
+
+        assertTrue(testComplete2);
+
+        //4) manually set the owner of a path from ASTORIA to LAGRANGE to player 1.
+        //astoria to portland
+        //portland to the dalles
+        //the dalles to pendleton
+        //pendleton to lagrange
+        ArrayList<Path> testPaths = state.getAllPaths();
+
+        for(Path p: testPaths){
+            if(p.getNode0().equals(PORTLAND) && p.getNode1().equals(THEDALLES)){
+                p.setPathOwner(1);
+            }
+            if(p.getNode0().equals(ASTORIA) && p.getNode1().equals(PORTLAND)){
+                p.setPathOwner(1);
+            }
+            if(p.getNode0().equals(THEDALLES) && p.getNode1().equals(PENDLETON)){
+                p.setPathOwner(1);
+            }
+            if(p.getNode0().equals(PENDLETON) && p.getNode1().equals(LAGRANDE)){
+                p.setPathOwner(1);
+            }
+        }
+
+        boolean testComplete3 = state.ticket_completed(ASTORIA, LAGRANDE, 1);
+
+        assertTrue(testComplete3);
+
+        boolean test4 = state.ticket_completed(ASTORIA, LAGRANDE, -1);
+
+        assertFalse(test4);
+
+        //test Ticket TILLAMOOK to BEND
+
+    } //Jennifer
 
     @Test
     public void dfs() {
-        //not finished yet
-    }
+
+
+    } //Jennifer
 }
