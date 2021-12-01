@@ -551,8 +551,6 @@ public class TTRState extends GameState implements Serializable {
         return false; //dummy
     }//dfs()
 
-    //}
-
     public int getSound() {
         return sound;
     }
