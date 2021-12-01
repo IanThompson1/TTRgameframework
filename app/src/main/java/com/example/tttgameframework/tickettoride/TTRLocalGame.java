@@ -1,8 +1,11 @@
 package com.example.tttgameframework.tickettoride;
 
+import android.media.MediaPlayer;
+
 import com.example.tttgameframework.GameFramework.LocalGame;
 import com.example.tttgameframework.GameFramework.actionMessage.GameAction;
 import com.example.tttgameframework.GameFramework.players.GamePlayer;
+import com.example.tttgameframework.R;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
 import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
@@ -10,6 +13,8 @@ import com.example.tttgameframework.tickettoride.infoMessage.Ticket;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.players.TTRHumanPlayer;
@@ -18,7 +23,7 @@ import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
 
 public class TTRLocalGame extends LocalGame {
-    private TTRState state; 
+    private TTRState state;
     public TTRLocalGame(){
         super();
     }
@@ -65,7 +70,13 @@ public class TTRLocalGame extends LocalGame {
         boolean gameOver = false;
 
         //get players of players
-        ArrayList<Player> players = state.getPlayers();
+        ArrayList<Player> players;
+        try {
+            players = state.getPlayers();
+        }catch (Exception e){
+            return "";
+        }
+
 
         //1. Check if game is over.
         //      Game is over if any 1 player runs out of trains.
@@ -148,10 +159,9 @@ public class TTRLocalGame extends LocalGame {
                 winnerID = i;
             }
         }
-
         //Player winner = players.get(winnerID);
         //4. Generate and return message of who the winner is.
-        return winnerID + " is the winner.";
+        return winnerID + " is the winner. with a score of "+scores[winnerID];
 
         //return null; //dummy
     } //checkIfGameOver()
@@ -173,9 +183,9 @@ public class TTRLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-
         //check if it is the players turn
         if(getPlayerIdx(action.getPlayer()) != state.getWhosTurn()){
+            System.out.println("");
             return false;
         }
         if(action instanceof DrawTickets){
@@ -183,15 +193,18 @@ public class TTRLocalGame extends LocalGame {
                 //check if there are enough tickets in the deck
                 System.out.println(state.getTicketDeck().size() + " ticket deck size");
                 if(state.getTicketDeck().size() < 2){
+                    state.setSound(1);
                     return false;
                 }
                 //draw tickets to part of the screen
                 ArrayList<Ticket> temp = state.getTickets();
                 state.addShownTicket(temp.get(0));
                 state.addShownTicket(temp.get(1));
+                state.setSound(2);
                 return true;
             }else{
                 //move tickets to hand
+                //state = (TTRState) super.state;
                 ArrayList<Ticket> shown = state.getShownTickets();
                 ArrayList<Integer> selected = ((DrawTickets) action).getSelected();
                 Player user = state.getPlayers().get(state.getWhosTurn());
@@ -202,7 +215,10 @@ public class TTRLocalGame extends LocalGame {
                         count++;
                     }
                 }
+                System.out.println("how many are selected? "+count);
+                System.out.println("whos turn is it? "+state.getWhosTurn());
                 if(count == 0 || count > 2){
+                    state.setSound(1);
                     return false;
                 }
 
@@ -214,6 +230,7 @@ public class TTRLocalGame extends LocalGame {
                             System.out.println(shown.get(i).toString() + "adding this card to the players hand");
                             user.addTicket(shown.get(i));
                         }else{
+                            state.setSound(1);
                             return false;
                         }
 
@@ -229,6 +246,7 @@ public class TTRLocalGame extends LocalGame {
                 state.getPlayers().set(state.getWhosTurn(), user);
                 changeTurn(state);
             }
+            state.setSound(2);
             return true;
         }else if(action instanceof DrawTrains){
             ArrayList<Boolean> selected = ((DrawTrains) action).getSelectedTrains();
@@ -242,6 +260,7 @@ public class TTRLocalGame extends LocalGame {
                 }
             }
             if(counter<1 || counter >2){
+                state.setSound(1);
                 return false;
             }
             //all checks
@@ -250,15 +269,18 @@ public class TTRLocalGame extends LocalGame {
                     //check if draw only one card and the one card is from random deck
                     if(i < 2) {
                         if(counter ==1){
+                            state.setSound(1);
                             return false;
                         }
                         //check not enough cards
                         if(random.size() == 0){
+                            state.setSound(1);
                             return false;
                         }
                         //checks if double draw from random with only 1 card in the random deck
                         if(selected.get(0) && selected.get(1)){
                             if(random.size() < 2){
+                                state.setSound(1);
                                 return false;
                             }
                         }
@@ -267,10 +289,12 @@ public class TTRLocalGame extends LocalGame {
                     else{
                         //if you select only one card that is not a wild
                         if(counter == 1 && faceUp.get(i-2) != TTRState.CARD.WILDCARD){
+                            state.setSound(1);
                             return false;
                         }
                         //if you select two cards and one is a wild
                         else if(counter == 2 && faceUp.get(i-2) == TTRState.CARD.WILDCARD){
+                            state.setSound(1);
                             return false;
                         }
                     }
@@ -313,6 +337,7 @@ public class TTRLocalGame extends LocalGame {
             ((DrawTrains) action).resetSelectedTrains();
             changeTurn(state);
             afterActionChecks();
+            state.setSound(2);
             return true;
         }else if(action instanceof PlaceTrains){
             //assuming just pressed confirm action button and already has the details of whats selected(might need another step like draw tickets)
@@ -332,29 +357,29 @@ public class TTRLocalGame extends LocalGame {
 
             //check if the path is already owned
             if(thePathOwner != -1){
-
+                state.setSound(1);
                 return false;
             }
             //check if the color selected matches the path color (skips if the path is gray)
             if(thePathColor != Path.COLOR.GREYPATH){
                 if(color == TTRState.CARD.WHITECARD){
                     if(thePathColor != Path.COLOR.WHITEPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }else if(color == TTRState.CARD.BLACKCARD){
                     if(thePathColor != Path.COLOR.BLACKPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }else if(color == TTRState.CARD.ORANGECARD){
                     if(thePathColor != Path.COLOR.ORANGEPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }else if(color == TTRState.CARD.PINKCARD){
                     if(thePathColor != Path.COLOR.PINKPATH) {
-
+                        state.setSound(1);
                         return false;
                     }
                 }
@@ -362,33 +387,33 @@ public class TTRLocalGame extends LocalGame {
             //checks if you enough cards
             if(color == TTRState.CARD.WHITECARD){
                 if (user.getWhiteCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }else if(color == TTRState.CARD.BLACKCARD){
                 if (user.getBlackCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }else if(color == TTRState.CARD.ORANGECARD){
                 if (user.getOrangeCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }else if(color == TTRState.CARD.PINKCARD){
                 if (user.getPinkCards() < thePathLength - wilds) {
-
+                    state.setSound(1);
                     return false;
                 }
             }
             //checks enough wilds
             if(user.getWildCards() < wilds){
-
+                state.setSound(1);
                 return false;
             }
             //checks too many wilds
             if(wilds > thePathLength){
-
+                state.setSound(1);
                 return false;
             }
             //end of checks
@@ -423,9 +448,10 @@ public class TTRLocalGame extends LocalGame {
             //((PlaceTrains) action).resetSelectedPath();//again I think this is a preference thing so might need it.
             changeTurn(state);
             afterActionChecks();
+            state.setSound(2);
             return true;
         }else{
-
+            state.setSound(1);
             return false;
         }
     }
@@ -463,30 +489,105 @@ public class TTRLocalGame extends LocalGame {
      *
      * @return  int representing the player who won
      */
-    public int whoWon(){
+    public int getWhoWon(TTRState theState){
+        TTRState winState = theState;
+        boolean gameOver = false;
 
-        String gameOver = checkIfGameOver();
-
-        //if the game is NOT over
-        if(gameOver == null){
+        //get players of players
+        ArrayList<Player> players;
+        try {
+            players = winState.getPlayers();
+        }catch (Exception e){
+            System.out.println("no players left!");
             return -1;
         }
 
-        //check which player won and return the int of that player
-        if(gameOver.equals(0+" is the winner.")){
-            return 0;
-        }
-        else if(gameOver.equals(1+" is the winner.")){
-            return 1;
-        }
-        else if(gameOver.equals(2+" is the winner.")){
-            return 2;
-        }
-        else if(gameOver.equals(3+" is the winner.")){
-            return 3;
+
+        //1. Check if game is over.
+        //      Game is over if any 1 player runs out of trains.
+        for(Player p: players){
+            if(p.getNumTrains() <= 0){ //if player has no trains left
+                //mark game is over
+                gameOver = true;
+                break;
+            }
+
         }
 
-        return -1;
+        //return if the game isn't over.
+        if(!gameOver){
+            System.out.println("game isnt over");
+            return -1;
+        }
+
+        //2. Compute the scores of all players
+        //      Compute by adding the value of all the tickets completed by a player and
+        //      subtracting the value of all the tickets a player holds but did not complete.
+        //      longest continuous path gets 10 points ***BETA***
+        //      path lengths gives you points. path L = 1 --> 1 pt
+        //      path L = 2 --> 2 pts
+        //      path L = 3 --> 4
+        //      path L = 4 --> 7
+
+        //create array for the scores of the players
+        int scores[] = new int[((TTRState)winState).getNumPlayers()];
+
+        //2a. compute scores from tickets
+        //not done
+        /*for(Player p: players){
+            //get list of tickets they have
+            ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
+            theseTickets = p.getTickets();
+
+            //compute now if the tickets are completed or not
+
+            //loop through tickets and add to the players score.
+            for(Ticket t: theseTickets){
+                if(t.getIsComplete()){
+                    scores[p.getName()] += t.getPointValue(); //add if completed
+                }
+                else{
+                    scores[p.getName()] -= t.getPointValue(); //subtract if not completed
+                }
+            }
+        }*/
+
+    //2b. compute scores from building paths
+    ArrayList<Path> thesePaths = winState.getAllPaths();
+        for(Path p: thesePaths){ //loop through all the paths
+        if(p.getPathOwner() != -1){
+            switch(p.getLength()){
+                case 1: //path L = 1 --> 1 pt
+                    scores[p.getPathOwner()] += 1;
+                    break;
+                case 2: //path L = 2 --> 2 pt2
+                    scores[p.getPathOwner()] += 2;
+                    break;
+                case 3: //path L = 3 --> 4 pt2
+                    scores[p.getPathOwner()] += 4;
+                    break;
+                case 4: //path L = 4 --> 7 pt2
+                    scores[p.getPathOwner()] += 7;
+                    break;
+            }
+        }
+    }
+
+    //2c. find the longest continuous path made ***BETA***
+
+
+    //3. Compare scores to determine winner.
+    int winnerID = 0;
+    int maxScore = scores[0];
+        for(int i = 1; i < scores.length; i++){
+        if(scores[i] > maxScore){
+            maxScore = scores[i];
+            winnerID = i;
+        }
+    }
+    //Player winner = players.get(winnerID);
+    //4. Generate and return message of who the winner is.
+        return winnerID;
     }
 
     public void afterActionChecks(){

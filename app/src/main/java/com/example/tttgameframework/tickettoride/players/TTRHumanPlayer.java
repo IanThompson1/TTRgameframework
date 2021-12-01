@@ -1,7 +1,9 @@
 package com.example.tttgameframework.tickettoride.players;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +19,10 @@ import com.example.tttgameframework.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.tttgameframework.GameFramework.players.GameHumanPlayer;
 import com.example.tttgameframework.GameFramework.utilities.Logger;
 import com.example.tttgameframework.R;
+import com.example.tttgameframework.tickettoride.TTRLocalGame;
 import com.example.tttgameframework.tickettoride.TTRMainActivity;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
+import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTickets;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
@@ -39,6 +43,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private ImageButton wildTrainHandButton = null;
     private Button confirmButton = null;
     private Button cancelButton = null;
+    private Button helpButton = null;
+    private Button soundButton = null;
     private ImageButton drawTicketsButton = null;
     private ImageButton faceup1Button = null;
     private ImageButton faceup2Button = null;
@@ -51,6 +57,14 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     private float Yratio;
     private float Rratio;
     private int numCardsSelected;
+    //music / soundFX
+    private MediaPlayer thomas;
+    private MediaPlayer mariahCarey;
+    private MediaPlayer rick;
+    private MediaPlayer theme;
+    private MediaPlayer good;
+    private MediaPlayer bad;
+    private TTRLocalGame local;
 
     //variable that holds type of action (implement enum later)
     public enum ACTION {
@@ -98,7 +112,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
      *
      * @param name the name of the player
      */
-    public TTRHumanPlayer(String name) {
+    public TTRHumanPlayer(String name,MediaPlayer tim, MediaPlayer mc, MediaPlayer roll, MediaPlayer themeSong, MediaPlayer error, MediaPlayer success) {
         super(name);
         wilds = 0;
         firstTurn = 1;
@@ -111,6 +125,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         Xratio = (float) (25.0/32.0);
         Yratio = (float) (2.0/3.0);
         Rratio = Yratio;
+        local = new TTRLocalGame();
 //        emptyCardDeck = false;
 
         for (int i = 0; i < 7; i++) {
@@ -120,11 +135,28 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             selectedTickets.add(0);
         }
 
+
+        thomas = tim;
+        mariahCarey = mc;
+        rick = roll;
+        theme = themeSong;
+        bad = error;
+        good = success;
+        if(mariahCarey.isPlaying() || rick.isPlaying()){
+            mariahCarey.seekTo(0);
+            rick.seekTo(0);
+            mariahCarey.pause();
+            rick.pause();
+        }
+        theme.start();
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
+        if(state.getWhosTurn() != playerNum){
+            System.out.println("not your turn!!! player's # "+playerNum+"\nwho's turn = "+state.getWhosTurn());
+            return false;
+        }
         Xratio = (float) (32.0/25.0);
         Yratio = (float) (3.0/2.0);
         Rratio = Yratio;
@@ -407,6 +439,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         } else {
             //not a valid coordinate so it will flash screen
             flash(Color.RED, 20, Color.BLACK);
+            badSound();
             return true;
         }
 
@@ -425,8 +458,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
     //impolement as TTT
     @Override
     public void receiveInfo(GameInfo info) {
-        //if game info is gamestate then use gamestate to update what is being drawn
 
+        //if game info is gamestate then use gamestate to update what is being drawn
         if (surfaceView == null) {
             return;
         }
@@ -434,15 +467,18 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             if(info instanceof IllegalMoveInfo){
                 System.out.println("Illegal Move");
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
             System.out.println("Not your turn move");
             flash(Color.BLACK, 20,Color.BLACK);
+            badSound();
             return;
         }
 
         else if (!(info instanceof TTRState)) {
             System.out.println("Bad move");
             flash(Color.RED, 20,Color.BLACK);
+            badSound();
             return;
         }
         else {
@@ -453,6 +489,22 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             System.out.println("Updating info");
             surfaceView.invalidate();
             ArrayList<TTRState.CARD> faceUps = state.getFaceUp();
+
+            //check for music
+            if(state.getPlayers() != null) {
+                for (Player p : state.getPlayers()) {
+                    if (p.getNumTrains() <= 0) { //if player has no trains left
+                        endMusic();
+                    }
+                }
+            }
+            if(state.getSound() == 1){
+                badSound();
+            }else if(state.getSound() == 2){
+                goodSound();
+            }
+            state.setSound(0);
+
             for(int i = 0; i < faceUps.size(); i++) {
                 //displays the current cards in the face up section
                 ImageButton button = faceUpButtons.get(i);
@@ -476,12 +528,15 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 }
                 faceUpButtons.set(i, button);
             }
-            //draw the random card
+            //checks if there is cards in the deck
+            //if there is not will assign the purple error image
+            //else it will assign the draw train image
             if(state.getCardDeck().size() == 0){
                 drawTrainButton.setImageResource(R.color.purple_500);
             }else{
                 drawTrainButton.setImageResource(R.drawable.train_draw);
             }
+            //sets the image of the cards in the players hand
             blackTrainHandButton.setImageResource(R.drawable.black_train_v);
             whiteTrainHandButton.setImageResource(R.drawable.white_train_v);
             orangeTrainHandButton.setImageResource(R.drawable.orange_train_v);
@@ -513,6 +568,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         this.wildTrainHandButton = (ImageButton) activity.findViewById(R.id.wildTrainHand);
         this.confirmButton = (Button) activity.findViewById(R.id.ConfirmButton);
         this.cancelButton = (Button) activity.findViewById(R.id.CancelButton);
+        this.helpButton = (Button) activity.findViewById(R.id.help);
+        this.soundButton = (Button) activity.findViewById(R.id.sound);
         this.drawTicketsButton = (ImageButton) activity.findViewById(R.id.DrawTicketButton);
         this.faceup1Button = (ImageButton) activity.findViewById(R.id.FaceUp1Button);
         this.faceup2Button = (ImageButton) activity.findViewById(R.id.FaceUp2Button);
@@ -539,6 +596,8 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
         wildTrainHandButton.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        helpButton.setOnClickListener(this);
+        soundButton.setOnClickListener(this);
         drawTicketsButton.setOnClickListener(this);
         faceup1Button.setOnClickListener(this);
         faceup2Button.setOnClickListener(this);
@@ -556,6 +615,12 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View button) {
+
+        if(state != null && state.getWhosTurn() != playerNum){
+            System.out.println("not your turn!!!");
+            return;
+        }
+
         if(firstTurn == 1){
             firstTurn = 0;
             game.sendAction(new DrawTickets(this, null));
@@ -581,11 +646,13 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
 
                 }else {
                     flash(Color.RED, 20,Color.BLACK);
+                    badSound();
                 }
                 surfaceView.setSelectedView(selected);
                 surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
 
             //else if the player clicks on draw ticket then send the action draw ticket
@@ -595,6 +662,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 game.sendAction(new DrawTickets(this, null));
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
 
 
@@ -617,6 +685,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20,Color.BLACK);
+                    badSound();
                 }
             }
         } else if (button.getId() == R.id.FaceUp2Button) {
@@ -637,6 +706,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                         surfaceView.invalidate();
                     } else {
                         flash(Color.RED, 20,Color.BLACK);
+                        badSound();
                     }
                 }
         } else if (button.getId() == R.id.FaceUp3Button) {
@@ -657,6 +727,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20,Color.BLACK);
+                    badSound();
                 }
             }
         } else if (button.getId() == R.id.FaceUp4Button) {
@@ -677,6 +748,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20,Color.BLACK);
+                    badSound();
                 }
             }
         } else if (button.getId() == R.id.FaceUp5Button) {
@@ -697,15 +769,20 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20,Color.BLACK);
+                    badSound();
                 }
             }
+            //if confirm button is clicked
         } else if (button.getId() == R.id.ConfirmButton) {
+            //if the player is doing a draw action this turn
             if (typeAction == ACTION.DRAW) {
                 System.out.println("Draw");
+                //sends the draw action with a corresponding arraylist with the selected draw cards
                 turnActions.add(new DrawTrains(this, selected));
                 for (int i = 0; i < turnActions.size(); i++) {
                     game.sendAction(turnActions.get(i));
                 }
+                //resets values for next action
                 turnActions.clear();
                 typeAction = ACTION.NONE;
                 wilds = 0;
@@ -717,11 +794,16 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     selectedTickets.set(i, 0);
                 }
                 numCardsSelected=0;
+                //update the surface view
                 surfaceView.invalidate();
+                //if the player is placing a train this turn
             } else if (typeAction == ACTION.PLACE) {
                 System.out.println("Place");
+                //checks if the user is only using wilds
                 if (wilds > 0 && turnActions.size() == 0) {
+                    //sends the action with the path selected and the number of wilds used
                     game.sendAction(new PlaceTrains(this, path, wilds, null, pathNumber));
+                    //resets values for next action
                     turnActions.clear();
                     typeAction = ACTION.NONE;
                     wilds = 0;
@@ -732,8 +814,10 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     for(int i = 0; i < 2; i++){
                         selectedTickets.set(i, 0);
                     }
+                    //updates surface view
                     surfaceView.invalidate();
                 } else if (turnActions.size() > 0) {
+                    //else it will send the action with the action created when they click on their cards in hand
                     game.sendAction(turnActions.get(0));
                     turnActions.clear();
                     typeAction = ACTION.NONE;
@@ -749,12 +833,13 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                     surfaceView.invalidate();
                 } else {
                     flash(Color.RED, 20,Color.BLACK);
+                    badSound();
                 }
-
-
+                //if the player is doing a draw tickets action
             } else if (typeAction == ACTION.TICKET) {
                 System.out.println("Ticket");
                 //if the player is taking a draw turn then
+                //sends the draw tickets action with a corresponding arraylist of the ticket selected
                 game.sendAction(new DrawTickets(this, selectedTickets));
                 turnActions.clear();
                 typeAction = ACTION.NONE;
@@ -771,10 +856,11 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 //if the player did enter a action
                 System.out.println("ANGRY");
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
-
+        //if the player clicks the cancel button
         } else if (button.getId() == R.id.CancelButton) {
-            //if cancel is clicked then it will send
+            //if cancel is clicked then it will reset values of instance variables to prep for next action
             turnActions.clear();
             typeAction = ACTION.NONE;
             wilds = 0;
@@ -791,18 +877,23 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
             numCardsSelected=0;
             surfaceView.resetSelectedCardColor();
             surfaceView.invalidate();
-
+            //if they click on a card in hand
         } else if (button.getId() == R.id.whiteTrainHand) {
+            //checks if they have clicked on a path
             if (typeAction == ACTION.PLACE) {
                 System.out.println("Works?");
+                //checks if the player already selected a card in hand
                 if(turnActions.size() > 0) {
                     turnActions.remove(0);
                 }
+                //then creates and adds a place train action with the corresponding card selected to the turn actions arraylist
                 turnActions.add( new PlaceTrains(this, path, wilds, TTRState.CARD.WHITECARD , pathNumber));
                 surfaceView.setSelectedCardColor(TTRState.CARD.WHITECARD);
+                //updates GUI
                 surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
         } else if (button.getId() == R.id.blackTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -815,6 +906,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
         } else if (button.getId() == R.id.pinkTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -827,6 +919,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
         } else if (button.getId() == R.id.orangeTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -839,6 +932,7 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.invalidate();
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
         } else if (button.getId() == R.id.wildTrainHand) {
             if (typeAction == ACTION.PLACE) {
@@ -846,12 +940,58 @@ public class TTRHumanPlayer extends GameHumanPlayer implements View.OnTouchListe
                 wilds++;
             } else {
                 flash(Color.RED, 20,Color.BLACK);
+                badSound();
             }
+        } else if(button.getId() == R.id.sound){
+            //swaps the background music
+            if(theme.isPlaying()){
+                theme.seekTo(0);
+                theme.pause();
+                thomas.seekTo(0);
+                thomas.start();
+            }else if(thomas.isPlaying()){
+                thomas.seekTo(0);
+                thomas.pause();
+                theme.seekTo(0);
+                theme.pause();
+            }else if(!(thomas.isPlaying()) && !(theme.isPlaying())){
+                theme.start();
+            }
+        } else if(button.getId() == R.id.help){
+
         }
 
     }
 
-//    public void setEmptyCardDeck(boolean bool){
-//        emptyCardDeck = bool;
-//    }
+    //handles music stuff
+    public void endMusic(){
+        //stop background
+        theme.seekTo(0);
+        theme.pause();
+        thomas.seekTo(0);
+        thomas.pause();
+        //play win or lose music
+        System.out.println("the player that supposedly won "+local.getWhoWon(state));
+        if(local.getWhoWon(state) == playerNum) {
+            mariahCarey.start();
+        }else {
+            rick.start();
+        }
+    }
+
+    public void badSound(){
+        bad.setVolume((float)0.5,(float)0.5);
+        if(bad.getCurrentPosition() > 400){
+            bad.seekTo(0);
+        }
+        bad.start();
+    }
+
+    public void goodSound(){
+        good.setVolume((float)0.5,(float)0.5);
+        if(good.getCurrentPosition() > 400){
+            good.seekTo(0);
+        }
+        good.start();
+    }
 }
