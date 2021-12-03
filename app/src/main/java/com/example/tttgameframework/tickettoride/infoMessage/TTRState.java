@@ -564,7 +564,11 @@ public class TTRState extends GameState implements Serializable {
                 //if the first city of the path is the same as c0, recursively call dfs() on the second city of the path.
                 if (p.getNode0().equals(c0)) {
                     //visited.add(p); //add to visited array
-                    return dfs(visited, p.getNode1(), c1, owner);
+
+                    boolean checked = dfs(visited, p.getNode1(), c1, owner);
+                    if(checked){
+                        return true;
+                    }
                 }
                 //if the second city of the path is the same as c0, recursively call dfs() on the first city of the path.
                 /*else if (p.getNode1().equals(c0)) {
@@ -576,8 +580,6 @@ public class TTRState extends GameState implements Serializable {
 
         return false; //dummy
     }//dfs()
-
-    //}
 
     public int getSound() {
         return sound;

@@ -38,7 +38,7 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
         if (state.getTurn() != playerNum){  //not sure
             return;
         }
-        sleep(2);
+        //sleep(2);
         if (firstTurn == 1){
             firstTurn = 0;
             game.sendAction(new DrawTickets(this, null));

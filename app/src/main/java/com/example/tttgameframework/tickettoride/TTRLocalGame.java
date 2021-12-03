@@ -107,7 +107,6 @@ public class TTRLocalGame extends LocalGame {
         int scores[] = new int[((TTRState)state).getNumPlayers()];
 
         //2a. compute scores from tickets
-        //not done
         for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
@@ -117,7 +116,7 @@ public class TTRLocalGame extends LocalGame {
 
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
-                if(t.getIsComplete()){
+                if(state.ticket_completed(t.getNode0(), t.getNode1(), p.getName())){
                     scores[p.getName()] += t.getPointValue(); //add if completed
                 }
                 else{
@@ -161,9 +160,44 @@ public class TTRLocalGame extends LocalGame {
         }
         //Player winner = players.get(winnerID);
         //4. Generate and return message of who the winner is.
-        return winnerID + " is the winner. with a score of "+scores[winnerID];
+        String scoreBoard = playerToColor(winnerID) + " is the winner with a score of "+ scores[winnerID]+"\n";
+        int secondPlace = 0;
+        int secondScore = -9001;
+        for(int i = 0; i < scores.length; i++){
+            if(scores[i] > secondScore && i != winnerID){
+                secondScore = scores[i];
+                secondPlace = i;
+            }
+        }
+        //check if 2 players
+        scoreBoard += playerToColor(secondPlace) + " came in second with a score of: "+scores[secondPlace]+"\n";
+        if(state.getNumPlayers() == 2){
+            return scoreBoard;
+        }
 
-        //return null; //dummy
+        int thirdPlace = 0;
+        int thirdScore = -9001;
+        for(int i = 0; i < scores.length; i++){
+            if(scores[i] > thirdScore && i != winnerID && i != secondPlace){
+                thirdScore = scores[i];
+                thirdPlace = i;
+            }
+        }
+        //check if 3 players
+        scoreBoard += playerToColor(thirdPlace) + " came in third with a score of: "+scores[thirdPlace]+"\n";
+        if(state.getNumPlayers() == 3){
+            return scoreBoard;
+        }
+
+        int fourthPlace = 0;
+        int fourthScore = -9001;
+        for(int i = 0; i < scores.length; i++){
+            if(i != winnerID && i != secondPlace && i != thirdPlace){
+                fourthPlace = i;
+            }
+        }
+        scoreBoard += playerToColor(fourthPlace) + " came in last :( with a score of: "+scores[fourthPlace]+"\n";
+        return scoreBoard;
     } //checkIfGameOver()
 
 
@@ -667,5 +701,18 @@ public class TTRLocalGame extends LocalGame {
             }
         }
         System.out.println("number of non wilds = "+nonWilds +" \nnumber of wilds = "+countWild);
+    }
+
+    public String playerToColor(int player){
+        if(player == 0){
+            return "Green";
+        }else if(player == 1){
+            return "Red";
+        }else if(player == 2){
+            return "Blue";
+        }else if(player == 3){
+            return "Yellow";
+        }
+        return "bad number";
     }
 }
