@@ -6,6 +6,7 @@ import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CIT
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.LAGRANDE;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.PENDLETON;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.PORTLAND;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.SALEM;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.THEDALLES;
 import static org.junit.Assert.*;
 
@@ -387,9 +388,9 @@ public class TTRStateTest {
 
         assertTrue(testComplete3);
 
-        boolean test4 = state.ticket_completed(ASTORIA, LAGRANDE, -1);
+        boolean test4 = state.ticket_completed(PENDLETON, SALEM, -1);
 
-        assertFalse(test4);
+        assertTrue(test4);
 
         //test Ticket TILLAMOOK to BEND
 

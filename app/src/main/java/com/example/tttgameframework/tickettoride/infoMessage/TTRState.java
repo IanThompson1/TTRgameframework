@@ -553,6 +553,9 @@ public class TTRState extends GameState implements Serializable {
         TTRState.CITY city;
         //find all paths out of c0
         for (Path p:allPaths) {
+            if(p.getPathOwner() != owner){
+                continue;
+            }
             if(p.getNode0() == c0 || p.getNode1() == c0 && p.getPathOwner() == owner && !visited.contains(p)){
                 visited.add(p);
                 //get the second node of the path
