@@ -567,8 +567,7 @@ public class TTRLocalGame extends LocalGame {
         int scores[] = new int[((TTRState)winState).getNumPlayers()];
 
         //2a. compute scores from tickets
-        //not done
-        /*for(Player p: players){
+        for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
             theseTickets = p.getTickets();
@@ -577,14 +576,14 @@ public class TTRLocalGame extends LocalGame {
 
             //loop through tickets and add to the players score.
             for(Ticket t: theseTickets){
-                if(t.getIsComplete()){
+                if(winState.ticket_completed(t.getNode0(), t.getNode1(), p.getName())){
                     scores[p.getName()] += t.getPointValue(); //add if completed
                 }
                 else{
                     scores[p.getName()] -= t.getPointValue(); //subtract if not completed
                 }
             }
-        }*/
+        }
 
     //2b. compute scores from building paths
     ArrayList<Path> thesePaths = winState.getAllPaths();
