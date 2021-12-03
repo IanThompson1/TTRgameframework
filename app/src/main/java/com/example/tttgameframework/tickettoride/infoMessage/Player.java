@@ -18,7 +18,7 @@ public class Player implements Serializable {
         name = playerNum;
         cardHand = new ArrayList<TTRState.CARD>();
         this.tickets = new ArrayList<Ticket>();
-        numTrains = 14;//can change this to make game end earlier
+        numTrains = 10;//can change this to make game end earlier
     }
 
     //Copy constructor

@@ -529,7 +529,7 @@ public class TTRState extends GameState implements Serializable {
         ArrayList<Path> visited = new ArrayList<>();
         ArrayList<Path> potential = new ArrayList<>();
 
-        return dfs(visited,potential, c0, c1, owner);
+        return dfs(visited, c0, c1, owner);
     } //ticket_completed
 
 
@@ -545,7 +545,7 @@ public class TTRState extends GameState implements Serializable {
      *
      * @return      boolean representing if owner has completed the specified ticket.
      */
-    public boolean dfs(ArrayList<Path> visited,ArrayList<Path> potential, TTRState.CITY c0, TTRState.CITY c1, int owner){
+    public boolean dfs(ArrayList<Path> visited, TTRState.CITY c0, TTRState.CITY c1, int owner){
         if(c0.equals(c1)){
             return true;
         }
@@ -556,7 +556,7 @@ public class TTRState extends GameState implements Serializable {
             if(p.getPathOwner() != owner){
                 continue;
             }
-            if(p.getNode0() == c0 || p.getNode1() == c0 && p.getPathOwner() == owner && !visited.contains(p)){
+            if((p.getNode0() == c0 || p.getNode1() == c0) && p.getPathOwner() == owner && !visited.contains(p)){
                 visited.add(p);
                 //get the second node of the path
                 if(p.getNode0() == c0){
@@ -564,27 +564,12 @@ public class TTRState extends GameState implements Serializable {
                 }else{
                     city = p.getNode0();
                 }
-                if(dfs(visited,potential,city,c1,owner)){
+                if(dfs(visited,city,c1,owner)){
                     return true;
                 }
             }
         }
         return false;
-
-//        int currentCity =0;
-//        for(int i=0; i<order.length; i++){
-//            if(order[i] == c0){
-//                currentCity = i;
-//                break;
-//            }
-//        }
-//        visited.add(order[currentCity]);
-//
-//        for(int i = 0; i<order.length; i++){
-//            if(adj[currentCity][i]){
-//
-//            }
-//        }
 
     }//dfs()
 
