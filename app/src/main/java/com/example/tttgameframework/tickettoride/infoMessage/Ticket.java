@@ -30,6 +30,9 @@ public class Ticket implements Serializable {
         return isComplete;
     }
 
+    //method to set a ticket as complete
+    public void setIsComplete(){isComplete = true;}
+
     //method to return the points value of a ticket
     public int getPointValue(){
         return PointValue;

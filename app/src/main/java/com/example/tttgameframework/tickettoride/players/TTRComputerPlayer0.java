@@ -65,8 +65,6 @@ public class TTRComputerPlayer0 extends GameComputerPlayer {
         }
 
         else {
-            //if picking original ticket
-
             //----place train----
             if (rand.nextInt(2) == 1){
                 //create int arraylist to send and set them to 0 (not selected)

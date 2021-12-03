@@ -24,22 +24,48 @@ public class TTRState extends GameState implements Serializable {
 
     public enum CITY{
         ASTORIA,
-        TILLAMOOK,
-        NEWPORT,
-        COOSBAY,
-        PORTLAND,
-        SALEM,
-        EUGENE,
-        ROSEBURG,
-        GPASS,
-        THEDALLES,
         BEND,
-        KFALLS,
-        PENDLETON,
-        LAGRANDE,
         BURNS,
-        LAKEVIEW
+        COOSBAY,
+        EUGENE,
+        GPASS,
+        KFALLS,
+        LAGRANDE,
+        LAKEVIEW,
+        NEWPORT,
+        PENDLETON,
+        PORTLAND,
+        ROSEBURG,
+        SALEM,
+        THEDALLES,
+        TILLAMOOK//
     } //16 cities in total
+
+    public static final boolean[][] adj = {
+            {false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true},
+            {false, false, true, false, true, false, true, false, false, false, true, false, false, true, true, false},
+            {false, true, false, false, false, false, false, true, true, false, false, false, false, false, false, false},
+            {false, false, false, false, false, true, false, false, false, true, false, false, true, false, false, false},
+            {false, true, false, false, false, false, false, false, false, true, false, false, true, true, false, false},
+            {false, false, false, true, false, false, true, false, false, false, false, false, true, false, false, false},
+            {false, true, false, false, false, true, false, false, true, false, false, false, true, false, false, false},
+            {false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false},
+            {false, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false},//is lake
+            {false, false, false, true, true, false, false, false, false, false, false, false, false, true, false, true},
+            {false, true, false, false, false, false, false, true, false, false, false, false, false, false, true, false},
+            {true, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false},//is portland
+            {false, false, false, true, true, true, true, false, false, false, false, false, false, false, false, false},
+            {false, true, false, false, true, false, false, false, false, true, false, true, false, false, false, false},
+            {false, true, false, false, false, false, false, false, false, false, true, true, false, false, false, false},
+            {true, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false}
+    };
+
+    public static final TTRState.CITY[] order = {TTRState.CITY.ASTORIA, TTRState.CITY.BEND, TTRState.CITY.BURNS,
+            TTRState.CITY.COOSBAY, TTRState.CITY.EUGENE, TTRState.CITY.GPASS, TTRState.CITY.KFALLS, TTRState.CITY.LAGRANDE,
+            TTRState.CITY.LAKEVIEW, TTRState.CITY.NEWPORT, TTRState.CITY.PENDLETON, TTRState.CITY.PORTLAND,
+            TTRState.CITY.ROSEBURG, TTRState.CITY.SALEM, TTRState.CITY.THEDALLES, TTRState.CITY.TILLAMOOK};
+
+
 
     private int whosTurn;
 
