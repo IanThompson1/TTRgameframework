@@ -1,6 +1,8 @@
 package com.example.tttgameframework.tickettoride.infoMessage;
 
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.ASTORIA;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.BEND;
+import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.BURNS;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.LAGRANDE;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.PENDLETON;
 import static com.example.tttgameframework.tickettoride.infoMessage.TTRState.CITY.PORTLAND;

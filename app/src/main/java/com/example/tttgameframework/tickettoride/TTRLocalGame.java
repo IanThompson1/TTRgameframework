@@ -107,7 +107,6 @@ public class TTRLocalGame extends LocalGame {
         int scores[] = new int[((TTRState)state).getNumPlayers()];
 
         //2a. compute scores from tickets
-        //not done
         for(Player p: players){
             //get list of tickets they have
             ArrayList<Ticket> theseTickets = new ArrayList<Ticket>();
