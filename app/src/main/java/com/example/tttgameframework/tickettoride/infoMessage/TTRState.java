@@ -527,8 +527,9 @@ public class TTRState extends GameState implements Serializable {
         return dfs(marked, c0, c1, owner);*/
 
         ArrayList<Path> visited = new ArrayList<>();
+        ArrayList<Path> potential = new ArrayList<>();
 
-        return dfs(visited, c0, c1, owner);
+        return dfs(visited,potential, c0, c1, owner);
     } //ticket_completed
 
 
@@ -544,41 +545,44 @@ public class TTRState extends GameState implements Serializable {
      *
      * @return      boolean representing if owner has completed the specified ticket.
      */
-    public boolean dfs(ArrayList<Path> visited, TTRState.CITY c0, TTRState.CITY c1, int owner){
-        //base case, if c0 is the same as c1, return true
-        if(c1.equals(c0)){
+    public boolean dfs(ArrayList<Path> visited,ArrayList<Path> potential, TTRState.CITY c0, TTRState.CITY c1, int owner){
+        if(c0.equals(c1)){
             return true;
         }
 
-        visited = new ArrayList<>();
-
-        //loop through all the paths on the board.
-        //  note: a path is a direct line from one city to another.
-        for(Path p: allPaths){
-            //if the owner being checked owns this path and the path has not been visited,
-            //"visit" the path and check it.
-
-            if(p.getPathOwner() == owner && !visited.contains(p)) {
-                visited.add(p); //add to visited array
-
-                //if the first city of the path is the same as c0, recursively call dfs() on the second city of the path.
-                if (p.getNode0().equals(c0)) {
-                    //visited.add(p); //add to visited array
-
-                    boolean checked = dfs(visited, p.getNode1(), c1, owner);
-                    if(checked){
-                        return true;
-                    }
+        TTRState.CITY city;
+        //find all paths out of c0
+        for (Path p:allPaths) {
+            if(p.getNode0() == c0 || p.getNode1() == c0 && p.getPathOwner() == owner && !visited.contains(p)){
+                visited.add(p);
+                //get the second node of the path
+                if(p.getNode0() == c0){
+                    city = p.getNode1();
+                }else{
+                    city = p.getNode0();
                 }
-                //if the second city of the path is the same as c0, recursively call dfs() on the first city of the path.
-                /*else if (p.getNode1().equals(c0)) {
-                    //visited.add(p); //add to visited array
-                    return dfs(visited, p.getNode0(), c1, owner);
-                }*/
+                if(dfs(visited,potential,city,c1,owner)){
+                    return true;
+                }
             }
         }
+        return false;
 
-        return false; //dummy
+//        int currentCity =0;
+//        for(int i=0; i<order.length; i++){
+//            if(order[i] == c0){
+//                currentCity = i;
+//                break;
+//            }
+//        }
+//        visited.add(order[currentCity]);
+//
+//        for(int i = 0; i<order.length; i++){
+//            if(adj[currentCity][i]){
+//
+//            }
+//        }
+
     }//dfs()
 
     public int getSound() {
