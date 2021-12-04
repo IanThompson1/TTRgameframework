@@ -4,10 +4,12 @@ import com.example.tttgameframework.GameFramework.infoMessage.GameInfo;
 import com.example.tttgameframework.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.tttgameframework.GameFramework.players.GameComputerPlayer;
 import com.example.tttgameframework.tickettoride.infoMessage.Path;
+import com.example.tttgameframework.tickettoride.infoMessage.Player;
 import com.example.tttgameframework.tickettoride.infoMessage.TTRState;
 import com.example.tttgameframework.tickettoride.infoMessage.Ticket;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTickets;
 import com.example.tttgameframework.tickettoride.ttrActionMessage.DrawTrains;
+import com.example.tttgameframework.tickettoride.ttrActionMessage.PlaceTrains;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,6 +24,9 @@ public class TTRComputerPlayer1 extends GameComputerPlayer {
 
     private boolean draw;
     private boolean firstTurn;
+    private int smallestIndex;
+    private ArrayList<Integer> lastIndex;
+    private boolean ticketsComplete;
 
     //instate
     /*
@@ -69,11 +74,15 @@ public class TTRComputerPlayer1 extends GameComputerPlayer {
             TTRState.CITY.LAKEVIEW, TTRState.CITY.NEWPORT, TTRState.CITY.PENDLETON, TTRState.CITY.PORTLAND,
             TTRState.CITY.ROSEBURG, TTRState.CITY.SALEM, TTRState.CITY.THEDALLES, TTRState.CITY.TILLAMOOK};
     */
+
+
     public TTRComputerPlayer1(String name) {
         super(name);
         draw = false;
         firstTurn = true;
-
+        smallestIndex = 100;
+        lastIndex = new ArrayList<>();
+        ticketsComplete = false;
 
     }
 
@@ -98,12 +107,32 @@ public class TTRComputerPlayer1 extends GameComputerPlayer {
             return;
         }
 
-        //draw tickets on first turn
-        if (firstTurn){//unsure
+        if (firstTurn == true){
             firstTurn = false;
             game.sendAction(new DrawTickets(this, null));
             return;
         }
+
+        ArrayList<Player> players = state.getPlayers();
+        //should be reset in loop
+        Player self = players.get(1);
+        for (Player play: players) {
+            if (play.getName() == playerNum){
+                self = play;
+                break;
+            }
+        }
+
+
+        if (state.getShownTickets().size() != 0){
+            ArrayList<Integer> tickets = new ArrayList<Integer>(2);
+            //pick the first ticket
+            tickets.add(1);
+            tickets.add(0);
+            game.sendAction(new DrawTickets(this, tickets));
+            return;
+        }
+
 
         //if you are supposed to draw
         if(draw){
@@ -124,98 +153,214 @@ public class TTRComputerPlayer1 extends GameComputerPlayer {
         ArrayList<Ticket> tickets = state.getPlayers().get(playerNum).getTickets();
         //check for the desired path
         for (Ticket t : tickets){
-            if (t.getIsComplete() == false){
-                ArrayList<Path> visited = new ArrayList<>();
+            //check if the ticket is completed
+            if (state.ticket_completed(t.getNode0(), t.getNode1(), playerNum)){
+                t.setIsComplete();
+            }
+
+            if (!t.getIsComplete()){
+                //ArrayList<Path> visited = new ArrayList<>();
                 TTRState.CITY startCity = t.getNode0();
                 TTRState.CITY endCity = t.getNode1();
 
-                TTRState.CITY midCity = findOwnedPath(state, visited, startCity, endCity, playerNum);
-
+                //TTRState.CITY midCity = findOwnedPath(state, visited, startCity, endCity, playerNum);
+/*
                 //if the path is complete
                 if (midCity == endCity){
                     t.setIsComplete();
-                }
+                }*/
                 //path is not yet completed
-                else {
-
-                    //sendInfo();
-                    return;
+                //else {
+                boolean[] visit = new boolean[16];
+                for(int i = 0; i < 16; i++){
+                    visit[i] = false;
                 }
+
+
+                findBestPath(state, visit, startCity, endCity, playerNum);
+                Path path = findPath(state, startCity, TTRState.order[smallestIndex]);
+                //visit[smallestIndex] = true;
+
+                int cityNum = -1;
+                for (int i = 0; i < TTRState.order.length; i++){
+                    if (TTRState.order[i] == startCity){
+                        cityNum = i;
+                    }
+                }
+                lastIndex.add(cityNum);
+
+                while(path.getPathOwner() == playerNum){
+                    for(int i = 0; i < 16; i++){
+                        visit[i] = false;
+                    }
+                    System.out.println("Got to the loop");
+                    lastIndex.add(smallestIndex);
+
+                    //need to change to multiple owned paths
+                    for (Integer i : lastIndex){
+                        visit[i] = true;
+                    }
+                    findBestPath(state, visit, TTRState.order[smallestIndex], endCity, playerNum);
+                    path = findPath(state, TTRState.order[lastIndex.get(lastIndex.size() - 1)], TTRState.order[smallestIndex]);
+                }
+
+
+                //Rest is copied from dumb computer player
+
+                //color to be used
+                TTRState.CARD color;
+                //find number of each type of card
+                int numWhite = self.getWhiteCards();
+                int numBlack = self.getBlackCards();
+                int numPink = self.getPinkCards();
+                int numOrange = self.getOrangeCards();
+                int numWild = self.getWildCards();
+
+                //handles wildnumber. wild number is the amount wilds that the player want to use, not their total # of wilds
+                if(path.getLength() < numWild){
+                    numWild = path.getLength();
+                }
+
+
+                //check color of path
+                if (path.getPathColor() == Path.COLOR.GREYPATH){
+                    //check which color it has the most of (simple max finder)
+                    int max = numWhite;
+                    if (numBlack > max){
+                        max = numBlack;
+                    }
+                    if (numPink > max){
+                        max = numPink;
+                    }
+                    if (numOrange > max){
+                        max = numOrange;
+                    }
+
+                    //assign color to be used as max
+                    if (max == numWhite){
+                        color = TTRState.CARD.WHITECARD;
+                    }
+                    else if (max == numBlack){
+                        color = TTRState.CARD.BLACKCARD;
+                    }
+                    else if (max == numPink){
+                        color = TTRState.CARD.PINKCARD;
+                    }
+                    else {
+                        color = TTRState.CARD.ORANGECARD;
+                    }
+                }
+
+                //if the path is a set color
+                else if (path.getPathColor() == Path.COLOR.WHITEPATH){
+                    color = TTRState.CARD.WHITECARD;
+                }
+                else if (path.getPathColor() == Path.COLOR.BLACKPATH){
+                    color = TTRState.CARD.BLACKCARD;
+                }
+                else if (path.getPathColor() == Path.COLOR.PINKPATH){
+                    color = TTRState.CARD.PINKCARD;
+                }
+                //must be orange
+                else{
+                    color = TTRState.CARD.ORANGECARD;
+                }
+
+                //need to find num
+                game.sendAction(new PlaceTrains(this, path, numWild, color, state.getAllPaths().indexOf(path)));
+
+                return;
+                //}
             }
         }
+        firstTurn = true;
+        return;
 
+        //System.out.println("IF you are reading this string right here you are breaking the ticket completed function");
     }
 
 
-    public TTRState.CITY findOwnedPath(TTRState state, ArrayList<Path> visited, TTRState.CITY start, TTRState.CITY end, int owner) {
-        ArrayList<Path> allPaths = state.getAllPaths();
 
-        //if found complete path
-        if (end.equals(start)) { //base case
-            return start;
+
+
+    public int findBestPath(TTRState state, boolean[] visited, TTRState.CITY start, TTRState.CITY end, int owner) {
+        //found the end
+        if (start == end){
+            return 0;
         }
 
+        int cityNum = -1;
+        int[] values = new int[16];
+
+        for (int i = 0; i < TTRState.order.length; i++){
+            if (TTRState.order[i] == start){
+                cityNum = i;
+            }
+        }
+
+        //add to visited so this one "branch" will not go back
+        visited[cityNum] = true;
 
 
+        //go through and find each connected node
+        for (int i = 0; i < TTRState.order.length; i++) {
+            Path path = findPath(state, TTRState.order[i], start);
 
-        //search for a connected path
-        for (Path p : allPaths) {
-            //if it is owned by player and haven't been already
-            if (p.getPathOwner() == owner && !visited.contains(p)) {
-                visited.add(p);
+            //already visited
+            if (visited[i]){
+                values[i] = 1000;
+            }
 
-                //if it is a valid path (random but should always be the same order) search from it
-                if (p.getNode0().equals(start)) {
-                    return findOwnedPath(state, visited, p.getNode1(), end, owner);
+            //a path exists
+            else if(dist[cityNum][i] != 0) {
+                //if it is owned by the player add 0 to the total should not happen
+                if (path == null) {
+                    System.out.println("" + cityNum + " --- " + i);
                 }
-                else if (p.getNode1().equals(start)) {
-                    //visited.add(p);
-                    return findOwnedPath(state, visited, p.getNode0(), end, owner);
+
+                //already owned by self
+                else if (path.getPathOwner() == playerNum) {
+                    values[i] = findBestPath(state, visited, TTRState.order[i], end, playerNum);
+                }
+
+                //if it is not connected OR if it is not the same city then add it to the array
+                else if (path.getPathOwner() == -1){
+                    values[i] = dist[cityNum][i] + findBestPath(state, visited, TTRState.order[i], end, playerNum);
                 }
             }
         }
-        //if there is no valid path
-        return start;
+
+
+
+        //find the shortest path
+        int smallest = 100;
+        for (int i = 0; i < values.length; i++) {
+            System.out.println("" + i + " ; " + values[i]);
+            if (values[i] < smallest && values[i] > 0){
+                smallest = values[i];
+
+                //----------THE ACTUAL VALUE USED IN RECEIVE INFO----------
+                smallestIndex = i;
+            }
+        }
+        return smallest;
+
     }
 
-
-
-
-
-    public TTRState.CITY findBestPath(TTRState state, ArrayList<Path> visited, TTRState.CITY start, TTRState.CITY end, int value, int owner) {
+    //find path
+    public Path findPath(TTRState state, TTRState.CITY c0, TTRState.CITY c1){
         ArrayList<Path> allPaths = state.getAllPaths();
-        //trying to find path with lowest value
-        Hashtable<Path, Integer> table = new Hashtable<>();
 
-
-
-
-        //search for a connected path
-        for (Path p : allPaths) {
-            //if it is owned by player and haven't been already
-            if (p.getPathOwner() == owner && !visited.contains(p)) {
-                visited.add(p);
-
-                //if it is a valid path (random but should always be the same order) search from it
-                if (p.getNode0().equals(start)) {
-                    findBestPath(state, visited, p.getNode1(), end, p.getLength(), owner);
-                    table.put(p, value);
-                }
-                else if (p.getNode1().equals(start)) {
-                    //visited.add(p);
-                    return findBestPath(state, visited, p.getNode0(), end, p.getLength(), owner);
-                }
+        for (Path p : allPaths){
+            //if it has the same cities
+            if (
+                    (p.getNode0() == c0 && p.getNode1() == c1)
+            || (p.getNode0() == c1 && p.getNode1() == c0)
+            ) {
+                return p;
             }
         }
-
-        //go through every key in it
-        Enumeration e = table.keys();
-        while (e.hasMoreElements()){
-            e.nextElement();
-        }
-
-
-        return start;//dummy
-
+        //path DNE
+        return null;
     }
 }
